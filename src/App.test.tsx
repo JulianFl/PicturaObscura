@@ -1,10 +1,10 @@
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import Root from './routes/root';
 
-describe('App', () => {
+describe('Root', () => {
   it('renders without crashing', () => {
-    render(<App />);
+    render(<Root />);
     expect(
       screen.getByRole('heading', {
         level: 1,
