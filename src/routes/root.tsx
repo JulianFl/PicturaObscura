@@ -1,22 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { Link, useParams } from 'react-router-dom';
 import Steps from '../../Steps';
-import { FeelingType } from '../../types/types';
-
-interface UserDataProps {
-  [key: number]: {
-    markerPosition: {
-      x: number;
-      y: number;
-    };
-    feeling: FeelingType;
-    strength: number;
-  };
-}
+import { FeelingType } from '../types/types';
+import useUserStore from '../store/useUserStore';
 
 function Root() {
-  const [userData, setUserData] = useState<UserDataProps>();
+  // const [userData, setUserData] = useState<UserDataProps>();
+  const { userData, actions } = useUserStore();
   const nodeRef = useRef(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -38,33 +29,18 @@ function Root() {
     if (parentRect) {
       const x = data.x - parentRect.x;
       const y = data.y - parentRect.y;
-      const newUserData = { ...userData };
-      newUserData[idPage] = {
-        ...newUserData[idPage],
-        markerPosition: { x, y },
-      };
-
-      setUserData(newUserData);
+      actions.setMarker(idPage, { x, y });
     }
   };
   const changeRangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newUserData = { ...userData };
-    newUserData[idPage] = {
-      ...newUserData[idPage],
-      strength: Number(e.target.value),
-    };
-    setUserData(newUserData);
+    actions.setStrength(idPage, Number(e.target.value));
   };
   const feelingChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const feeling = e.target.value as FeelingType;
-    const newUserData = { ...userData };
-    newUserData[idPage] = {
-      ...newUserData[idPage],
-      feeling,
-    };
-    setUserData(newUserData);
+    actions.setFeeling(idPage, feeling);
   };
   console.log(userData);
+
   return (
     <div>
       <div>
