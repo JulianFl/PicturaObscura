@@ -1,29 +1,31 @@
 import React, { useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Steps from '../../Steps';
 import { FeelingType } from '../../types/types';
 
 interface UserDataProps {
-  markerPosition?: {
-    x: number;
-    y: number;
+  [key: number]: {
+    markerPosition: {
+      x: number;
+      y: number;
+    };
+    feeling: FeelingType;
+    strength: number;
   };
-  feeling?: FeelingType;
-  strength?: number;
 }
 
 function Root() {
-  const [userData, setUserData] = useState<UserDataProps[]>();
+  const [userData, setUserData] = useState<UserDataProps>();
   const nodeRef = useRef(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
   const idPage = Number(id);
 
-  if (idPage > 0 && (userData === undefined || userData.length === 0)) {
+  /* if (idPage > 0 && (userData === undefined || userData.length === 0)) {
     return <Navigate to="/0" />;
-  }
+  } */
   if (Number.isNaN(idPage)) {
     return <h1>Keine Zahl</h1>;
   }
@@ -36,16 +38,17 @@ function Root() {
     if (parentRect) {
       const x = data.x - parentRect.x;
       const y = data.y - parentRect.y;
-      const newUserData = [...(userData || [])];
+      const newUserData = { ...userData };
       newUserData[idPage] = {
         ...newUserData[idPage],
         markerPosition: { x, y },
       };
+
       setUserData(newUserData);
     }
   };
   const changeRangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newUserData = [...(userData || [])];
+    const newUserData = { ...userData };
     newUserData[idPage] = {
       ...newUserData[idPage],
       strength: Number(e.target.value),
@@ -54,7 +57,7 @@ function Root() {
   };
   const feelingChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const feeling = e.target.value as FeelingType;
-    const newUserData = [...(userData || [])];
+    const newUserData = { ...userData };
     newUserData[idPage] = {
       ...newUserData[idPage],
       feeling,
