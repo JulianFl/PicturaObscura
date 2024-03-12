@@ -6,21 +6,20 @@ import { FeelingType } from '../types/types';
 import useUserStore from '../store/useUserStore';
 
 function Root() {
-  // const [userData, setUserData] = useState<UserDataProps>();
   const { userData, actions } = useUserStore();
   const nodeRef = useRef(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
-  const idPage = Number(id);
+  const pageId = Number(id);
 
   /* if (idPage > 0 && (userData === undefined || userData.length === 0)) {
     return <Navigate to="/0" />;
   } */
-  if (Number.isNaN(idPage)) {
+  if (Number.isNaN(pageId)) {
     return <h1>Keine Zahl</h1>;
   }
-  if (idPage < 0 || idPage >= Steps.length) {
+  if (pageId < 0 || pageId >= Steps.length) {
     return <h1>Seite nicht gefunden</h1>;
   }
 
@@ -29,22 +28,22 @@ function Root() {
     if (parentRect) {
       const x = data.x - parentRect.x;
       const y = data.y - parentRect.y;
-      actions.setMarker(idPage, { x, y });
+      actions.setMarker(pageId, { x, y });
     }
   };
   const changeRangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    actions.setStrength(idPage, Number(e.target.value));
+    actions.setStrength(pageId, Number(e.target.value));
   };
   const feelingChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const feeling = e.target.value as FeelingType;
-    actions.setFeeling(idPage, feeling);
+    actions.setFeeling(pageId, feeling);
   };
   console.log(userData);
 
   return (
     <div>
       <div>
-        {Steps[idPage] && (
+        {Steps[pageId] && (
           <div>
             <div
               className="box"
@@ -59,8 +58,8 @@ function Root() {
                 onStop={(e, data) => onStop(e, data)}
                 nodeRef={nodeRef}
                 position={{
-                  x: (userData && userData[idPage]?.markerPosition?.x) ?? 0,
-                  y: (userData && userData[idPage]?.markerPosition?.y) ?? 0,
+                  x: (userData && userData[pageId]?.markerPosition?.x) ?? 0,
+                  y: (userData && userData[pageId]?.markerPosition?.y) ?? 0,
                 }}
               >
                 <div
@@ -75,7 +74,7 @@ function Root() {
                 </div>
               </Draggable>
               <img
-                src={Steps[idPage].image}
+                src={Steps[pageId].image}
                 alt="Bild"
                 width="200px"
                 height="300"
@@ -85,7 +84,7 @@ function Root() {
               <input
                 type="range"
                 value={
-                  userData && userData[idPage] ? userData[idPage].strength : 0
+                  userData && userData[pageId] ? userData[pageId].strength : 0
                 }
                 onChange={changeRangeHandler}
                 min="0"
@@ -93,21 +92,21 @@ function Root() {
               />
             </div>
             <ul>
-              {Steps[idPage].feelings.map((feeling) => (
-                <div key={`${Steps[idPage].id}${feeling}`}>
+              {Steps[pageId].feelings.map((feeling) => (
+                <div key={`${Steps[pageId].id}${feeling}`}>
                   <input
                     type="radio"
-                    id={`${Steps[idPage].id}${feeling}`}
+                    id={`${Steps[pageId].id}${feeling}`}
                     name="feeling"
                     defaultChecked={
                       userData &&
-                      userData[idPage] &&
-                      userData[idPage].feeling === feeling
+                      userData[pageId] &&
+                      userData[pageId].feeling === feeling
                     }
                     onChange={feelingChangeHandler}
                     value={feeling}
                   />
-                  <label htmlFor={`${Steps[idPage].id}${feeling}`}>
+                  <label htmlFor={`${Steps[pageId].id}${feeling}`}>
                     {feeling}
                   </label>
                 </div>
@@ -117,9 +116,9 @@ function Root() {
         )}
       </div>
 
-      {idPage > 0 && <Link to={`/${idPage - 1}`}>Vorherige Seite</Link>}
-      {idPage < Steps.length - 1 && (
-        <Link to={`/${idPage + 1}`}>Nächste Seite</Link>
+      {pageId > 0 && <Link to={`/${pageId - 1}`}>Vorherige Seite</Link>}
+      {pageId < Steps.length - 1 && (
+        <Link to={`/${pageId + 1}`}>Nächste Seite</Link>
       )}
     </div>
   );
