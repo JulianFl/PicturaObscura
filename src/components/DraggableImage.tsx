@@ -19,12 +19,9 @@ function DraggableImage({
   const markerWidth = 50;
   const markerHeight = 50;
   const onStop = (e: DraggableEvent, data: DraggableData) => {
-    const parentRect = parentRef.current?.getBoundingClientRect();
-    if (parentRect) {
-      const x = data.x - parentRect.x;
-      const y = data.y - parentRect.y;
-      onChangeMarkerPositionState({ x, y });
-    }
+    const { x } = data;
+    const { y } = data;
+    onChangeMarkerPositionState({ x, y });
   };
   return (
     <div className={`box ${classes['draggable-image']}`} ref={parentRef}>
@@ -42,7 +39,7 @@ function DraggableImage({
           style={{ width: markerWidth, height: markerHeight }}
         />
       </Draggable>
-      <img src={image} alt="Bild" width="200px" height="300" />
+      <img src={image} alt="Bild" width="200px" height="300px" />
     </div>
   );
 }
