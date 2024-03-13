@@ -1,6 +1,6 @@
-import React, { EventHandler, useRef } from 'react';
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { createClient } from '@supabase/supabase-js';
 import Steps from '../Steps';
 import { FeelingType } from '../types/types';
 import useUserStore from '../store/useUserStore';
@@ -11,6 +11,24 @@ import Feelings from '../components/Feelings';
 function Root() {
   const { userData, actions } = useUserStore();
 
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  if (supabaseAnonKey !== undefined) {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    const handleInserts = (payload) => {
+      console.log('Change received!', payload);
+    };
+
+    // Listen to inserts
+    supabase
+      .channel('todos')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'todos' },
+        handleInserts
+      )
+      .subscribe();
+  }
   const { id } = useParams();
   const pageId = Number(id);
 
