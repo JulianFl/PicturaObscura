@@ -1,14 +1,15 @@
-import React, { useRef } from 'react';
+import React, { EventHandler, useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { Link, useParams } from 'react-router-dom';
-import Steps from '../../Steps';
+import Steps from '../Steps';
 import { FeelingType } from '../types/types';
 import useUserStore from '../store/useUserStore';
+import DraggableImage from '../components/DraggableImage';
+import Strength from '../components/Strength';
+import Feelings from '../components/Feelings';
 
 function Root() {
   const { userData, actions } = useUserStore();
-  const nodeRef = useRef(null);
-  const parentRef = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
   const pageId = Number(id);
@@ -23,95 +24,44 @@ function Root() {
     return <h1>Seite nicht gefunden</h1>;
   }
 
-  const onStop = (e: DraggableEvent, data: DraggableData) => {
-    const parentRect = parentRef.current?.getBoundingClientRect();
-    if (parentRect) {
-      const x = data.x - parentRect.x;
-      const y = data.y - parentRect.y;
-      actions.setMarker(pageId, { x, y });
-    }
+  const changeMarkerPositionStateHandler = (markerPosition: {
+    x: number;
+    y: number;
+  }) => {
+    actions.setMarker(pageId, markerPosition);
   };
-  const changeRangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    actions.setStrength(pageId, Number(e.target.value));
+  const changeRangeStateHandler = (strength: number) => {
+    actions.setStrength(pageId, strength);
   };
-  const feelingChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const feeling = e.target.value as FeelingType;
+  const feelingClickHandler = (feeling: FeelingType) => {
     actions.setFeeling(pageId, feeling);
   };
-  console.log(userData);
 
   return (
     <div>
       <div>
         {Steps[pageId] && (
           <div>
-            <div
-              className="box"
-              style={{
-                position: 'relative',
-                padding: '0',
-                display: 'inline-flex',
-              }}
-              ref={parentRef}
-            >
-              <Draggable
-                onStop={(e, data) => onStop(e, data)}
-                nodeRef={nodeRef}
-                position={{
-                  x: (userData && userData[pageId]?.markerPosition?.x) ?? 0,
-                  y: (userData && userData[pageId]?.markerPosition?.y) ?? 0,
-                }}
-              >
-                <div
-                  ref={nodeRef}
-                  className="box"
-                  style={{
-                    position: 'absolute',
-                    color: 'white',
-                  }}
-                >
-                  Marker
-                </div>
-              </Draggable>
-              <img
-                src={Steps[pageId].image}
-                alt="Bild"
-                width="200px"
-                height="300"
-              />
-            </div>
-            <div>
-              <input
-                type="range"
-                value={
-                  userData && userData[pageId] ? userData[pageId].strength : 0
-                }
-                onChange={changeRangeHandler}
-                min="0"
-                max="10"
-              />
-            </div>
-            <ul>
-              {Steps[pageId].feelings.map((feeling) => (
-                <div key={`${Steps[pageId].id}${feeling}`}>
-                  <input
-                    type="radio"
-                    id={`${Steps[pageId].id}${feeling}`}
-                    name="feeling"
-                    defaultChecked={
-                      userData &&
-                      userData[pageId] &&
-                      userData[pageId].feeling === feeling
-                    }
-                    onChange={feelingChangeHandler}
-                    value={feeling}
-                  />
-                  <label htmlFor={`${Steps[pageId].id}${feeling}`}>
-                    {feeling}
-                  </label>
-                </div>
-              ))}
-            </ul>
+            <DraggableImage
+              markerPosition={
+                userData && userData[pageId] && userData[pageId].markerPosition
+                  ? userData[pageId].markerPosition
+                  : { x: 0, y: 0 }
+              }
+              onChangeMarkerPositionState={changeMarkerPositionStateHandler}
+              image={Steps[pageId].image}
+            />
+            <Strength
+              strength={
+                userData && userData[pageId] ? userData[pageId].strength : 0
+              }
+              onChangeRange={changeRangeStateHandler}
+            />
+            <Feelings
+              feelings={Steps[pageId].feelings}
+              step={Steps[pageId]}
+              onFeelingClick={feelingClickHandler}
+            />
           </div>
         )}
       </div>
@@ -120,6 +70,9 @@ function Root() {
       {pageId < Steps.length - 1 && (
         <Link to={`/${pageId + 1}`}>Nächste Seite</Link>
       )}
+      <button type="button" onClick={() => actions.resetStore()}>
+        Zurücksetzen
+      </button>
     </div>
   );
 }

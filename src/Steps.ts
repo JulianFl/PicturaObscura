@@ -1,4 +1,4 @@
-import { StepProps } from './src/types/interfaces';
+import { StepProps } from './types/interfaces';
 
 const Steps: StepProps[] = [
   {
