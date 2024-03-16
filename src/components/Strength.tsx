@@ -1,18 +1,19 @@
 import React from 'react';
 
 interface StrengthProps {
-  strength: number;
+  strength?: number;
   onChangeRange: (strength: number) => void;
 }
-function Strength({ strength, onChangeRange }: StrengthProps) {
+export function Strength({ strength, onChangeRange }: StrengthProps) {
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChangeRange(Number(event.target.value));
   };
+
   return (
     <div>
       <input
         type="range"
-        value={strength}
+        value={strength ?? 0}
         onChange={changeRangeHandler}
         min="0"
         max="10"
@@ -20,5 +21,3 @@ function Strength({ strength, onChangeRange }: StrengthProps) {
     </div>
   );
 }
-
-export default Strength;

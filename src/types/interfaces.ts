@@ -1,4 +1,4 @@
-import { FeelingType, MarkerPositionType } from './types';
+import { FeelingType, MarkerPositionType } from '@/types/types';
 
 export interface StepProps {
   id: number;
@@ -8,8 +8,8 @@ export interface StepProps {
 
 export interface UserDataProps {
   [key: number]: {
-    markerPosition: MarkerPositionType;
-    feeling: FeelingType;
-    strength: number;
+    markerPosition?: MarkerPositionType;
+    feeling?: FeelingType;
+    strength?: number;
   };
 }

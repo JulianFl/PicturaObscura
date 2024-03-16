@@ -1,6 +1,6 @@
-import { StepProps } from './types/interfaces';
+import { StepProps } from '@/types/interfaces';
 
-const Steps: StepProps[] = [
+export const INITIAL_STEPS: StepProps[] = [
   {
     id: 0,
     feelings: ['feeling 1', 'feeling 2', 'feeling 5'],
@@ -32,4 +32,3 @@ const Steps: StepProps[] = [
     image: 'https://picsum.photos/id/242/200/300',
   },
 ];
-export default Steps;

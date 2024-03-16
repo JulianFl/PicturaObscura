@@ -1,15 +1,16 @@
 import React, { useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
-import { MarkerPositionType } from '../types/types';
-import classes from './DraggableImage.module.scss';
+
+import classes from '@/components/DraggableImage.module.scss';
+import { MarkerPositionType } from '@/types/types';
 
 interface DraggableImageProps {
-  markerPosition: MarkerPositionType;
+  markerPosition?: MarkerPositionType;
   onChangeMarkerPositionState: (markerPosition: MarkerPositionType) => void;
   image: string;
 }
 
-function DraggableImage({
+export function DraggableImage({
   markerPosition,
   onChangeMarkerPositionState,
   image,
@@ -18,19 +19,20 @@ function DraggableImage({
   const parentRef = useRef<HTMLDivElement>(null);
   const markerWidth = 50;
   const markerHeight = 50;
-  const onStop = (e: DraggableEvent, data: DraggableData) => {
+  const onStop = (event: DraggableEvent, data: DraggableData) => {
     const { x } = data;
     const { y } = data;
     onChangeMarkerPositionState({ x, y });
   };
+
   return (
     <div className={`box ${classes['draggable-image']}`} ref={parentRef}>
       <Draggable
-        onStop={(e, data) => onStop(e, data)}
+        onStop={(event, data) => onStop(event, data)}
         nodeRef={nodeRef}
         position={{
-          x: markerPosition.x,
-          y: markerPosition.y,
+          x: markerPosition?.x ?? 0,
+          y: markerPosition?.y ?? 0,
         }}
       >
         <div
@@ -43,5 +45,3 @@ function DraggableImage({
     </div>
   );
 }
-
-export default DraggableImage;

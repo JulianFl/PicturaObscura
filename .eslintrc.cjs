@@ -1,25 +1,73 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-  },
   extends: [
     'airbnb',
-    'airbnb-typescript',
     'airbnb/hooks',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+    'airbnb-typescript',
+    'prettier',
   ],
-  overrides: [],
+  plugins: ['@typescript-eslint', 'react'],
+
+  parserOptions: { project: './tsconfig.json' },
+
+  ignorePatterns: ['.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: './tsconfig.json',
-  },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    'react/react-in-jsx-scope': 0,
+    'id-denylist': ['error', 'cb', 'e', 'err', 'ev', 'i', 'j', 'val'],
+
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      { js: 'never', jsx: 'never', ts: 'never', tsx: 'never', '': 'never' },
+    ],
+    'import/no-default-export': 'error',
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        groups: [['builtin', 'external', 'internal']],
+        alphabetize: { order: 'asc', orderImportKind: 'asc' },
+      },
+    ],
+    'import/prefer-default-export': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['./', '../'],
+            message: "Use '@/...' alias instead.",
+          },
+        ],
+      },
+    ],
+
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: '*', next: 'return' },
+    ],
+
+    'no-param-reassign': ['error', { props: false }],
+
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'function-expression',
+      },
+    ],
+    'react/jsx-key': 'error',
+    'react/jsx-props-no-spreading': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/require-default-props': 'off',
   },
+
+  overrides: [
+    {
+      files: ['src/app/**'],
+      rules: {
+        'import/no-default-export': 'off',
+        'import/prefer-default-export': 'error',
+      },
+    },
+  ],
 };

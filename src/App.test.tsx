@@ -1,6 +1,7 @@
-import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Root from './routes/root';
+import { describe, it } from 'vitest';
+
+import Root from '@/routes/root';
 
 describe('Root', () => {
   it('renders without crashing', () => {

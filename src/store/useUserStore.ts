@@ -1,7 +1,9 @@
+import { produce } from 'immer';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { UserDataProps } from '../types/interfaces';
-import { MarkerPositionType } from '../types/types';
+
+import { UserDataProps } from '@/types/interfaces';
+import { MarkerPositionType } from '@/types/types';
 
 type UserState = {
   userData: UserDataProps;
@@ -9,7 +11,6 @@ type UserState = {
     setMarker: (id: number, draggableData: MarkerPositionType) => void;
     setStrength: (id: number, strength: number) => void;
     setFeeling: (id: number, value: string) => void;
-
     resetStore: () => void;
   };
 };
@@ -18,51 +19,39 @@ const defaultUserState: Omit<UserState, 'actions'> = {
   userData: {},
 };
 
-const useUserStore = create<UserState>()(
+export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       ...defaultUserState,
 
       actions: {
         setStrength: (id, strength) =>
-          set((state) => {
-            return {
-              ...state,
-              userData: {
-                ...state.userData,
-                [id]: {
-                  ...state.userData[id],
-                  strength,
-                },
-              },
-            };
-          }),
+          set(
+            produce((state) => {
+              if (!state.userData[id]) {
+                state.userData[id] = {};
+              }
+              state.userData[id].strength = strength;
+            })
+          ),
         setFeeling: (id, feeling) =>
-          set((state) => {
-            return {
-              ...state,
-              userData: {
-                ...state.userData,
-                [id]: {
-                  ...state.userData[id],
-                  feeling,
-                },
-              },
-            };
-          }),
+          set(
+            produce((state) => {
+              if (!state.userData[id]) {
+                state.userData[id] = {};
+              }
+              state.userData[id].feeling = feeling;
+            })
+          ),
         setMarker: (id, data) =>
-          set((state) => {
-            return {
-              ...state,
-              userData: {
-                ...state.userData,
-                [id]: {
-                  ...state.userData[id],
-                  markerPosition: data,
-                },
-              },
-            };
-          }),
+          set(
+            produce((state) => {
+              if (!state.userData[id]) {
+                state.userData[id] = {};
+              }
+              state.userData[id].markerPosition = { ...data };
+            })
+          ),
         resetStore: () => set(defaultUserState),
       },
     }),
@@ -74,5 +63,3 @@ const useUserStore = create<UserState>()(
     }
   )
 );
-
-export default useUserStore;

@@ -1,34 +1,22 @@
+import { createClient } from '@supabase/supabase-js';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
-import Steps from '../Steps';
-import { FeelingType } from '../types/types';
-import useUserStore from '../store/useUserStore';
-import DraggableImage from '../components/DraggableImage';
-import Strength from '../components/Strength';
-import Feelings from '../components/Feelings';
+
+import { INITIAL_STEPS } from '@/InitialSteps';
+import { DraggableImage } from '@/components/DraggableImage';
+import { Feelings } from '@/components/Feelings';
+import { Strength } from '@/components/Strength';
+import { useUserStore } from '@/store/useUserStore';
+import { FeelingType, MarkerPositionType } from '@/types/types';
 
 function Root() {
   const { userData, actions } = useUserStore();
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  if (supabaseAnonKey !== undefined) {
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const handleInserts = (payload) => {
-      console.log('Change received!', payload);
-    };
+  // const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  // const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  // const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-    // Listen to inserts
-    supabase
-      .channel('todos')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'todos' },
-        handleInserts
-      )
-      .subscribe();
-  }
+  // Listen to inserts
   const { id } = useParams();
   const pageId = Number(id);
 
@@ -38,10 +26,15 @@ function Root() {
   if (Number.isNaN(pageId)) {
     return <h1>Keine Zahl</h1>;
   }
-  if (pageId < 0 || pageId >= Steps.length) {
+  if (pageId < 0 || pageId >= INITIAL_STEPS.length) {
     return <h1>Seite nicht gefunden</h1>;
   }
-
+  // const getData = async () => {
+  //   const { data, error } = await supabase.from('profiles').select();
+  // const { data } = await supabase.from('transferdata').select();
+  //
+  // console.log(data);
+  // };
   const changeMarkerPositionStateHandler = (markerPosition: {
     x: number;
     y: number;
@@ -58,34 +51,29 @@ function Root() {
   return (
     <div>
       <div>
-        {Steps[pageId] && (
+        {INITIAL_STEPS[pageId] && (
           <div>
             <DraggableImage
-              markerPosition={
-                userData && userData[pageId] && userData[pageId].markerPosition
-                  ? userData[pageId].markerPosition
-                  : { x: 0, y: 0 }
-              }
+              markerPosition={userData[pageId]?.markerPosition}
               onChangeMarkerPositionState={changeMarkerPositionStateHandler}
-              image={Steps[pageId].image}
+              image={INITIAL_STEPS[pageId].image}
             />
             <Strength
-              strength={
-                userData && userData[pageId] ? userData[pageId].strength : 0
-              }
+              strength={userData[pageId]?.strength}
               onChangeRange={changeRangeStateHandler}
             />
             <Feelings
-              feelings={Steps[pageId].feelings}
-              step={Steps[pageId]}
+              step={INITIAL_STEPS[pageId]}
               onFeelingClick={feelingClickHandler}
             />
           </div>
         )}
       </div>
-
+      {/* <button type="button" onClick={getData}> */}
+      {/*  Daten */}
+      {/* </button> */}
       {pageId > 0 && <Link to={`/${pageId - 1}`}>Vorherige Seite</Link>}
-      {pageId < Steps.length - 1 && (
+      {pageId < INITIAL_STEPS.length - 1 && (
         <Link to={`/${pageId + 1}`}>Nächste Seite</Link>
       )}
       <button type="button" onClick={() => actions.resetStore()}>
@@ -95,4 +83,5 @@ function Root() {
   );
 }
 
+// eslint-disable-next-line import/no-default-export
 export default Root;

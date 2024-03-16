@@ -1,21 +1,21 @@
 import React from 'react';
-import Steps from '../Steps';
-import { FeelingType } from '../types/types';
-import { StepProps } from '../types/interfaces';
+
+import { StepProps } from '@/types/interfaces';
+import { FeelingType } from '@/types/types';
 
 interface FeelingsComponentProps {
-  feelings: FeelingType[];
   step: StepProps;
   onFeelingClick: (feeling: FeelingType) => void;
 }
-function Feelings({ feelings, step, onFeelingClick }: FeelingsComponentProps) {
-  const feelingClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const feeling = e.currentTarget.textContent as FeelingType;
+export function Feelings({ step, onFeelingClick }: FeelingsComponentProps) {
+  const feelingClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const feeling = event.currentTarget.textContent as FeelingType;
     onFeelingClick(feeling);
   };
+
   return (
     <ul>
-      {feelings.map((feeling) => (
+      {step.feelings.map((feeling) => (
         <button
           key={`${step.id}${feeling}`}
           type="button"
@@ -28,5 +28,3 @@ function Feelings({ feelings, step, onFeelingClick }: FeelingsComponentProps) {
     </ul>
   );
 }
-
-export default Feelings;
