@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { UserDataProps } from '@/types/interfaces';
-import { MarkerPositionType } from '@/types/types';
+import { FeelingType, MarkerPositionType } from '@/types/types';
 
 type UserState = {
   userData: UserDataProps;
@@ -40,7 +40,22 @@ export const useUserStore = create<UserState>()(
               if (!state.userData[id]) {
                 state.userData[id] = {};
               }
-              state.userData[id].feeling = feeling;
+              if (state.userData[id].checkedFeelings?.includes(feeling)) {
+                state.userData[id].checkedFeelings = state.userData[
+                  id
+                ].checkedFeelings?.filter(
+                  (checkedFeeling: FeelingType) => checkedFeeling !== feeling
+                );
+
+                return;
+              }
+
+              state.userData[id].checkedFeelings = [
+                ...new Set([
+                  ...(state.userData[id].checkedFeelings || []),
+                  feeling,
+                ]),
+              ];
             })
           ),
         setMarker: (id, data) =>

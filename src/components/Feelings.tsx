@@ -1,29 +1,36 @@
 import React from 'react';
 
-import { StepProps } from '@/types/interfaces';
+import { INITIAL_STEPS } from '@/InitialSteps';
+import { useUserStore } from '@/store/useUserStore';
 import { FeelingType } from '@/types/types';
 
 interface FeelingsComponentProps {
-  step: StepProps;
-  onFeelingClick: (feeling: FeelingType) => void;
+  pageId: number;
 }
-export function Feelings({ step, onFeelingClick }: FeelingsComponentProps) {
-  const feelingClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const feeling = event.currentTarget.textContent as FeelingType;
-    onFeelingClick(feeling);
+export function Feelings({ pageId }: FeelingsComponentProps) {
+  const { setFeeling } = useUserStore((state) => state.actions);
+  const checkedFeelings = useUserStore(
+    (state) => state.userData[pageId]?.checkedFeelings
+  );
+  const step = INITIAL_STEPS[pageId];
+  const feelingChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const feeling = event.target.value as FeelingType;
+    setFeeling(pageId, feeling);
   };
 
   return (
     <ul>
       {step.feelings.map((feeling) => (
-        <button
-          key={`${step.id}${feeling}`}
-          type="button"
-          id={`${step.id}${feeling}`}
-          onClick={feelingClickHandler}
-        >
-          {feeling}
-        </button>
+        <div key={`${step.id}${feeling}`}>
+          <input
+            type="checkbox"
+            id={`${step.id}${feeling}`}
+            onChange={feelingChangeHandler}
+            checked={checkedFeelings?.includes(feeling) ?? false}
+            value={feeling}
+          />
+          <label htmlFor={`${step.id}${feeling}`}>{feeling}</label>
+        </div>
       ))}
     </ul>
   );

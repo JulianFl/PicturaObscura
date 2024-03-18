@@ -9,7 +9,7 @@ export interface StepProps {
 export interface UserDataProps {
   [key: number]: {
     markerPosition?: MarkerPositionType;
-    feeling?: FeelingType;
+    checkedFeelings?: FeelingType[];
     strength?: number;
   };
 }

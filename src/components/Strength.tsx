@@ -1,12 +1,15 @@
 import React from 'react';
 
+import { useUserStore } from '@/store/useUserStore';
+
 interface StrengthProps {
-  strength?: number;
-  onChangeRange: (strength: number) => void;
+  pageId: number;
 }
-export function Strength({ strength, onChangeRange }: StrengthProps) {
+export function Strength({ pageId }: StrengthProps) {
+  const { setStrength } = useUserStore((state) => state.actions);
+  const strength = useUserStore((state) => state.userData[pageId]?.strength);
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChangeRange(Number(event.target.value));
+    setStrength(pageId, Number(event.target.value));
   };
 
   return (

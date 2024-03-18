@@ -1,20 +1,20 @@
 import React, { useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
+import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/DraggableImage.module.scss';
-import { MarkerPositionType } from '@/types/types';
+import { useUserStore } from '@/store/useUserStore';
 
 interface DraggableImageProps {
-  markerPosition?: MarkerPositionType;
-  onChangeMarkerPositionState: (markerPosition: MarkerPositionType) => void;
-  image: string;
+  pageId: number;
 }
 
-export function DraggableImage({
-  markerPosition,
-  onChangeMarkerPositionState,
-  image,
-}: DraggableImageProps) {
+export function DraggableImage({ pageId }: DraggableImageProps) {
+  const { setMarker } = useUserStore((state) => state.actions);
+  const markerPosition = useUserStore(
+    (state) => state.userData[pageId]?.markerPosition
+  );
+
   const nodeRef = useRef(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const markerWidth = 50;
@@ -22,7 +22,7 @@ export function DraggableImage({
   const onStop = (event: DraggableEvent, data: DraggableData) => {
     const { x } = data;
     const { y } = data;
-    onChangeMarkerPositionState({ x, y });
+    setMarker(pageId, { x, y });
   };
 
   return (
@@ -41,7 +41,12 @@ export function DraggableImage({
           style={{ width: markerWidth, height: markerHeight }}
         />
       </Draggable>
-      <img src={image} alt="Bild" width="200px" height="300px" />
+      <img
+        src={INITIAL_STEPS[pageId].image}
+        alt="Bild"
+        width="200px"
+        height="300px"
+      />
     </div>
   );
 }
