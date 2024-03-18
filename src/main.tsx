@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import '@/assets/reset.css';
+import '@/assets/fonts.scss';
+import '@/assets/styles.scss';
 
-import Root from '@/routes/root';
+import EmotionalPoint from '@/routes/emotionalPoint';
+import Intro from '@/routes/root/intro';
+import Root from '@/routes/root/root';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/0" />,
+    element: <Root />,
   },
   {
-    path: '/:id',
-    element: <Root />,
+    path: '/intro',
+    element: <Intro />,
+  },
+  {
+    path: 'emotional-point/:id',
+    element: <EmotionalPoint />,
   },
 ]);
 
