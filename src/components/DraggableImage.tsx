@@ -1,16 +1,16 @@
 import React, { useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
-interface DraggableImageProps {
-  pageId: number;
-}
-
-export function DraggableImage({ pageId }: DraggableImageProps) {
+export function DraggableImage() {
   const { setMarker } = useUserStore((state) => state.actions);
+  const { id } = useParams();
+  const pageId = Number(id);
+
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
   );

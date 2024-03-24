@@ -10,7 +10,8 @@ type UserState = {
   actions: {
     setMarker: (id: number, draggableData: MarkerPositionType) => void;
     setStrength: (id: number, strength: number) => void;
-    setFeeling: (id: number, value: string) => void;
+    addFeeling: (id: number, value: string) => void;
+    removeFeeling: (id: number, value: string) => void;
     resetStore: () => void;
   };
 };
@@ -34,28 +35,25 @@ export const useUserStore = create<UserState>()(
               state.userData[id].strength = strength;
             })
           ),
-        setFeeling: (id, feeling) =>
+        addFeeling: (id, feeling) =>
           set(
             produce((state) => {
-              if (!state.userData[id]) {
-                state.userData[id] = {};
-              }
-              if (state.userData[id].checkedFeelings?.includes(feeling)) {
-                state.userData[id].checkedFeelings = state.userData[
-                  id
-                ].checkedFeelings?.filter(
-                  (checkedFeeling: FeelingType) => checkedFeeling !== feeling
-                );
-
-                return;
-              }
-
               state.userData[id].checkedFeelings = [
                 ...new Set([
                   ...(state.userData[id].checkedFeelings || []),
                   feeling,
                 ]),
               ];
+            })
+          ),
+        removeFeeling: (id, feeling) =>
+          set(
+            produce((state) => {
+              state.userData[id].checkedFeelings = state.userData[
+                id
+              ].checkedFeelings?.filter(
+                (element: FeelingType) => element !== feeling
+              );
             })
           ),
         setMarker: (id, data) =>

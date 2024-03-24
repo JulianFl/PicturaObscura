@@ -1,21 +1,27 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import { useUserStore } from '@/store/useUserStore';
 import { FeelingType } from '@/types/types';
 
-interface FeelingsComponentProps {
-  pageId: number;
-}
-export function Feelings({ pageId }: FeelingsComponentProps) {
-  const { setFeeling } = useUserStore((state) => state.actions);
+export function Feelings() {
+  const { id } = useParams();
+  const pageId = Number(id);
+  const { addFeeling, removeFeeling } = useUserStore((state) => state.actions);
   const checkedFeelings = useUserStore(
     (state) => state.userData[pageId]?.checkedFeelings
   );
+
   const step = INITIAL_STEPS[pageId];
   const feelingChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const feeling = event.target.value as FeelingType;
-    setFeeling(pageId, feeling);
+    if (!event.target.checked) {
+      removeFeeling(pageId, feeling);
+
+      return;
+    }
+    addFeeling(pageId, feeling);
   };
 
   return (

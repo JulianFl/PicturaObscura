@@ -33,9 +33,9 @@ function EmotionalPoint() {
 
     return (
       <Main href="/emotional-point/1" headerChildren={headerText}>
-        <DraggableImage pageId={pageId} />
-        {userData[pageId]?.markerPosition && <Feelings pageId={pageId} />}
-        {userData[pageId]?.checkedFeelings && <Strength pageId={pageId} />}
+        <DraggableImage />
+        {userData[pageId]?.markerPosition && <Feelings />}
+        {userData[pageId]?.checkedFeelings && <Strength />}
         <button type="button" onClick={() => actions.resetStore()}>
           Zurücksetzen
         </button>
@@ -50,9 +50,9 @@ function EmotionalPoint() {
     >
       {INITIAL_STEPS[pageId] && (
         <div>
-          <DraggableImage pageId={pageId} />
-          <Strength pageId={pageId} />
-          <Feelings pageId={pageId} />
+          <DraggableImage />
+          <Strength />
+          <Feelings />
         </div>
       )}
       <button type="button" onClick={() => actions.resetStore()}>
