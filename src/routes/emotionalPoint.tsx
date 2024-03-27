@@ -9,7 +9,7 @@ import { Main } from '@/components/UI/Main';
 import { useUserStore } from '@/store/useUserStore';
 
 function EmotionalPoint() {
-  const { userData, actions } = useUserStore();
+  const { userData } = useUserStore();
 
   const { id } = useParams();
   const pageId = Number(id);
@@ -32,32 +32,32 @@ function EmotionalPoint() {
     }
 
     return (
-      <Main href="/emotional-point/1" headerChildren={headerText}>
+      <Main forward="/emotional-point/1" headerChildren={headerText}>
         <DraggableImage />
         {userData[pageId]?.markerPosition && <Feelings />}
         {userData[pageId]?.checkedFeelings && <Strength />}
-        <button type="button" onClick={() => actions.resetStore()}>
-          Zurücksetzen
-        </button>
+        {/* <button type="button" onClick={() => actions.resetStore()}> */}
+        {/*  Zurücksetzen */}
+        {/* </button> */}
       </Main>
     );
   }
 
   return (
     <Main
-      href={`/emotional-point/${pageId + 1}`}
+      forward={`/emotional-point/${pageId + 1}`}
+      back={`/emotional-point/${pageId - 1}`}
       headerChildren="Place the pin where you feel the most emotion in the picture, then choose which emotion it evoked and finally how much emotion this image gives you overall >"
     >
       {INITIAL_STEPS[pageId] && (
-        <div>
+        <div className="container wrapper">
           <DraggableImage />
-          <Strength />
-          <Feelings />
+          <div className="wrapper column">
+            <Strength />
+            <Feelings />
+          </div>
         </div>
       )}
-      <button type="button" onClick={() => actions.resetStore()}>
-        Zurücksetzen
-      </button>
     </Main>
   );
 }

@@ -1,16 +1,17 @@
 import React from 'react';
 
-import { Header } from '@/components/UI/Header';
+import { Header, HeaderProps } from '@/components/UI/Header';
 
-interface MainProps {
-  href: string;
+interface MainProps extends HeaderProps {
   children: React.ReactNode;
   headerChildren?: React.ReactNode;
 }
-export function Main({ href, children, headerChildren }: MainProps) {
+export function Main({ forward, back, children, headerChildren }: MainProps) {
   return (
     <>
-      <Header href={href}>{headerChildren || null}</Header>
+      <Header forward={forward} back={back}>
+        {headerChildren || null}
+      </Header>
       <main>{children}</main>
     </>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import classes from '@/components/Strength.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
 export function Strength() {
@@ -14,7 +15,7 @@ export function Strength() {
   };
 
   return (
-    <div>
+    <div className={classes.strength}>
       <input
         type="range"
         value={strength ?? 0}

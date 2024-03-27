@@ -2,17 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import classes from '@/components/UI/Header.module.scss';
+import { useUserStore } from '@/store/useUserStore';
 
-interface HeaderProps {
+export interface HeaderProps {
   children?: React.ReactNode;
-  href: string;
+  back?: string;
+  forward?: string;
 }
-export function Header({ children, href }: HeaderProps) {
+export function Header({ children, forward, back }: HeaderProps) {
+  const { resetStore } = useUserStore((state) => state.actions);
+
   return (
     <header className={classes.header}>
       {children && <h3>{children}</h3>}
       <button type="button">info</button>
-      <Link to={href}>weiter</Link>
+      <button type="button" onClick={() => resetStore()}>
+        Zurücksetzen
+      </button>
+      {back && <Link to={back}>Zurücl</Link>}
+      {forward && <Link to={forward}>weiter</Link>}
     </header>
   );
 }

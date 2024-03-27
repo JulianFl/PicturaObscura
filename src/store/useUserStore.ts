@@ -38,6 +38,9 @@ export const useUserStore = create<UserState>()(
         addFeeling: (id, feeling) =>
           set(
             produce((state) => {
+              if (!state.userData[id]) {
+                state.userData[id] = {};
+              }
               state.userData[id].checkedFeelings = [
                 ...new Set([
                   ...(state.userData[id].checkedFeelings || []),

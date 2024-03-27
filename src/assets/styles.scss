@@ -5,11 +5,14 @@
   --color-white: #fff;
   --background-color: var(--color-black);
   --font-color: var(--color-white);
+  --header-height: 6rem;
   background-color: var(--background-color);
   color: var(--font-color);
 }
+body{
+}
 main{
-    padding: 0 2rem;
+    //padding: 0 2rem;
 }
 h1{
     font-size: 5rem;
@@ -22,4 +25,20 @@ h2{
     font-weight: 700;
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
+}
+.wrapper{
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  //max-width: 100%;
+  //width: 100%;
+}
+.container{
+  height: calc(100vh - var(--header-height) - 4rem - 1px);
+  position: relative;
+  padding: 2rem;
+}
+
+.column{
+  width: 50%;
 }

@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: flex-end;
   padding: 0 2rem;
-  height: 6rem;
+  height: var(--header-height);
   border-bottom: 1px solid var(--color-white);
   h3{
     margin-right: auto;

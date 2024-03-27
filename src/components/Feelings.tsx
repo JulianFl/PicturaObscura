@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
+import classes from '@/components/Feelings.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 import { FeelingType } from '@/types/types';
 
@@ -25,7 +26,7 @@ export function Feelings() {
   };
 
   return (
-    <ul>
+    <ul className={classes.feelings}>
       {step.feelings.map((feeling) => (
         <div key={`${step.id}${feeling}`}>
           <input

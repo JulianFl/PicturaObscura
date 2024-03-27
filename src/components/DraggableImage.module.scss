@@ -1,11 +1,30 @@
 .draggable-image{
   position:relative;
-  //padding: 0;
-  //display: inline-flex;
+  display: flex;
+  //width: 100%;
+ &.landscape{
+    //height: auto;
+    //img{
+        //width: 100%;
+        //max-width: 100%;
+        //height: auto;
+        //max-height: 100%;
+    //}
+  //}
+  //&.portrait{
+  //  height: 100%;
+  //  width: auto;
+  //  img{
+  //      height: 100%;
+  //      width: auto;
+  //     max-width: 100%;
+  //  }
+  }
   .draggable-marker{
     position: absolute;
     //cursor: move;
-    background-color: rgba(255,255,255,0.5);
+    background-color: yellow;
+    //top: 0;
     //display: flex;
   }
 }
