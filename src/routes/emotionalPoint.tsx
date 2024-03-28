@@ -32,6 +32,7 @@ function EmotionalPoint() {
   const forward = `/emotional-point/${pageId + 1}`;
   let back: string | undefined = `/emotional-point/${pageId - 1}`;
   let headerChildren = HEADER_DEFAULT_TEXT;
+
   if (pageId === 0) {
     back = undefined;
     headerChildren = HEADERTEXT_FIRSTPAGE_PIN;
@@ -42,13 +43,25 @@ function EmotionalPoint() {
       headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
     }
   }
+  console.log(
+    pageId === 0 && userData[pageId]?.markerPosition === undefined,
+    pageId === 0 && userData[pageId]?.strength === undefined
+  );
 
   return (
     <Main forward={forward} back={back} headerChildren={headerChildren}>
       <DraggableImage />
       <div>
-        <Strength />
-        <Feelings />
+        <Strength
+          hideStrength={
+            pageId === 0 && userData[pageId]?.markerPosition === undefined
+          }
+        />
+        <Feelings
+          hideFeelings={
+            pageId === 0 && userData[pageId]?.strength === undefined
+          }
+        />
       </div>
     </Main>
   );
