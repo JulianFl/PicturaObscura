@@ -19,7 +19,7 @@ export function Header({ children, forward, back }: HeaderProps) {
       <button type="button" onClick={() => resetStore()}>
         Zurücksetzen
       </button>
-      {back && <Link to={back}>Zurücl</Link>}
+      {back && <Link to={back}>Zurück</Link>}
       {forward && <Link to={forward}>weiter</Link>}
     </header>
   );

@@ -26,19 +26,4 @@ h2{
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
 }
-.wrapper{
-  display: flex;
-  justify-content: space-between;
-  gap: 3rem;
-  //max-width: 100%;
-  //width: 100%;
-}
-.container{
-  height: calc(100vh - var(--header-height) - 4rem - 1px);
-  position: relative;
-  padding: 2rem;
-}
 
-.column{
-  width: 50%;
-}

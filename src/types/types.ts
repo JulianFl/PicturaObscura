@@ -1,11 +1,18 @@
 export type FeelingType =
-  | 'feeling 1'
-  | 'feeling 2'
-  | 'feeling 3'
-  | 'feeling 4'
-  | 'feeling 5';
+  | 'Freude'
+  | 'Trauer'
+  | 'Ekel'
+  | 'Angst'
+  | 'Wut'
+  | 'Ehrfurcht'
+  | 'Schock'
+  | 'No Emotion';
 
 export type MarkerPositionType = {
   x: number;
   y: number;
+  relativeX: number;
+  relativeY: number;
+  percentageX: number;
+  percentageY: number;
 };

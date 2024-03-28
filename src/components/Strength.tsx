@@ -16,13 +16,17 @@ export function Strength() {
 
   return (
     <div className={classes.strength}>
+      <span>10</span>
       <input
+        // orient="vertical"
         type="range"
         value={strength ?? 0}
+        step={1}
         onChange={changeRangeHandler}
-        min="0"
+        min="1"
         max="10"
       />
+      <span>1</span>
     </div>
   );
 }

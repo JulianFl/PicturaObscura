@@ -3,20 +3,17 @@ import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
+import pin from '@/assets/icons/pin.svg';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
-interface ImageBoundingProps {
-  width: number;
-  height: number;
-}
+const MARKER_WIDTH = 50;
+const MARKER_HEIGHT = 50;
 export function DraggableImage() {
   const { setMarker } = useUserStore((state) => state.actions);
   const { id } = useParams();
   const pageId = Number(id);
-  // const [aspectRatio, setAspectRatio] = useState<number>();
-  const [imageBounding, setImageBounding] = useState<ImageBoundingProps>();
-  // const [width, height] = useWindowSize();
+  const [aspectRatio, setAspectRatio] = useState<number>();
 
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
@@ -25,25 +22,22 @@ export function DraggableImage() {
   const nodeRef = useRef(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const markerWidth = 50;
-  const markerHeight = 50;
+
   const onStop = (event: DraggableEvent, data: DraggableData) => {
-    const { node } = data;
+    const { node, x, y } = data;
 
     const imageElement = imgRef.current;
     if (imageElement) {
       const imageRect = imageElement.getBoundingClientRect();
 
-      // Calculate the position of the marker relative to the image
       const relativeX =
-        node.getBoundingClientRect().x - imageRect.left + markerWidth / 2;
+        node.getBoundingClientRect().x - imageRect.left + MARKER_WIDTH / 2;
       const relativeY =
-        node.getBoundingClientRect().y - imageRect.top + markerHeight / 2;
+        node.getBoundingClientRect().y - imageRect.top + MARKER_HEIGHT;
 
-      // const percentageX = (relativeX / imageRect.width) * 100;
-      // const percentageY = (relativeY / imageRect.height) * 100;
+      const percentageX = (relativeX / imageRect.width) * 100;
+      const percentageY = (relativeY / imageRect.height) * 100;
 
-      console.log(relativeX, relativeY);
       if (relativeY > imageRect.height) {
         console.log('out of bounds, below');
       }
@@ -57,9 +51,15 @@ export function DraggableImage() {
         console.log('out of bounds, left');
       }
 
-      // setMarker(pageId, { x: relativeX, y: relativeY });
+      setMarker(pageId, {
+        x,
+        y,
+        relativeX,
+        relativeY,
+        percentageX,
+        percentageY,
+      });
     }
-    // setMarker(pageId, { x, y });
   };
   const handleImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
@@ -68,93 +68,46 @@ export function DraggableImage() {
       return;
     }
     const img = event.currentTarget;
-    const aspectRatio = img.naturalWidth / img.naturalHeight;
+    const aspectRatioImage = img.naturalWidth / img.naturalHeight;
 
-    const imgHeight = img.naturalHeight;
-    const rootHeight = rootRef.current?.getBoundingClientRect().height;
-    const rootWidth = rootRef.current?.getBoundingClientRect().width;
-    const ratio = (rootHeight / imgHeight) * 100;
-    // console.log((rootHeight / imgHeight) * img.naturalWidth);
-
-    if (aspectRatio <= 1) {
-      console.log(
-        'portrait',
-        `naturalWidth: ${img.naturalWidth}`,
-        `naturalHeight: ${img.naturalHeight}`,
-        `newWidth: ${img.naturalWidth * (ratio / 100)}`,
-        `newHeight: ${rootHeight}`,
-        `ratio: ${ratio}`
-      );
-      setImageBounding({
-        width: img.naturalWidth * (ratio / 100),
-        height: rootHeight,
-      });
-    }
-    if (aspectRatio > 1) {
-      console.log(
-        'landscape',
-        `naturalWidth: ${img.naturalWidth}`,
-        `naturalHeight: ${img.naturalHeight}`,
-        `newWidth: ${rootWidth}`,
-        `newHeight: ${img.naturalHeight * (ratio / 100)}`,
-        `ratio: ${ratio}`
-      );
-      setImageBounding({
-        width: rootWidth,
-        height: img.naturalHeight * (ratio / 100),
-      });
-    }
+    setAspectRatio(aspectRatioImage);
   };
-
-  // useEffect(() => {
-  //   if (width && imageRef.current && aspectRatio) {
-  //     setImageBounding(imageRef.current.getBoundingClientRect());
-  //   }
-  // }, [imageRef, aspectRatio, width]);
+  // TODO Marker hat nicht die Maße 50 zu 50
 
   return (
-    <div
-      // ${aspectRatio && aspectRatio <= 1 ? classes.portrait : classes.landscape}
-      className={`box column ${classes['draggable-image']} `}
-      ref={rootRef}
-    >
+    <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       <img
         src={INITIAL_STEPS[pageId].image}
         ref={imgRef}
         onLoad={handleImageLoad}
         alt="Bild"
-        width={imageBounding?.width}
-        height={imageBounding?.height}
-        className="drop-target"
+        width="auto"
+        height="auto"
+        className={
+          aspectRatio && aspectRatio <= 1.5
+            ? classes.portrait
+            : classes.landscape
+        }
       />
-      {/* <span> */}
-      {/*  Window size: {width} x {height} */}
-      {/* </span> */}
       <Draggable
         onStop={(event, data) => onStop(event, data)}
         nodeRef={nodeRef}
-        position={
-          markerPosition
-            ? {
-                x: markerPosition.x,
-                y: markerPosition.y,
-              }
-            : undefined
-        }
-        offsetParent={rootRef.current ?? undefined}
-        positionOffset={{
-          x: rootRef.current?.getBoundingClientRect().width ?? 0,
-          y: 0,
+        position={{
+          x: markerPosition?.x ?? 0,
+          y: markerPosition?.y ?? 0,
         }}
       >
-        <div
+        <svg
           ref={nodeRef}
           className={`box ${classes['draggable-marker']}`}
-          style={{
-            width: markerWidth,
-            height: markerHeight,
-          }}
-        />
+          fill="white"
+          xmlns="http://www.w3.org/2000/svg"
+          height={MARKER_HEIGHT}
+          viewBox="0 -960 960 960"
+          width={MARKER_WIDTH}
+        >
+          <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
+        </svg>
       </Draggable>
     </div>
   );

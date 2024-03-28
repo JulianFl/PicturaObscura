@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Header, HeaderProps } from '@/components/UI/Header';
+import classes from '@/components/UI/Main.module.scss';
 
 interface MainProps extends HeaderProps {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export function Main({ forward, back, children, headerChildren }: MainProps) {
       <Header forward={forward} back={back}>
         {headerChildren || null}
       </Header>
-      <main>{children}</main>
+      <main className={classes.main}>{children}</main>
     </>
   );
 }
