@@ -54,12 +54,12 @@ function EmotionalPoint() {
       <div>
         <Strength
           hideStrength={
-            pageId === 0 && userData[pageId]?.markerPosition === undefined
+            pageId === 0 && userData[pageId]?.checkedFeelings === undefined
           }
         />
         <Feelings
           hideFeelings={
-            pageId === 0 && userData[pageId]?.strength === undefined
+            pageId === 0 && userData[pageId]?.markerPosition === undefined
           }
         />
       </div>

@@ -2,6 +2,9 @@
   visibility: hidden;
 }
 .feelings {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   input[type="checkbox"] {
     display: none;
 
@@ -16,7 +19,6 @@
       text-align: center;
       transition-duration: 0.4s;
       white-space: nowrap;
-      margin-bottom: 1rem;
       width: 150px;
       height: 3rem;
       align-items: center;
