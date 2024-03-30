@@ -7,10 +7,16 @@ interface MainProps extends HeaderProps {
   children: React.ReactNode;
   headerChildren?: React.ReactNode;
 }
-export function Main({ forward, back, children, headerChildren }: MainProps) {
+export function Main({
+  forward,
+  back,
+  children,
+  headerChildren,
+  onSaveFirstStep,
+}: MainProps) {
   return (
     <>
-      <Header forward={forward} back={back}>
+      <Header onSaveFirstStep={onSaveFirstStep} forward={forward} back={back}>
         {headerChildren || null}
       </Header>
       <main className={classes.main}>{children}</main>

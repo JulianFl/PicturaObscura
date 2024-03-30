@@ -1,11 +1,14 @@
+import { doc, setDoc } from 'firebase/firestore';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import { DraggableImage } from '@/components/DraggableImage';
 import { Feelings } from '@/components/Feelings';
 import { Strength } from '@/components/Strength';
 import { Main } from '@/components/UI/Main';
+import { db } from '@/firebase';
 import { useUserStore } from '@/store/useUserStore';
 
 const HEADER_DEFAULT_TEXT =
@@ -19,13 +22,14 @@ const HEADERTEXT_FIRSTPAGE_STRENGTH = 'How strong is this feeling?';
 
 function EmotionalPoint() {
   const { userData } = useUserStore();
+  const { resetStore } = useUserStore((state) => state.actions);
   const { id } = useParams();
   const pageId = Number(id);
 
   if (Number.isNaN(pageId)) {
     return <h1>Keine Zahl</h1>;
   }
-  if (pageId < 0 || pageId >= INITIAL_STEPS.length || !INITIAL_STEPS[pageId]) {
+  if (pageId < 0 || !INITIAL_STEPS[pageId]) {
     return <h1>Seite nicht gefunden</h1>;
   }
 
@@ -44,8 +48,22 @@ function EmotionalPoint() {
     }
   }
 
+  const saveFirstStepHandler = async () => {
+    const userId = uuidv4();
+
+    await setDoc(doc(db, 'pictura', userId), userData);
+    resetStore();
+  };
+
   return (
-    <Main forward={forward} back={back} headerChildren={headerChildren}>
+    <Main
+      forward={forward}
+      back={back}
+      headerChildren={headerChildren}
+      onSaveFirstStep={
+        pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
+      }
+    >
       <DraggableImage />
       <div>
         <Strength

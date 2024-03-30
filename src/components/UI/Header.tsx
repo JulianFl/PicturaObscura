@@ -8,9 +8,27 @@ export interface HeaderProps {
   children?: React.ReactNode;
   back?: string;
   forward?: string;
+  onSaveFirstStep?: () => void;
 }
-export function Header({ children, forward, back }: HeaderProps) {
+export function Header({
+  onSaveFirstStep,
+  children,
+  forward,
+  back,
+}: HeaderProps) {
   const { resetStore } = useUserStore((state) => state.actions);
+
+  const forwardOutput = () => {
+    if (onSaveFirstStep) {
+      return (
+        <button onClick={onSaveFirstStep} type="button">
+          Ersten Schritt beenden
+        </button>
+      );
+    }
+
+    return forward ? <Link to={forward}>weiter</Link> : null;
+  };
 
   return (
     <header className={classes.header}>
@@ -20,7 +38,7 @@ export function Header({ children, forward, back }: HeaderProps) {
         Zurücksetzen
       </button>
       {back && <Link to={back}>Zurück</Link>}
-      {forward && <Link to={forward}>weiter</Link>}
+      {forwardOutput()}
     </header>
   );
 }
