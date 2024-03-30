@@ -10,7 +10,6 @@ interface StrengthProps {
 export function Strength({ hideStrength }: StrengthProps) {
   const { id } = useParams();
   const pageId = Number(id);
-  console.log(hideStrength);
   const { setStrength } = useUserStore((state) => state.actions);
   const strength = useUserStore((state) => state.userData[pageId]?.strength);
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +23,7 @@ export function Strength({ hideStrength }: StrengthProps) {
         // orient="vertical"
         type="range"
         value={strength ?? 0}
-        step={1}
+        step={0.1}
         onChange={changeRangeHandler}
         min="1"
         max="10"

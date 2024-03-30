@@ -43,10 +43,6 @@ function EmotionalPoint() {
       headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
     }
   }
-  console.log(
-    pageId === 0 && userData[pageId]?.markerPosition === undefined,
-    pageId === 0 && userData[pageId]?.strength === undefined
-  );
 
   return (
     <Main forward={forward} back={back} headerChildren={headerChildren}>
