@@ -16,3 +16,9 @@ export type MarkerPositionType = {
   percentageX: number;
   percentageY: number;
 };
+
+export type UserDataType = {
+  markerPosition?: MarkerPositionType;
+  checkedFeelings?: FeelingType[];
+  strength?: number;
+};

@@ -6,6 +6,7 @@ import classes from '@/components/UI/Main.module.scss';
 interface MainProps extends HeaderProps {
   children: React.ReactNode;
   headerChildren?: React.ReactNode;
+  className?: string;
 }
 export function Main({
   forward,
@@ -13,13 +14,18 @@ export function Main({
   children,
   headerChildren,
   onSaveFirstStep,
+  className,
 }: MainProps) {
   return (
     <>
       <Header onSaveFirstStep={onSaveFirstStep} forward={forward} back={back}>
         {headerChildren || null}
       </Header>
-      <main className={classes.main}>{children}</main>
+      <main
+        className={`${classes.main} ${className ? classes[className] : ''}`}
+      >
+        {children}
+      </main>
     </>
   );
 }

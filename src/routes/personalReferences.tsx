@@ -4,17 +4,9 @@ import { Main } from '@/components/UI/Main';
 import { useUserStore } from '@/store/useUserStore';
 
 function PersonalReferences() {
-  const { userData } = useUserStore((state) => state);
-  const userDataEntries = Object.entries(userData);
-  const sortedUserData = userDataEntries.sort(
-    (a, b) => (b[1].strength || 0) - (a[1].strength || 0)
-  );
-  const topThreeUserData = sortedUserData.slice(0, 3);
-  console.log(topThreeUserData);
-
   return (
     <Main
-      // forward="/emotional-point/0"
+      forward="/personal-references/intro"
       headerChildren="Teil 1/3: Den emotionalen Punkt des Bildes erkennen"
     >
       <section>

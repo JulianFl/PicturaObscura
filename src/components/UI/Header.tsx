@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import classes from '@/components/UI/Header.module.scss';
+import { PrimaryButton } from '@/components/UI/PrimaryButton';
 import { useUserStore } from '@/store/useUserStore';
 
 export interface HeaderProps {
@@ -21,23 +22,29 @@ export function Header({
   const forwardOutput = () => {
     if (onSaveFirstStep) {
       return (
-        <button onClick={onSaveFirstStep} type="button">
-          Ersten Schritt beenden
-        </button>
+        <Link className={classes.next} to="/personal-references">
+          Fertig
+        </Link>
       );
     }
 
-    return forward ? <Link to={forward}>weiter</Link> : null;
+    return forward ? (
+      <Link className={classes.next} to={forward}>
+        weiter
+      </Link>
+    ) : null;
   };
 
   return (
     <header className={classes.header}>
       {children && <h3>{children}</h3>}
-      <button type="button">info</button>
-      <button type="button" onClick={() => resetStore()}>
-        Zurücksetzen
-      </button>
-      {back && <Link to={back}>Zurück</Link>}
+      {/* <button type="button">info</button> */}
+      <PrimaryButton onClick={() => resetStore()}>Abbrechen</PrimaryButton>
+      {back && (
+        <Link className={classes.next} to={back}>
+          Zurück
+        </Link>
+      )}
       {forwardOutput()}
     </header>
   );

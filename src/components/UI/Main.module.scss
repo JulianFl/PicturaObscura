@@ -11,4 +11,22 @@
     display: flex;
     column-gap: 1rem;
   }
+  &.intro, &.root{
+    flex-direction: column;
+    gap: 0;
+    //padding: 0;
+    //height: 100%;
+  }
+  &.root{
+    justify-content: space-between;
+  }
+  &.intro{
+    max-width: 75%;
+    justify-content: flex-end;
+    line-height: 1.5;
+    p{
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+    }
+  }
 }
