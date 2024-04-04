@@ -15,6 +15,8 @@ export type MarkerPositionType = {
   relativeY: number;
   percentageX: number;
   percentageY: number;
+  imageSizeX: number;
+  imageSizeY: number;
 };
 
 export type UserDataType = {

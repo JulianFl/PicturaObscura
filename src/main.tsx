@@ -11,10 +11,7 @@ import PersonalReferencesIntro from '@/routes/personalReferencesIntro';
 import Intro from '@/routes/root/intro';
 import Root from '@/routes/root/root';
 
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
-
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +31,7 @@ const router = createBrowserRouter([
     element: <PersonalReferences />,
   },
   {
-    path: 'personal-references/intro',
+    path: '/personal-references/intro',
     element: <PersonalReferencesIntro />,
   },
 ]);

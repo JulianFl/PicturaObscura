@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Back from '@/assets/icons/arrow_back.svg?react';
+import Forward from '@/assets/icons/arrow_forward.svg?react';
+import Cancel from '@/assets/icons/cancel.svg?react';
+import Check from '@/assets/icons/check.svg?react';
 import classes from '@/components/UI/Header.module.scss';
 import { PrimaryButton } from '@/components/UI/PrimaryButton';
 import { useUserStore } from '@/store/useUserStore';
@@ -22,15 +26,19 @@ export function Header({
   const forwardOutput = () => {
     if (onSaveFirstStep) {
       return (
-        <Link className={classes.next} to="/personal-references">
-          Fertig
+        <Link
+          style={{ backgroundColor: '#66bb6a' }}
+          className={classes.next}
+          to="/personal-references"
+        >
+          <Check />
         </Link>
       );
     }
 
     return forward ? (
       <Link className={classes.next} to={forward}>
-        weiter
+        <Forward />
       </Link>
     ) : null;
   };
@@ -38,14 +46,17 @@ export function Header({
   return (
     <header className={classes.header}>
       {children && <h3>{children}</h3>}
-      {/* <button type="button">info</button> */}
-      <PrimaryButton onClick={() => resetStore()}>Abbrechen</PrimaryButton>
-      {back && (
-        <Link className={classes.next} to={back}>
-          Zurück
-        </Link>
-      )}
-      {forwardOutput()}
+      <div className={classes['button-group']}>
+        <PrimaryButton onClick={() => resetStore()}>
+          <Cancel fill="white" />
+        </PrimaryButton>
+        {back && (
+          <Link className={classes.next} to={back}>
+            <Back />
+          </Link>
+        )}
+        {forwardOutput()}
+      </div>
     </header>
   );
 }

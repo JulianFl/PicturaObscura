@@ -7,8 +7,8 @@ import pin from '@/assets/icons/pin.svg';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
-const MARKER_WIDTH = 50;
-const MARKER_HEIGHT = 50;
+export const MARKER_WIDTH = 50;
+export const MARKER_HEIGHT = 50;
 export function DraggableImage() {
   const { setMarker } = useUserStore((state) => state.actions);
   const { id } = useParams();
@@ -30,10 +30,13 @@ export function DraggableImage() {
     if (imageElement) {
       const imageRect = imageElement.getBoundingClientRect();
 
-      const relativeX =
-        node.getBoundingClientRect().x - imageRect.left + MARKER_WIDTH / 2;
-      const relativeY =
-        node.getBoundingClientRect().y - imageRect.top + MARKER_HEIGHT;
+      // const relativeX =
+      //   node.getBoundingClientRect().x - imageRect.left + MARKER_WIDTH / 2;
+      // const relativeY =
+      //   node.getBoundingClientRect().y - imageRect.top + MARKER_HEIGHT;
+      //
+      const relativeX = node.getBoundingClientRect().x - imageRect.left;
+      const relativeY = node.getBoundingClientRect().y - imageRect.top;
 
       const percentageX = (relativeX / imageRect.width) * 100;
       const percentageY = (relativeY / imageRect.height) * 100;
@@ -58,6 +61,8 @@ export function DraggableImage() {
         relativeY,
         percentageX,
         percentageY,
+        imageSizeX: imageRect.width,
+        imageSizeY: imageRect.height,
       });
     }
   };
