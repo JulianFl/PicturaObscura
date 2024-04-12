@@ -54,31 +54,36 @@ function EmotionalPoint() {
     await setDoc(doc(db, 'pictura', userId), userData);
     resetStore();
   };
+  // const progress = (pageId / INITIAL_STEPS.length) * 100;
 
   return (
-    <Main
-      forward={forward}
-      back={back}
-      headerChildren={headerChildren}
-      onSaveFirstStep={
-        pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
-      }
-    >
-      <DraggableImage />
-      <div>
-        <Strength
-          hideStrength={
-            pageId === 0 && userData[pageId]?.checkedFeelings === undefined
-          }
-        />
-        <Feelings
-          hideFeelings={
-            pageId === 0 && userData[pageId]?.markerPosition === undefined
-          }
-        />
-      </div>
-    </Main>
+    <>
+      {/* <progress value={progress} max="100" /> */}
+      <Main
+        forward={forward}
+        back={back}
+        headerChildren={headerChildren}
+        onSaveFirstStep={
+          pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
+        }
+      >
+        <DraggableImage />
+        <div>
+          <Strength
+            hideStrength={
+              pageId === 0 && userData[pageId]?.checkedFeelings === undefined
+            }
+          />
+          <Feelings
+            hideFeelings={
+              pageId === 0 && userData[pageId]?.markerPosition === undefined
+            }
+          />
+        </div>
+      </Main>
+    </>
   );
 }
+
 // eslint-disable-next-line import/no-default-export
 export default EmotionalPoint;

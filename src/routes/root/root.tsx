@@ -1,5 +1,6 @@
 import React from 'react';
 
+import cityImage from '@/assets/images/city.jpeg';
 import { Main } from '@/components/UI/Main';
 
 function Root() {
@@ -10,7 +11,7 @@ function Root() {
         <h1>Pictura Obscura</h1>
       </section>
       <figure>
-        <img src="https://picsum.photos/id/238/910/466?grayscale=1" />
+        <img src={cityImage} />
       </figure>
     </Main>
   );
