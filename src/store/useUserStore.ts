@@ -9,6 +9,7 @@ type UserState = {
   userData: UserDataProps;
   actions: {
     setMarker: (id: number, draggableData: MarkerPositionType) => void;
+    resetMarker: (id: number) => void;
     setStrength: (id: number, strength: number) => void;
     addFeeling: (id: number, value: string) => void;
     removeFeeling: (id: number, value: string) => void;
@@ -33,6 +34,15 @@ export const useUserStore = create<UserState>()(
                 state.userData[id] = {};
               }
               state.userData[id].strength = strength;
+            })
+          ),
+        resetMarker: (id) =>
+          set(
+            produce((state) => {
+              if (!state.userData[id]) {
+                return;
+              }
+              state.userData[id].markerPosition = undefined;
             })
           ),
         addFeeling: (id, feeling) =>

@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
-import pin from '@/assets/icons/pin.svg';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
+import { UserDataType } from '@/types/types';
 
 export const MARKER_WIDTH = 50;
 export const MARKER_HEIGHT = 50;
 export function DraggableImage() {
-  const { setMarker } = useUserStore((state) => state.actions);
+  const { setMarker, resetMarker } = useUserStore((state) => state.actions);
   const { id } = useParams();
   const pageId = Number(id);
   const [aspectRatio, setAspectRatio] = useState<number>();
@@ -19,6 +19,7 @@ export function DraggableImage() {
     (state) => state.userData[pageId]?.markerPosition
   );
 
+  const userData = useUserStore((state) => state.userData);
   const nodeRef = useRef(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -77,6 +78,32 @@ export function DraggableImage() {
 
     setAspectRatio(aspectRatioImage);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const userDataEntries: [string, UserDataType][] =
+        Object.entries(userData);
+
+      const elementsWithMarkerPosition = userDataEntries.filter(
+        ([key, value]) => value.markerPosition !== undefined
+      );
+
+      if (elementsWithMarkerPosition !== undefined) {
+        // console.log(elementsWithMarkerPosition);
+        elementsWithMarkerPosition.forEach((element) => {
+          const index = element[0];
+          resetMarker(Number(index));
+        });
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [userData]);
+
   // TODO Marker hat nicht die Maße 50 zu 50
 
   return (
