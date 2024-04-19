@@ -11,7 +11,7 @@ function Root() {
         <h1>Pictura Obscura</h1>
       </section>
       <figure>
-        <img src={cityImage} />
+        <img src={cityImage} width={800} />
       </figure>
     </Main>
   );

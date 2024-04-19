@@ -1,6 +1,6 @@
 import { doc, setDoc } from 'firebase/firestore';
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
@@ -9,6 +9,7 @@ import { Feelings } from '@/components/Feelings';
 import { Strength } from '@/components/Strength';
 import { Main } from '@/components/UI/Main';
 import { db } from '@/firebase';
+import classes from '@/routes/emotionalPoint.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
 const HEADER_DEFAULT_TEXT =
@@ -25,6 +26,36 @@ function EmotionalPoint() {
   const { resetStore } = useUserStore((state) => state.actions);
   const { id } = useParams();
   const pageId = Number(id);
+  const forward = `/emotional-point/${pageId + 1}`;
+  let back: string | undefined = `/emotional-point/${pageId - 1}`;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowRight':
+          if (pageId < INITIAL_STEPS.length - 1) {
+            navigate(`/emotional-point/${pageId + 1}`);
+          }
+
+          break;
+        case 'ArrowLeft':
+          if (pageId > 0) {
+            navigate(`/emotional-point/${pageId - 1}`);
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [pageId, navigate]);
 
   if (Number.isNaN(pageId)) {
     return <h1>Keine Zahl</h1>;
@@ -33,8 +64,6 @@ function EmotionalPoint() {
     return <h1>Seite nicht gefunden</h1>;
   }
 
-  const forward = `/emotional-point/${pageId + 1}`;
-  let back: string | undefined = `/emotional-point/${pageId - 1}`;
   let headerChildren = HEADER_DEFAULT_TEXT;
 
   if (pageId === 0) {
@@ -68,7 +97,7 @@ function EmotionalPoint() {
         }
       >
         <DraggableImage />
-        <div>
+        <div className={classes['wrap-emotional-point']}>
           <Strength
             hideStrength={
               pageId === 0 && userData[pageId]?.checkedFeelings === undefined
