@@ -1,10 +1,12 @@
-.hide{
-  visibility: hidden;
-}
 .feelings {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  opacity: 0;
+  &:not(.hide) {
+    transition: opacity 0.5s;
+    opacity: 1;
+  }
   input[type="checkbox"] {
     display: none;
 

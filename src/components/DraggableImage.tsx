@@ -116,7 +116,7 @@ export function DraggableImage() {
         width="auto"
         height="auto"
         className={
-          aspectRatio && aspectRatio <= 1.5
+          aspectRatio && aspectRatio <= 1.2
             ? classes.portrait
             : classes.landscape
         }

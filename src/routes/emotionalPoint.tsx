@@ -12,8 +12,8 @@ import { db } from '@/firebase';
 import classes from '@/routes/emotionalPoint.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
-const HEADER_DEFAULT_TEXT =
-  'Place the pin where you feel the most emotion in the picture, then choose which emotion it evoked and finally how much emotion this image gives you overall >';
+// const HEADER_DEFAULT_TEXT =
+//   'Place the pin where you feel the most emotion in the picture, then choose which emotion it evoked and finally how much emotion this image gives you overall >';
 
 const HEADERTEXT_FIRSTPAGE_PIN =
   'Place the pin where you feel the most emotion in the image';
@@ -27,7 +27,7 @@ function EmotionalPoint() {
   const { id } = useParams();
   const pageId = Number(id);
   const forward = `/emotional-point/${pageId + 1}`;
-  let back: string | undefined = `/emotional-point/${pageId - 1}`;
+  const back: string | undefined = `/emotional-point/${pageId - 1}`;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,18 +64,18 @@ function EmotionalPoint() {
     return <h1>Seite nicht gefunden</h1>;
   }
 
-  let headerChildren = HEADER_DEFAULT_TEXT;
+  // let headerChildren = HEADER_DEFAULT_TEXT;
 
-  if (pageId === 0) {
-    back = undefined;
-    headerChildren = HEADERTEXT_FIRSTPAGE_PIN;
-    if (userData[pageId]?.markerPosition) {
-      headerChildren = HEADERTEXT_FIRSTPAGE_FEELINGS;
-    }
-    if (userData[pageId]?.checkedFeelings) {
-      headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
-    }
+  // if (pageId === 0) {
+  //   back = undefined;
+  let headerChildren = HEADERTEXT_FIRSTPAGE_PIN;
+  if (userData[pageId]?.markerPosition) {
+    headerChildren = HEADERTEXT_FIRSTPAGE_FEELINGS;
   }
+  if (userData[pageId]?.checkedFeelings) {
+    headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
+  }
+  // }
 
   const saveFirstStepHandler = async () => {
     const userId = uuidv4();
@@ -90,7 +90,7 @@ function EmotionalPoint() {
       {/* <progress value={progress} max="100" /> */}
       <Main
         forward={forward}
-        back={back}
+        back={pageId > 0 ? back : undefined}
         headerChildren={headerChildren}
         onSaveFirstStep={
           pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
@@ -100,13 +100,12 @@ function EmotionalPoint() {
         <div className={classes['wrap-emotional-point']}>
           <Strength
             hideStrength={
-              pageId === 0 && userData[pageId]?.checkedFeelings === undefined
+              userData[pageId]?.markerPosition === undefined ||
+              userData[pageId]?.checkedFeelings === undefined
             }
           />
           <Feelings
-            hideFeelings={
-              pageId === 0 && userData[pageId]?.markerPosition === undefined
-            }
+            hideFeelings={userData[pageId]?.markerPosition === undefined}
           />
         </div>
       </Main>
