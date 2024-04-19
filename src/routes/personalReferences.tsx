@@ -8,6 +8,7 @@ function PersonalReferences() {
     <Main
       forward="/personal-references/intro"
       headerChildren="Teil 1/3: Den emotionalen Punkt des Bildes erkennen"
+      className="intro"
     >
       <section>
         <p>

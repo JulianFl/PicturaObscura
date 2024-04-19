@@ -26,34 +26,26 @@ function PersonalReferencesIntro() {
   );
 
   useEffect(() => {
-    const handleResize = () => {
-      const newImageSizes = imageRefs.map((ref, index) => {
-        const rect = ref.current?.getBoundingClientRect();
-        const originalWidth = userData[index].markerPosition?.imageSizeX || 0;
-        const originalHeight = userData[index].markerPosition?.imageSizeY || 0;
-        const newWidth = rect?.width || 0;
-        const newHeight = rect?.height || 0;
+    console.log(imageRefs);
+    const newImageSizes = imageRefs.map((ref, index) => {
+      const rect = ref.current?.getBoundingClientRect();
+      const originalWidth = userData[index].markerPosition?.imageSizeX || 0;
+      const originalHeight = userData[index].markerPosition?.imageSizeY || 0;
+      const newWidth = rect?.width || 0;
+      const newHeight = rect?.height || 0;
 
-        const widthFactor = newWidth / originalWidth;
-        const heightFactor = newHeight / originalHeight;
+      const widthFactor = newWidth / originalWidth;
+      const heightFactor = newHeight / originalHeight;
 
-        return {
-          width: newWidth,
-          height: newHeight,
-          widthFactor,
-          heightFactor,
-        };
-      });
-      setImageSizes(newImageSizes);
-    };
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-
-    // Clean up event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+      return {
+        width: newWidth,
+        height: newHeight,
+        widthFactor,
+        heightFactor,
+      };
+    });
+    console.log(newImageSizes);
+    setImageSizes(newImageSizes);
   }, [imageRefs, userData]);
 
   if (!userDataEntries.length) {
@@ -62,6 +54,7 @@ function PersonalReferencesIntro() {
   let widthFactor = 1;
   let heightFactor = 1;
   const renderElement = (element: [string, UserDataType], mapIndex: number) => {
+    console.log(imageSizes);
     const index = Number(element[0]);
     if (imageSizes[mapIndex] !== undefined) {
       const rect = imageSizes[mapIndex];
@@ -72,16 +65,17 @@ function PersonalReferencesIntro() {
 
       widthFactor = newWidth / originalWidth;
       heightFactor = newHeight / originalHeight;
-      // console.log(newHeight, originalHeight);
-      // console.log(`Width factor for image ${mapIndex}: ${widthFactor}`);
-      // console.log(`Height factor for image ${mapIndex}: ${heightFactor}`);
-      // //
-      // console.log(
-      //   `Drittel Bild Width:  ${imageSizes[mapIndex].width}`,
-      //   `Natürliche Bildweite ${userData[index].markerPosition?.imageSizeX}`,
-      //   `Drittel Bild Height: ${imageSizes[mapIndex].height}`,
-      //   `NatÜRLICHE Bildhöhe ${userData[index].markerPosition?.imageSizeY}`
-      // );
+      //
+      console.log(newHeight, originalHeight);
+      console.log(`Width factor for image ${mapIndex}: ${widthFactor}`);
+      console.log(`Height factor for image ${mapIndex}: ${heightFactor}`);
+
+      console.log(
+        `Drittel Bild Width:  ${imageSizes[mapIndex].width}`,
+        `Natürliche Bildweite ${userData[index].markerPosition?.imageSizeX}`,
+        `Drittel Bild Height: ${imageSizes[mapIndex].height}`,
+        `NatÜRLICHE Bildhöhe ${userData[index].markerPosition?.imageSizeY}`
+      );
     }
 
     return (
@@ -103,9 +97,9 @@ function PersonalReferencesIntro() {
           <svg
             fill="white"
             xmlns="http://www.w3.org/2000/svg"
-            height={MARKER_HEIGHT * heightFactor}
+            height={MARKER_HEIGHT}
             viewBox="0 -960 960 960"
-            width={MARKER_WIDTH * widthFactor}
+            width={MARKER_WIDTH}
             style={{
               position: 'absolute',
               top: `${(userData[index].markerPosition?.relativeY ?? 0) * heightFactor}px`,
