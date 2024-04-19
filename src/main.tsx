@@ -6,8 +6,6 @@ import '@/assets/fonts.scss';
 import '@/assets/styles.scss';
 
 import EmotionalPoint from '@/routes/emotionalPoint';
-import PersonalReferences from '@/routes/personalReferences';
-import PersonalReferencesIntro from '@/routes/personalReferencesIntro';
 import Intro from '@/routes/root/intro';
 import Root from '@/routes/root/root';
 
@@ -25,14 +23,6 @@ const router = createBrowserRouter([
   {
     path: 'emotional-point/:id',
     element: <EmotionalPoint />,
-  },
-  {
-    path: 'personal-references',
-    element: <PersonalReferences />,
-  },
-  {
-    path: '/personal-references/intro',
-    element: <PersonalReferencesIntro />,
   },
 ]);
 
