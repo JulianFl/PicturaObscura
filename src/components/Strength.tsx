@@ -15,18 +15,20 @@ export function Strength({ hideStrength }: StrengthProps) {
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStrength(pageId, Number(event.target.value));
   };
+  console.log(strength ?? 0);
 
   return (
     <div className={`${hideStrength ? classes.hide : ''} ${classes.strength}`}>
       <span>10</span>
       <input
         // orient="vertical"
+        // orient="vertical"
         type="range"
         value={strength ?? 0}
         step={0.1}
         onChange={changeRangeHandler}
-        min="1"
-        max="10"
+        min={1}
+        max={10}
       />
       <span>1</span>
     </div>

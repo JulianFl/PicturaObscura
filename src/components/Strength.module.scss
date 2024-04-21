@@ -16,7 +16,11 @@
     margin: 0;
   }
   input[type=range] {
+    //appearance: ;
+
+    //writing-mode: ;
     writing-mode: vertical-lr;
+    transform: rotate(180deg);
     flex-grow: 1;
     margin: 10px 0;
     -webkit-appearance: none;

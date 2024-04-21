@@ -1,6 +1,5 @@
 import React from 'react';
 
-import cityImage from '@/assets/images/city.jpeg';
 import { Main } from '@/components/UI/Main';
 
 function Root() {
@@ -10,9 +9,7 @@ function Root() {
         <h2>The Visual Literacy Workshop</h2>
         <h1>Pictura Obscura</h1>
       </section>
-      <figure>
-        <img src={cityImage} width={800} />
-      </figure>
+      <figure>{/* <img src={cityImage} width={800} /> */}</figure>
     </Main>
   );
 }
