@@ -13,7 +13,6 @@ export const FeelingsList: FeelingType[] = [
   'Schock',
   'No Emotion',
 ];
-console.log(Object.keys(images));
 export const INITIAL_STEPS: StepProps[] = [
   {
     id: 0,

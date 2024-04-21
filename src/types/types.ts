@@ -11,12 +11,12 @@ export type FeelingType =
 export type MarkerPositionType = {
   x: number;
   y: number;
-  relativeX: number;
-  relativeY: number;
-  percentageX: number;
-  percentageY: number;
-  imageSizeX: number;
-  imageSizeY: number;
+  // relativeX: number;
+  // relativeY: number;
+  // percentageX: number;
+  // percentageY: number;
+  // imageSizeX: number;
+  // imageSizeY: number;
 };
 
 export type UserDataType = {
