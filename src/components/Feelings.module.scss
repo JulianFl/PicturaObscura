@@ -3,9 +3,11 @@
   flex-direction: column;
   justify-content: space-between;
   opacity: 0;
+  visibility: hidden;
   &:not(.hide) {
     transition: opacity 0.5s;
     opacity: 1;
+    visibility: visible;
   }
   input[type="checkbox"] {
     display: none;

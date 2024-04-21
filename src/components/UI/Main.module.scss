@@ -2,7 +2,8 @@
   display: flex;
   //4rem = padding header
   //1px = border header
-  height: calc(100vh - var(--header-height) - 4rem - 1px);
+  //progress = 0.5rem
+  height: calc(100vh - var(--header-height) - 4rem - 1px - 0.5rem);
   gap: 3rem;
   justify-content: space-between;
   position: relative;

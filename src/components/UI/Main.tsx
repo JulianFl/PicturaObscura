@@ -7,6 +7,7 @@ interface MainProps extends HeaderProps {
   children: React.ReactNode;
   headerChildren?: React.ReactNode;
   className?: string;
+  progress?: number;
 }
 export function Main({
   forward,
@@ -15,12 +16,14 @@ export function Main({
   headerChildren,
   onSaveFirstStep,
   className,
+  progress = 0,
 }: MainProps) {
   return (
     <>
       <Header onSaveFirstStep={onSaveFirstStep} forward={forward} back={back}>
         {headerChildren || null}
       </Header>
+      <progress value={progress} max="100" />
       <main
         className={`${classes.main} ${className ? classes[className] : ''}`}
       >

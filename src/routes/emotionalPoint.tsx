@@ -64,10 +64,6 @@ function EmotionalPoint() {
     return <h1>Seite nicht gefunden</h1>;
   }
 
-  // let headerChildren = HEADER_DEFAULT_TEXT;
-
-  // if (pageId === 0) {
-  //   back = undefined;
   let headerChildren = HEADERTEXT_FIRSTPAGE_PIN;
   if (userData[pageId]?.markerPosition) {
     headerChildren = HEADERTEXT_FIRSTPAGE_FEELINGS;
@@ -75,7 +71,6 @@ function EmotionalPoint() {
   if (userData[pageId]?.checkedFeelings) {
     headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
   }
-  // }
 
   const saveFirstStepHandler = async () => {
     const userId = uuidv4();
@@ -83,33 +78,31 @@ function EmotionalPoint() {
     await setDoc(doc(db, 'pictura', userId), userData);
     resetStore();
   };
-  // const progress = (pageId / INITIAL_STEPS.length) * 100;
+  const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;
 
   return (
-    <>
-      {/* <progress value={progress} max="100" /> */}
-      <Main
-        forward={forward}
-        back={pageId > 0 ? back : undefined}
-        headerChildren={headerChildren}
-        onSaveFirstStep={
-          pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
-        }
-      >
-        <DraggableImage />
-        <div className={classes['wrap-emotional-point']}>
-          <Strength
-            hideStrength={
-              userData[pageId]?.markerPosition === undefined ||
-              userData[pageId]?.checkedFeelings === undefined
-            }
-          />
-          <Feelings
-            hideFeelings={userData[pageId]?.markerPosition === undefined}
-          />
-        </div>
-      </Main>
-    </>
+    <Main
+      forward={forward}
+      back={pageId > 0 ? back : undefined}
+      headerChildren={headerChildren}
+      onSaveFirstStep={
+        pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
+      }
+      progress={progress}
+    >
+      <DraggableImage />
+      <div className={classes['wrap-emotional-point']}>
+        <Strength
+          hideStrength={
+            userData[pageId]?.markerPosition === undefined ||
+            userData[pageId]?.checkedFeelings === undefined
+          }
+        />
+        <Feelings
+          hideFeelings={userData[pageId]?.markerPosition === undefined}
+        />
+      </div>
+    </Main>
   );
 }
 

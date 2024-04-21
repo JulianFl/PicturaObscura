@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
+import { UserDataType } from '@/types/types';
 
 export const MARKER_WIDTH = 50;
 export const MARKER_HEIGHT = 50;
@@ -12,7 +13,6 @@ export function DraggableImage() {
   const { setMarker, resetMarker } = useUserStore((state) => state.actions);
   const { id } = useParams();
   const pageId = Number(id);
-  const [aspectRatio, setAspectRatio] = useState<number>();
 
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
@@ -66,45 +66,23 @@ export function DraggableImage() {
       });
     }
   };
-  const handleImageLoad = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    if (!rootRef.current) {
-      return;
-    }
-    const img = event.currentTarget;
-    const aspectRatioImage = img.naturalWidth / img.naturalHeight;
-
-    setAspectRatio(aspectRatioImage);
-  };
 
   useEffect(() => {
     const handleResize = () => {
-      const imageElement = imgRef.current;
-      if (imageElement) {
-        const imageRect = imageElement.getBoundingClientRect();
-        console.log(
-          imageRect.width,
-          imageRect.height,
-          markerPosition?.imageSizeX,
-          markerPosition?.imageSizeY
-        );
-      }
+      const userDataEntries: [string, UserDataType][] =
+        Object.entries(userData);
 
-      // const userDataEntries: [string, UserDataType][] =
-      //   Object.entries(userData);
-      //
-      // const elementsWithMarkerPosition = userDataEntries.filter(
-      //   ([key, value]) => value.markerPosition !== undefined
-      // );
-      //
-      // if (elementsWithMarkerPosition !== undefined) {
-      //   // console.log(elementsWithMarkerPosition);
-      //   elementsWithMarkerPosition.forEach((element) => {
-      //     const index = element[0];
-      //     resetMarker(Number(index));
-      //   });
-      // }
+      const elementsWithMarkerPosition = userDataEntries.filter(
+        ([key, value]) => value.markerPosition !== undefined
+      );
+
+      if (elementsWithMarkerPosition !== undefined) {
+        // console.log(elementsWithMarkerPosition);
+        elementsWithMarkerPosition.forEach((element) => {
+          const index = element[0];
+          resetMarker(Number(index));
+        });
+      }
     };
     window.addEventListener('resize', handleResize);
 
@@ -112,7 +90,7 @@ export function DraggableImage() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [userData]);
+  }, [userData, resetMarker]);
 
   // TODO Marker hat nicht die Maße 50 zu 50
 
@@ -122,7 +100,6 @@ export function DraggableImage() {
         <img
           src={INITIAL_STEPS[pageId].image.url}
           ref={imgRef}
-          onLoad={handleImageLoad}
           alt="Bild"
           width="auto"
           height="auto"
