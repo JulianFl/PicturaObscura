@@ -21,13 +21,14 @@ export function Header({ onLastStep, children, forward, back }: HeaderProps) {
   const forwardOutput = () => {
     if (onLastStep) {
       return (
-        <Link
-          style={{ backgroundColor: '#66bb6a' }}
-          className={classes.next}
-          to="/personal-references"
+        <PrimaryButton
+          onClick={onLastStep}
+          // style={{ backgroundColor: '#66bb6a' }}
+          // className={classes.next}
+          // to="/personal-references"
         >
           <Check />
-        </Link>
+        </PrimaryButton>
       );
     }
 

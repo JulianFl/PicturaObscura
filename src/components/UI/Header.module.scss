@@ -25,6 +25,9 @@
       width: 2.5rem;
       height: 2.5rem;
       margin-left: .5rem;
+      &.isLastStep{
+        background-color: #66bb6a;
+      }
     }
   }
 }

@@ -15,7 +15,6 @@ export function Strength({ hideStrength }: StrengthProps) {
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStrength(pageId, Number(event.target.value));
   };
-  console.log(strength ?? 0);
 
   return (
     <div className={`${hideStrength ? classes.hide : ''} ${classes.strength}`}>

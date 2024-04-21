@@ -75,7 +75,7 @@ function EmotionalPoint() {
   const lastStepHandler = async () => {
     const userId = uuidv4();
 
-    await setDoc(doc(db, 'pictura', userId), userData);
+    const firebase = await setDoc(doc(db, 'pictura', userId), userData);
     resetStore();
   };
   const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;
