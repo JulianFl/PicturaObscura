@@ -14,13 +14,13 @@ export function Main({
   back,
   children,
   headerChildren,
-  onSaveFirstStep,
+  onLastStep,
   className,
   progress = 0,
 }: MainProps) {
   return (
     <>
-      <Header onSaveFirstStep={onSaveFirstStep} forward={forward} back={back}>
+      <Header onLastStep={onLastStep} forward={forward} back={back}>
         {headerChildren || null}
       </Header>
       <progress value={progress} max="100" />

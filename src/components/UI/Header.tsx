@@ -13,18 +13,13 @@ export interface HeaderProps {
   children?: React.ReactNode;
   back?: string;
   forward?: string;
-  onSaveFirstStep?: () => void;
+  onLastStep?: () => void;
 }
-export function Header({
-  onSaveFirstStep,
-  children,
-  forward,
-  back,
-}: HeaderProps) {
+export function Header({ onLastStep, children, forward, back }: HeaderProps) {
   const { resetStore } = useUserStore((state) => state.actions);
 
   const forwardOutput = () => {
-    if (onSaveFirstStep) {
+    if (onLastStep) {
       return (
         <Link
           style={{ backgroundColor: '#66bb6a' }}

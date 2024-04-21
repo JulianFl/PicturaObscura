@@ -72,7 +72,7 @@ function EmotionalPoint() {
     headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
   }
 
-  const saveFirstStepHandler = async () => {
+  const lastStepHandler = async () => {
     const userId = uuidv4();
 
     await setDoc(doc(db, 'pictura', userId), userData);
@@ -85,8 +85,8 @@ function EmotionalPoint() {
       forward={forward}
       back={pageId > 0 ? back : undefined}
       headerChildren={headerChildren}
-      onSaveFirstStep={
-        pageId >= INITIAL_STEPS.length - 1 ? saveFirstStepHandler : undefined
+      onLastStep={
+        pageId >= INITIAL_STEPS.length - 1 ? lastStepHandler : undefined
       }
       progress={progress}
     >
