@@ -1,0 +1,24 @@
+  .column{
+    position: relative;
+    display: inline-flex;
+    width: 50%;
+    flex-shrink: 1;
+    align-items: flex-start;
+    div{
+      display: flex;
+        position: relative;
+        //height: 100%;
+      img{
+        object-fit: contain;
+        object-position: top left;
+        height: 100%;
+      }
+      .marker{
+        position: absolute;
+        z-index: 1;
+        background-image: url("@/assets/icons/pin.svg");
+        background-position: center;
+        background-size: cover;
+      }
+    }
+}

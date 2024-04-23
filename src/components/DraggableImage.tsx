@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
+import marker from '@/assets/icons/pin.svg';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 import { UserDataType } from '@/types/types';
@@ -24,8 +25,7 @@ export function DraggableImage() {
   const rootRef = useRef<HTMLDivElement>(null);
 
   const onStop = (event: DraggableEvent, data: DraggableData) => {
-    const { node, x, y, lastX, lastY, deltaY, deltaX } = data;
-    console.log('onStop', x, y, lastX, lastY, deltaY, deltaX);
+    const { node, x, y } = data;
     const imageElement = imgRef.current;
     if (imageElement) {
       const imageRect = imageElement.getBoundingClientRect();
@@ -37,10 +37,7 @@ export function DraggableImage() {
       //
       const relativeX = node.getBoundingClientRect().x - imageRect.left;
       const relativeY = node.getBoundingClientRect().y - imageRect.top;
-
-      const percentageX = (relativeX / imageRect.width) * 100;
-      const percentageY = (relativeY / imageRect.height) * 100;
-
+      console.log(relativeX, relativeY);
       if (relativeY > imageRect.height) {
         console.log('out of bounds, below');
       }
@@ -59,10 +56,8 @@ export function DraggableImage() {
         y,
         relativeX,
         relativeY,
-        percentageX,
-        percentageY,
-        imageSizeX: imageRect.width,
-        imageSizeY: imageRect.height,
+        imageWidth: imageRect.width,
+        imageHeight: imageRect.height,
       });
     }
   };
@@ -80,7 +75,7 @@ export function DraggableImage() {
         // console.log(elementsWithMarkerPosition);
         elementsWithMarkerPosition.forEach((element) => {
           const index = element[0];
-          resetMarker(Number(index));
+          // resetMarker(Number(index));
         });
       }
     };

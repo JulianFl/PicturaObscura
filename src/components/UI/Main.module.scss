@@ -10,17 +10,17 @@
   padding: 2rem;
 }
 .root, .intro{
-      flex-direction: column;
-      gap: 0;
+  flex-direction: column;
+  gap: 0;
 }
 .intro{
-    max-width: 75%;
-    justify-content: flex-end;
-    line-height: 1.5;
-    p{
-        font-size: 1.25rem;
-        margin-top: 1.25rem;
-    }
+  max-width: 75%;
+  justify-content: flex-end;
+  line-height: 1.5;
+  p{
+    font-size: 1.25rem;
+    margin-top: 1.25rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
