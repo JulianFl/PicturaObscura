@@ -91,6 +91,21 @@ function Statistics() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [pageId, navigate]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (imageRef.current) {
+        const imageRect = imageRef.current.getBoundingClientRect();
+        setImageBounding(imageRect);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const left = (markerPosition: MarkerPositionType | undefined) => {
     if (!markerPosition || !imageBounding) {
       return 0;
@@ -136,10 +151,9 @@ function Statistics() {
     .map((element) => element?.markerPosition)
     .filter((el) => el);
 
-  // console.log(currentPageData.map((element) => element);
-  const checkedFeelings = currentPageData.map(
-    (element) => element?.checkedFeelings
-  );
+  const checkedFeelings = currentPageData
+    .map((element) => element?.checkedFeelings)
+    .filter((el) => el);
   const feelingCounts = checkedFeelings.reduce(
     (acc, curr) => {
       if (!curr) return acc;
@@ -158,7 +172,7 @@ function Statistics() {
     .filter((el) => el);
   const totalStrength =
     strengthValues.length > 0 &&
-    strengthValues.reduce((acc, curr) => acc + (curr || 0), 0);
+    strengthValues.reduce((acc, curr) => (acc ?? 0) + (curr || 0), 0);
   const averageStrength =
     totalStrength && totalStrength / strengthValues.length;
 

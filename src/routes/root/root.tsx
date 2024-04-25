@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { onLCP, onFID, onCLS } from 'web-vitals';
 
 import { Main } from '@/components/UI/Main';
 
 function Root() {
+  // useEffect(() => {
+  //   onCLS((metric) => console.log('CLS:', metric));
+  //   onFID((metric) => console.log('FID:', metric));
+  //   onLCP((metric) => console.log('LCP:', metric));
+  // }, []);
+
   return (
     <Main forward="/intro" className="root">
       <section>
