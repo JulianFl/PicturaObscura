@@ -1,5 +1,5 @@
 import { debounce } from 'chart.js/helpers';
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useParams } from 'react-router-dom';
 
@@ -15,10 +15,6 @@ export function DraggableImage() {
   const { setMarker, resetMarker } = useUserStore((state) => state.actions);
   const { id } = useParams();
   const pageId = Number(id);
-  const [startPosition, setStartPosition] = React.useState({
-    x: 0,
-    y: 0,
-  });
 
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
@@ -69,34 +65,52 @@ export function DraggableImage() {
       });
     }
   };
+  const calculateAndSetMarker = useCallback(() => {
+    const imgRect = imgRef.current?.getBoundingClientRect();
+    console.log(imgRect, markerPosition);
+    if (markerPosition && imgRect && markerPosition.y && markerPosition.x) {
+      console.log(
+        imgRect.width,
+        imgRect.height,
+        markerPosition.imageWidth,
+        markerPosition.imageHeight
+      );
+      const factorX = imgRect.width / markerPosition.imageWidth;
+      const factorY = imgRect.height / markerPosition.imageHeight;
+
+      const relativeMarkerHeight = MARKER_HEIGHT - MARKER_HEIGHT * factorY;
+      const newMarkerWidth = MARKER_WIDTH - MARKER_WIDTH * factorX;
+
+      const relativeMarkerWidth = newMarkerWidth / 2;
+      const x = markerPosition.x * factorX - relativeMarkerWidth;
+      const y = markerPosition.y * factorY - relativeMarkerHeight;
+      const relativeX =
+        markerPosition.relativeX * factorX - relativeMarkerWidth;
+      const relativeY =
+        markerPosition.relativeY * factorY - relativeMarkerHeight;
+      console.log(
+        'resize',
+        x,
+        y,
+        relativeX,
+        relativeY,
+        imgRect.width,
+        imgRect.height
+      );
+      setMarker(pageId, {
+        x,
+        y,
+        relativeX,
+        relativeY,
+        imageWidth: imgRect.width,
+        imageHeight: imgRect.height,
+      });
+    }
+  }, [imgRef, markerPosition, pageId, setMarker]);
 
   useEffect(() => {
     const handleResize = debounce(() => {
-      if (imgRef.current && markerPosition && startRef.current) {
-        const imageRect = imgRef.current.getBoundingClientRect();
-        const factorX = imageRect.width / markerPosition.imageWidth;
-        const factorY = imageRect.height / markerPosition.imageHeight;
-
-        const relativeMarkerHeight = MARKER_HEIGHT - MARKER_HEIGHT * factorY;
-        const newMarkerWidth = MARKER_WIDTH - MARKER_WIDTH * factorX;
-
-        const relativeMarkerWidth = newMarkerWidth / 2;
-        const x = markerPosition.x * factorX - relativeMarkerWidth;
-        const y = markerPosition.y * factorY - relativeMarkerHeight;
-        const relativeX =
-          markerPosition.relativeX * factorX - relativeMarkerWidth;
-        const relativeY =
-          markerPosition.relativeY * factorY - relativeMarkerHeight;
-
-        setMarker(pageId, {
-          x,
-          y,
-          relativeX,
-          relativeY,
-          imageWidth: imageRect.width,
-          imageHeight: imageRect.height,
-        });
-      }
+      calculateAndSetMarker();
     }, 500);
     const resizeObserver = new ResizeObserver(handleResize);
 
@@ -108,8 +122,7 @@ export function DraggableImage() {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [userData, resetMarker]);
-
+  }, [calculateAndSetMarker]);
   // TODO Marker hat nicht die Maße 50 zu 50
 
   return (
