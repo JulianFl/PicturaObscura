@@ -1,26 +1,43 @@
-import { findAllByDisplayValue } from '@testing-library/react';
+import Chart from 'chart.js/auto';
 import { collection, getDocs } from 'firebase/firestore';
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
+import { BarChart } from '@/components/BarChart';
 import { MARKER_HEIGHT, MARKER_WIDTH } from '@/components/DraggableImage';
+import { Strength } from '@/components/Strength';
 import { Main } from '@/components/UI/Main';
 import { db } from '@/firebase';
 import classes from '@/routes/statistics.module.scss';
 import { MarkerPositionType, UserDataType } from '@/types/types';
 
-interface MarkerPositionsProps extends MarkerPositionType {
-  factorX: number;
-  factorY: number;
-}
-
+// Configuration options for the chart
+const options = {
+  scales: {
+    y: {
+      ticks: {
+        color: 'white', // Change this to the color you want
+        beginAtZero: true,
+      },
+    },
+    x: {
+      ticks: {
+        color: 'white', // Change this to the color you want
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: 'white', // Change this to the color you want
+        font: {
+          size: 14,
+        },
+      },
+    },
+  },
+};
 interface DBDataProps {
   [key: string]: UserDataType;
 }
@@ -35,7 +52,7 @@ function Statistics() {
   const forward = `/statistics/${pageId + 1}`;
   const back: string | undefined = `/statistics/${pageId - 1}`;
   const navigate = useNavigate();
-  // const image = INITIAL_STEPS[pageId].image.url;
+
   useEffect(() => {
     const fetchData = async () => {
       const querySnapshot = await getDocs(collection(db, 'pictura'));
@@ -48,29 +65,6 @@ function Statistics() {
     fetchData();
   }, []);
 
-  // useLayoutEffect(() => {
-  //   if (elementRect && data) {
-  //     console.log(elementRect);
-  //     const markerPositionsData = data
-  //       .filter((element) => element[pageId]?.markerPosition)
-  //       .map((element) => {
-  //         const imageWidth = elementRect.width;
-  //         const imageHeight = elementRect.height;
-  //         const factorX =
-  //           imageWidth / element[pageId].markerPosition.imageWidth;
-  //         const factorY =
-  //           imageHeight / element[pageId].markerPosition.imageHeight;
-  //
-  //         return {
-  //           ...element[pageId].markerPosition,
-  //           factorX,
-  //           factorY,
-  //         };
-  //       });
-  //
-  //     setMarkerPositions(markerPositionsData);
-  //   }
-  // }, [data, elementRect, pageId]);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -122,8 +116,6 @@ function Statistics() {
     const imageHeight = imageBounding?.height;
     const factorY = imageHeight / markerPosition.imageHeight;
     const relativeMarkerHeight = MARKER_HEIGHT - MARKER_HEIGHT * factorY;
-    // 288.756px
-    // Calculate the new y position relative to the old image size
     const newY = markerPosition.relativeY * factorY - relativeMarkerHeight;
 
     return newY;
@@ -137,31 +129,72 @@ function Statistics() {
   if (!data) {
     return <div>Loading</div>;
   }
-  const filteredMarkerPositions = data
-    .map((element) => element[pageId]?.markerPosition)
+
+  const currentPageData = data.map((element) => element[pageId]);
+
+  const filteredMarkerPositions = currentPageData
+    .map((element) => element?.markerPosition)
     .filter((el) => el);
 
-  // filteredMarkerPositions.map((element) => {
-  //   const imageWidth = imageBounding?.width;
-  //   const imageHeight = imageBounding?.height;
-  //   if ()
-  //   const factorX = imageWidth / element[pageId].markerPosition.imageWidth;
-  //   const factorY = imageHeight / element[pageId].markerPosition.imageHeight;
-  //
-  //   return {
-  //     ...element[pageId].markerPosition,
-  //     factorX,
-  //     factorY,
-  //   };
-  // });
+  // console.log(currentPageData.map((element) => element);
+  const checkedFeelings = currentPageData.map(
+    (element) => element?.checkedFeelings
+  );
+  const feelingCounts = checkedFeelings.reduce(
+    (acc, curr) => {
+      if (!curr) return acc;
 
-  //     setMarkerPositions(markerPositionsData);
-  console.log(filteredMarkerPositions);
+      curr.forEach((feeling) => {
+        acc[feeling] = (acc[feeling] || 0) + 1;
+      });
+
+      return acc;
+    },
+    {} as { [key: string]: number }
+  );
+
+  const strengthValues = currentPageData
+    .map((element) => element?.strength)
+    .filter((el) => el);
+  const totalStrength =
+    strengthValues.length > 0 &&
+    strengthValues.reduce((acc, curr) => acc + (curr || 0), 0);
+  const averageStrength =
+    totalStrength && totalStrength / strengthValues.length;
+
+  const barChartData = {
+    labels: Object.keys(feelingCounts),
+    datasets: [
+      {
+        label: '# of Feelings',
+        data: Object.values(feelingCounts),
+        backgroundColor: '#FFFFFF',
+        borderColor: '#FFFFFF',
+        // backgroundColor: [
+        //   'rgba(255, 99, 132, 0.2)',
+        //   'rgba(54, 162, 235, 0.2)',
+        //   'rgba(255, 206, 86, 0.2)',
+        //   'rgba(75, 192, 192, 0.2)',
+        //   'rgba(153, 102, 255, 0.2)',
+        //   'rgba(255, 159, 64, 0.2)',
+        // ],
+        // borderColor: [
+        //   'rgba(255, 99, 132, 1)',
+        //   'rgba(54, 162, 235, 1)',
+        //   'rgba(255, 206, 86, 1)',
+        //   'rgba(75, 192, 192, 1)',
+        //   'rgba(153, 102, 255, 1)',
+        //   'rgba(255, 159, 64, 1)',
+        // ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <Main headerChildren="Statistik" forward={forward} back={back}>
-      <div className={`${classes.column}`}>
-        <div>
+      <div className={`${classes.column} ${classes.image}`}>
+        <div className={classes.imageWrapper}>
           <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
           {filteredMarkerPositions &&
             filteredMarkerPositions.map((markerPosition, index) => (
@@ -183,7 +216,17 @@ function Statistics() {
             ))}
         </div>
       </div>
-      <div>column</div>
+      <div className={classes.column}>
+        {Object.values(feelingCounts).length > 0 && (
+          <BarChart data={barChartData} options={options} />
+        )}
+        {averageStrength && (
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h2>Average Strength</h2>
+            <Strength disabled average={averageStrength} />
+          </div>
+        )}
+      </div>
     </Main>
   );
 }

@@ -5,9 +5,11 @@ import classes from '@/components/Strength.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
 interface StrengthProps {
-  hideStrength: boolean;
+  hideStrength?: boolean;
+  disabled?: boolean;
+  average?: number;
 }
-export function Strength({ hideStrength }: StrengthProps) {
+export function Strength({ average, hideStrength, disabled }: StrengthProps) {
   const { id } = useParams();
   const pageId = Number(id);
   const { setStrength } = useUserStore((state) => state.actions);
@@ -15,15 +17,15 @@ export function Strength({ hideStrength }: StrengthProps) {
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStrength(pageId, Number(event.target.value));
   };
+  console.log(average);
 
   return (
     <div className={`${hideStrength ? classes.hide : ''} ${classes.strength}`}>
       <span>10</span>
       <input
-        // orient="vertical"
-        // orient="vertical"
+        disabled={disabled}
         type="range"
-        value={strength ?? 0}
+        value={average ?? strength ?? 0}
         step={0.1}
         onChange={changeRangeHandler}
         min={1}

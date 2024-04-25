@@ -1,10 +1,13 @@
   .column{
-    position: relative;
     display: inline-flex;
     width: 50%;
-    flex-shrink: 1;
     align-items: flex-start;
-    div{
+    flex-direction: column;
+    &.image{
+    flex-shrink: 1;
+    position: relative;
+    }
+    .imageWrapper{
       display: flex;
         position: relative;
         //height: 100%;
@@ -12,6 +15,7 @@
         object-fit: contain;
         object-position: top left;
         height: 100%;
+        width: 100%;
       }
       .marker{
         position: absolute;
