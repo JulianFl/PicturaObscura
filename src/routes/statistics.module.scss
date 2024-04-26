@@ -12,10 +12,6 @@
         position: relative;
         //height: 100%;
       img{
-        object-fit: contain;
-        object-position: top left;
-        height: 100%;
-        width: 100%;
       }
       .marker{
         position: absolute;
@@ -24,5 +20,25 @@
         background-position: center;
         background-size: cover;
       }
+    }
+    &.landscape{
+        //width: 100%;
+        .imageWrapper{
+            height: auto;
+            img{
+            height: auto;
+            width: 100%;
+            }
+        }
+    }
+    &.portrait, &.square{
+        //width: 100%;
+        .imageWrapper{
+            height: 100%;
+            img{
+            height: 100%;
+            width: auto;
+            }
+        }
     }
 }

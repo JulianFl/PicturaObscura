@@ -207,7 +207,9 @@ function Statistics() {
 
   return (
     <Main headerChildren="Statistik" forward={forward} back={back}>
-      <div className={`${classes.column} ${classes.image}`}>
+      <div
+        className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
+      >
         <div className={classes.imageWrapper}>
           <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
           {filteredMarkerPositions &&

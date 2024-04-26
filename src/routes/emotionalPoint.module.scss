@@ -1,4 +1,11 @@
 .wrap-emotional-point{
-  display: flex;
   column-gap: 2rem;
+  opacity: 0;
+  display: none;
+
+  &:not(.hide) {
+    transition: opacity 0.5s;
+    opacity: 1;
+    display: flex;
+  }
 }

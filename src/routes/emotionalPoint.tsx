@@ -79,6 +79,7 @@ function EmotionalPoint() {
     // resetStore();
   };
   const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;
+  console.log(userData[pageId]?.markerPosition);
 
   return (
     <Main
@@ -91,16 +92,11 @@ function EmotionalPoint() {
       progress={progress}
     >
       <DraggableImage />
-      <div className={classes['wrap-emotional-point']}>
-        <Strength
-          hideStrength={
-            userData[pageId]?.markerPosition === undefined ||
-            userData[pageId]?.checkedFeelings === undefined
-          }
-        />
-        <Feelings
-          hideFeelings={userData[pageId]?.markerPosition === undefined}
-        />
+      <div
+        className={`${classes['wrap-emotional-point']} ${userData[pageId]?.markerPosition === undefined ? classes.hide : ''}`}
+      >
+        <Strength />
+        <Feelings />
       </div>
     </Main>
   );

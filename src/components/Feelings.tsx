@@ -6,10 +6,7 @@ import classes from '@/components/Feelings.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 import { FeelingType } from '@/types/types';
 
-interface FeelingsProps {
-  hideFeelings: boolean;
-}
-export function Feelings({ hideFeelings }: FeelingsProps) {
+export function Feelings() {
   const { id } = useParams();
   const pageId = Number(id);
   const { addFeeling, removeFeeling } = useUserStore((state) => state.actions);
@@ -29,7 +26,7 @@ export function Feelings({ hideFeelings }: FeelingsProps) {
   };
 
   return (
-    <ul className={`${hideFeelings ? classes.hide : ''} ${classes.feelings}`}>
+    <ul className={`${classes.feelings}`}>
       {step.feelings.map((feeling) => (
         <div key={`${step.id}${feeling}`}>
           <input
