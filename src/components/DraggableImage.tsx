@@ -1,13 +1,10 @@
-import { debounce } from 'chart.js/helpers';
-import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
-import marker from '@/assets/icons/pin.svg';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
-import { UserDataType } from '@/types/types';
 
 export const MARKER_WIDTH = 50;
 export const MARKER_HEIGHT = 50;
@@ -24,14 +21,13 @@ export function DraggableImage() {
   const nodeRef = useRef(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const startRef = useRef<HTMLDivElement>(null);
-
+  const [grabbed, setGrabbed] = useState(false);
+  console.log(markerPosition);
   const onStop = (event: DraggableEvent, data: DraggableData) => {
     const { node, x, y } = data;
     const imageElement = imgRef.current;
     if (imageElement) {
       const imageRect = imageElement.getBoundingClientRect();
-      console.log(startRef.current?.getBoundingClientRect());
       // const relativeX =
       //   node.getBoundingClientRect().x - imageRect.left + MARKER_WIDTH / 2;
       // const relativeY =
@@ -39,22 +35,31 @@ export function DraggableImage() {
       //
       const relativeX = node.getBoundingClientRect().x - imageRect.left;
       const relativeY = node.getBoundingClientRect().y - imageRect.top;
-      // if (relativeY > imageRect.height) {
-      //   console.log('out of bounds, below');
-      // }
-      // if (relativeY < 0) {
-      //   console.log('out of bounds, above');
-      // }
-      // if (relativeX > imageRect.width) {
-      //   console.log('out of bounds, right');
-      // }
-      // if (relativeX < 0) {
-      //   console.log('out of bounds, left');
-      // }
+      if (relativeY + MARKER_HEIGHT > imageRect.height) {
+        console.log('out of bounds, below');
+
+        return;
+      }
+      if (relativeY + MARKER_HEIGHT < 0) {
+        console.log('out of bounds, above');
+
+        return;
+      }
+      if (relativeX + MARKER_HEIGHT / 2 > imageRect.width) {
+        console.log('out of bounds, right');
+
+        return;
+      }
+      if (relativeX + MARKER_HEIGHT / 2 < 0) {
+        console.log('out of bounds, left');
+
+        return;
+      }
       // setStartPosition({
       //   x: startRef.current?.getBoundingClientRect().left ?? 0,
       //   y: startRef.current?.getBoundingClientRect().top ?? 0,
       // });
+      setGrabbed(false);
       setMarker(pageId, {
         x,
         y,
@@ -110,14 +115,18 @@ export function DraggableImage() {
         src={INITIAL_STEPS[pageId].image.url}
         ref={imgRef}
         alt="Bild"
-        width="auto"
-        height="auto"
+        width={INITIAL_STEPS[pageId].image.width}
+        height={INITIAL_STEPS[pageId].image.height}
         className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}
       />
-      <div ref={startRef}>
+      <div>
         <Draggable
           onStop={(event, data) => onStop(event, data)}
           nodeRef={nodeRef}
+          onMouseDown={(event) => {
+            event.stopPropagation();
+            setGrabbed(true);
+          }}
           position={{
             x: markerPosition?.x ?? 0,
             y: markerPosition?.y ?? 0,
@@ -125,7 +134,7 @@ export function DraggableImage() {
         >
           <svg
             ref={nodeRef}
-            className={`box ${classes['draggable-marker']}`}
+            className={`box ${classes['draggable-marker']} ${!grabbed && markerPosition === undefined ? classes.animate : ''}`}
             fill="white"
             xmlns="http://www.w3.org/2000/svg"
             height={MARKER_HEIGHT}

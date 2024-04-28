@@ -17,7 +17,7 @@ export function Strength({ average, hideStrength, disabled }: StrengthProps) {
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStrength(pageId, Number(event.target.value));
   };
-  console.log(average);
+  // console.log(average);
 
   return (
     <div className={`${hideStrength ? classes.hide : ''} ${classes.strength}`}>

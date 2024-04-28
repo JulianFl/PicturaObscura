@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Back from '@/assets/icons/arrow_back.svg?react';
 import Forward from '@/assets/icons/arrow_forward.svg?react';
@@ -17,7 +17,7 @@ export interface HeaderProps {
 }
 export function Header({ onLastStep, children, forward, back }: HeaderProps) {
   const { resetStore } = useUserStore((state) => state.actions);
-
+  const navigate = useNavigate();
   const forwardOutput = () => {
     if (onLastStep) {
       return (
@@ -43,7 +43,12 @@ export function Header({ onLastStep, children, forward, back }: HeaderProps) {
     <header className={classes.header}>
       {children && <h3>{children}</h3>}
       <div className={classes['button-group']}>
-        <PrimaryButton onClick={() => resetStore()}>
+        <PrimaryButton
+          onClick={() => {
+            navigate('/emotional-point/0');
+            resetStore();
+          }}
+        >
           <Cancel fill="white" />
         </PrimaryButton>
         {back && (

@@ -150,7 +150,7 @@ function Statistics() {
   const filteredMarkerPositions = currentPageData
     .map((element) => element?.markerPosition)
     .filter((el) => el);
-
+  console.log('filteredMarkerPositions', filteredMarkerPositions);
   const checkedFeelings = currentPageData
     .map((element) => element?.checkedFeelings)
     .filter((el) => el);
@@ -210,6 +210,7 @@ function Statistics() {
       <div
         className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
       >
+        {/* <h3>Anzahl Marker: {filteredMarkerPositions.length}</h3> */}
         <div className={classes.imageWrapper}>
           <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
           {filteredMarkerPositions &&

@@ -1,6 +1,10 @@
+import dayjs from 'dayjs';
+import locale from 'dayjs/locale/fr';
+import localizedFomat from 'dayjs/plugin/localizedFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { doc, setDoc } from 'firebase/firestore';
-import React, { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { Suspense, useEffect } from 'react';
+import { useParams, useNavigate, useRoutes } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
@@ -12,6 +16,21 @@ import { db } from '@/firebase';
 import classes from '@/routes/emotionalPoint.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
+const localesArray = [
+  'de',
+  'en',
+  'ar',
+  'es',
+  'fr',
+  'it',
+  'ja',
+  'ko',
+  'nl',
+  'pt',
+  'ru',
+  'zh',
+];
+
 // const HEADER_DEFAULT_TEXT =
 //   'Place the pin where you feel the most emotion in the picture, then choose which emotion it evoked and finally how much emotion this image gives you overall >';
 
@@ -21,15 +40,28 @@ const HEADERTEXT_FIRSTPAGE_FEELINGS =
   'Choose the emotion this image triggered in you';
 const HEADERTEXT_FIRSTPAGE_STRENGTH = 'How strong is this feeling?';
 
+dayjs.extend(localizedFomat);
+dayjs.extend(relativeTime);
+dayjs.locale(locale);
+
 function EmotionalPoint() {
   const { userData } = useUserStore();
   const { resetStore } = useUserStore((state) => state.actions);
+  // const [localeString, setLocaleString] = React.useState('fr');
+
   const { id } = useParams();
   const pageId = Number(id);
   const forward = `/emotional-point/${pageId + 1}`;
   const back: string | undefined = `/emotional-point/${pageId - 1}`;
   const navigate = useNavigate();
-
+  // const date123 = Date.now();
+  const tmeFromNowValue = dayjs('1999-01-01').fromNow();
+  // const getLocales = async (language: string) => {
+  //   if (localesArray.includes(localeString)) {
+  //     dayjs.locale(locale);
+  //     const module = await import(`./dir/${file}.js`);
+  //   }
+  // };
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -71,15 +103,15 @@ function EmotionalPoint() {
   if (userData[pageId]?.checkedFeelings) {
     headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
   }
-
   const lastStepHandler = async () => {
     const userId = uuidv4();
 
     await setDoc(doc(db, 'pictura', userId), userData);
-    // resetStore();
+    resetStore();
+    navigate('/statistics/0');
   };
   const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;
-  console.log(userData[pageId]?.markerPosition);
+  // console.log(userData[pageId]?.markerPosition);
 
   return (
     <Main
@@ -91,6 +123,8 @@ function EmotionalPoint() {
       }
       progress={progress}
     >
+      {/* {dayjs().format('L LT')} */}
+      {/* {tmeFromNowValue} */}
       <DraggableImage />
       <div
         className={`${classes['wrap-emotional-point']} ${userData[pageId]?.markerPosition === undefined ? classes.hide : ''}`}

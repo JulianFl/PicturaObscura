@@ -3,6 +3,9 @@
     width: 50%;
     align-items: flex-start;
     flex-direction: column;
+    h3{
+
+    }
     &.image{
     flex-shrink: 1;
     position: relative;
@@ -19,6 +22,7 @@
         background-image: url("@/assets/icons/pin.svg");
         background-position: center;
         background-size: cover;
+
       }
     }
     &.landscape{
@@ -42,3 +46,26 @@
         }
     }
 }
+  @media screen and (max-width: 768px) {
+    .column{
+      width: 100%;
+      &.image{
+        width: 100%;
+        .imageWrapper{
+          img{
+          }
+        }
+        &.portrait, &.square{
+          //width: 100%;
+          .imageWrapper{
+            height: auto;
+            width: 80%;
+            img{
+              height: auto;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }

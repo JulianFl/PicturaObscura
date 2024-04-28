@@ -26,7 +26,7 @@ export function Feelings() {
   };
 
   return (
-    <ul className={`${classes.feelings}`}>
+    <section className={`${classes.feelings}`}>
       {step.feelings.map((feeling) => (
         <div key={`${step.id}${feeling}`}>
           <input
@@ -39,6 +39,6 @@ export function Feelings() {
           <label htmlFor={`${step.id}${feeling}`}>{feeling}</label>
         </div>
       ))}
-    </ul>
+    </section>
   );
 }
