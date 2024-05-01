@@ -16,20 +16,20 @@ export const INITIAL_STEPS: StepProps[] = [
     id: 0,
     feelings: FeelingsList,
     image: {
-      width: 940,
-      height: 627,
-      url: '1d9dcb21-9b4c-44fc-b805-01ef60490411.jpg',
-      aspectRatio: 'landscape',
+      height: 1201,
+      width: 880,
+      url: '1ea4716b-c54c-4762-98f3-981289416ed8.jpg',
+      aspectRatio: 'portrait',
     },
   },
   {
     id: 1,
     feelings: FeelingsList,
     image: {
-      height: 1201,
-      width: 880,
-      url: '1ea4716b-c54c-4762-98f3-981289416ed8.jpg',
+      height: 1379,
+      width: 2000,
       aspectRatio: 'portrait',
+      url: '9c447f4f-0741-48b9-97af-9ce78b4afe9e.jpg',
     },
   },
   {
@@ -66,10 +66,10 @@ export const INITIAL_STEPS: StepProps[] = [
     id: 5,
     feelings: FeelingsList,
     image: {
-      height: 1379,
-      width: 2000,
-      aspectRatio: 'portrait',
-      url: '9c447f4f-0741-48b9-97af-9ce78b4afe9e.jpg',
+      width: 940,
+      height: 627,
+      url: '1d9dcb21-9b4c-44fc-b805-01ef60490411.jpg',
+      aspectRatio: 'landscape',
     },
   },
   {
