@@ -5,6 +5,7 @@ import '@/assets/reset.css';
 import '@/assets/fonts.scss';
 import '@/assets/styles.scss';
 
+import Dayjs from '@/routes/dayjs';
 import EmotionalPoint from '@/routes/emotionalPoint';
 import Intro from '@/routes/root/intro';
 import Root from '@/routes/root/root';
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: 'statistics/:id',
     element: <Statistics />,
+  },
+  {
+    path: 'dayjs/:locale',
+    element: <Dayjs />,
   },
 ]);
 

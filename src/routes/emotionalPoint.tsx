@@ -16,21 +16,6 @@ import { db } from '@/firebase';
 import classes from '@/routes/emotionalPoint.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
-const localesArray = [
-  'de',
-  'en',
-  'ar',
-  'es',
-  'fr',
-  'it',
-  'ja',
-  'ko',
-  'nl',
-  'pt',
-  'ru',
-  'zh',
-];
-
 // const HEADER_DEFAULT_TEXT =
 //   'Place the pin where you feel the most emotion in the picture, then choose which emotion it evoked and finally how much emotion this image gives you overall >';
 
@@ -39,10 +24,6 @@ const HEADERTEXT_FIRSTPAGE_PIN =
 const HEADERTEXT_FIRSTPAGE_FEELINGS =
   'Choose the emotion this image triggered in you';
 const HEADERTEXT_FIRSTPAGE_STRENGTH = 'How strong is this feeling?';
-
-dayjs.extend(localizedFomat);
-dayjs.extend(relativeTime);
-dayjs.locale(locale);
 
 function EmotionalPoint() {
   const { userData } = useUserStore();
@@ -54,14 +35,7 @@ function EmotionalPoint() {
   const forward = `/emotional-point/${pageId + 1}`;
   const back: string | undefined = `/emotional-point/${pageId - 1}`;
   const navigate = useNavigate();
-  // const date123 = Date.now();
-  const tmeFromNowValue = dayjs('1999-01-01').fromNow();
-  // const getLocales = async (language: string) => {
-  //   if (localesArray.includes(localeString)) {
-  //     dayjs.locale(locale);
-  //     const module = await import(`./dir/${file}.js`);
-  //   }
-  // };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -74,6 +48,9 @@ function EmotionalPoint() {
         case 'ArrowLeft':
           if (pageId > 0) {
             navigate(`/emotional-point/${pageId - 1}`);
+          }
+          if (pageId === 0) {
+            navigate(`/intro`);
           }
           break;
         default:
@@ -116,15 +93,13 @@ function EmotionalPoint() {
   return (
     <Main
       forward={forward}
-      back={pageId > 0 ? back : undefined}
+      back={pageId > 0 ? back : '/intro'}
       headerChildren={headerChildren}
       onLastStep={
         pageId >= INITIAL_STEPS.length - 1 ? lastStepHandler : undefined
       }
       progress={progress}
     >
-      {/* {dayjs().format('L LT')} */}
-      {/* {tmeFromNowValue} */}
       <DraggableImage />
       <div
         className={`${classes['wrap-emotional-point']} ${userData[pageId]?.markerPosition === undefined ? classes.hide : ''}`}

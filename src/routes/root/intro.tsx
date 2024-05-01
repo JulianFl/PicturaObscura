@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Main } from '@/components/UI/Main';
 
 function Intro() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowRight':
+          navigate(`/emotional-point/0`);
+
+          break;
+        case 'ArrowLeft':
+          navigate(`/`);
+
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [navigate]);
+
   return (
     <Main
       forward="/emotional-point/0"
+      back="/"
       headerChildren="Teil 1/3: Den emotionalen Punkt des Bildes erkennen"
       className="intro"
     >

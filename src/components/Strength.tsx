@@ -5,11 +5,10 @@ import classes from '@/components/Strength.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
 interface StrengthProps {
-  hideStrength?: boolean;
   disabled?: boolean;
   average?: number;
 }
-export function Strength({ average, hideStrength, disabled }: StrengthProps) {
+export function Strength({ average, disabled }: StrengthProps) {
   const { id } = useParams();
   const pageId = Number(id);
   const { setStrength } = useUserStore((state) => state.actions);
@@ -20,7 +19,7 @@ export function Strength({ average, hideStrength, disabled }: StrengthProps) {
   // console.log(average);
 
   return (
-    <div className={`${hideStrength ? classes.hide : ''} ${classes.strength}`}>
+    <div className={`${classes.strength}`}>
       <span>10</span>
       <input
         disabled={disabled}
