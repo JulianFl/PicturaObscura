@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import locale from 'dayjs/locale/fr';
 import localizedFomat from 'dayjs/plugin/localizedFormat';
@@ -13,6 +14,7 @@ import { Feelings } from '@/components/Feelings';
 import { Strength } from '@/components/Strength';
 import { Main } from '@/components/UI/Main';
 import { db } from '@/firebase';
+import { useSendData } from '@/mutation';
 import classes from '@/routes/emotionalPoint.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
@@ -28,13 +30,26 @@ const HEADERTEXT_FIRSTPAGE_STRENGTH = 'How strong is this feeling?';
 function EmotionalPoint() {
   const { userData } = useUserStore();
   const { resetStore } = useUserStore((state) => state.actions);
+  const navigate = useNavigate();
+
+  const sendData = useSendData();
+  const lastStepHandler = async () => {
+    const userId = uuidv4();
+    await sendData.mutateAsync({ id: userId, userData });
+    resetStore();
+    navigate('/statistics/0');
+  };
+
+  // const sendData = useMutation({
+  //   mutationKey: ['sendData'],
+  //   mutationFn: lastStepHandler,
+  // });
   // const [localeString, setLocaleString] = React.useState('fr');
 
   const { id } = useParams();
   const pageId = Number(id);
   const forward = `/emotional-point/${pageId + 1}`;
   const back: string | undefined = `/emotional-point/${pageId - 1}`;
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -80,13 +95,7 @@ function EmotionalPoint() {
   if (userData[pageId]?.checkedFeelings) {
     headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
   }
-  const lastStepHandler = async () => {
-    const userId = uuidv4();
 
-    await setDoc(doc(db, 'pictura', userId), userData);
-    resetStore();
-    navigate('/statistics/0');
-  };
   const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;
   // console.log(userData[pageId]?.markerPosition);
 
@@ -100,13 +109,19 @@ function EmotionalPoint() {
       }
       progress={progress}
     >
-      <DraggableImage />
-      <div
-        className={`${classes['wrap-emotional-point']} ${userData[pageId]?.markerPosition === undefined ? classes.hide : ''}`}
-      >
-        <Strength />
-        <Feelings />
-      </div>
+      {sendData.isPending ? (
+        <p>loading...</p>
+      ) : (
+        <>
+          <DraggableImage />
+          <div
+            className={`${classes['wrap-emotional-point']} ${userData[pageId]?.markerPosition === undefined ? classes.hide : ''}`}
+          >
+            <Strength />
+            <Feelings />
+          </div>
+        </>
+      )}
     </Main>
   );
 }

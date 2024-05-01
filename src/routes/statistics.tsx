@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import Chart from 'chart.js/auto';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
@@ -43,7 +44,7 @@ interface DBDataProps {
 }
 function Statistics() {
   const imageRef = useRef<HTMLImageElement>(null);
-  const [data, setData] = useState<DBDataProps[]>();
+  // const [data, setData] = useState<DBDataProps[]>();
   const [imageBounding, setImageBounding] = useState<DOMRect>();
   const { id } = useParams();
 
@@ -52,18 +53,29 @@ function Statistics() {
   const forward = `/statistics/${pageId + 1}`;
   const back: string | undefined = `/statistics/${pageId - 1}`;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
+  const { data, isPending, error } = useQuery({
+    queryKey: ['data'],
+    queryFn: async () => {
       const querySnapshot = await getDocs(collection(db, 'pictura'));
       const documents = querySnapshot.docs.map(
         (doc) => doc.data() as DBDataProps
       );
-      setData(documents);
-    };
 
-    fetchData();
-  }, []);
+      // setData(documents);
+      return documents;
+    },
+  });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const querySnapshot = await getDocs(collection(db, 'pictura'));
+  //     const documents = querySnapshot.docs.map(
+  //       (doc) => doc.data() as DBDataProps
+  //     );
+  //     setData(documents);
+  //   };
+  //
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -141,7 +153,7 @@ function Statistics() {
       setImageBounding(imageRect);
     }
   };
-  if (!data) {
+  if (isPending || !data) {
     return <div>Loading</div>;
   }
 
@@ -150,7 +162,7 @@ function Statistics() {
   const filteredMarkerPositions = currentPageData
     .map((element) => element?.markerPosition)
     .filter((el) => el);
-  console.log('filteredMarkerPositions', filteredMarkerPositions);
+
   const checkedFeelings = currentPageData
     .map((element) => element?.checkedFeelings)
     .filter((el) => el);

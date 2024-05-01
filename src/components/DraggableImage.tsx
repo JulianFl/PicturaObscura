@@ -22,7 +22,6 @@ export function DraggableImage() {
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [grabbed, setGrabbed] = useState(false);
-  console.log(markerPosition);
   const onStop = (event: DraggableEvent, data: DraggableData) => {
     const { node, x, y } = data;
     const imageElement = imgRef.current;
