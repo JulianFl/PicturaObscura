@@ -23,6 +23,8 @@ export function DraggableImage() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [grabbed, setGrabbed] = useState(false);
   const onStop = (event: DraggableEvent, data: DraggableData) => {
+    event.stopPropagation();
+
     const { node, x, y } = data;
     const imageElement = imgRef.current;
     if (imageElement) {
@@ -58,6 +60,15 @@ export function DraggableImage() {
       //   x: startRef.current?.getBoundingClientRect().left ?? 0,
       //   y: startRef.current?.getBoundingClientRect().top ?? 0,
       // });
+      console.log(
+        'onStop',
+        x,
+        y,
+        relativeX,
+        relativeY,
+        imageRect.width,
+        imageRect.height
+      );
       setGrabbed(false);
       setMarker(pageId, {
         x,

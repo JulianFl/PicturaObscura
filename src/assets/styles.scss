@@ -25,6 +25,7 @@ progress{
   width: 100%;
   height: .5rem;
   border-radius: 0.5rem;
+  border-color: black;
   display: flex;
   background-color: var(--color-black);
   &::-webkit-progress-bar{

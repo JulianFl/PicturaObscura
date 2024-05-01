@@ -28,6 +28,10 @@
     cursor: move;
     left: 100%;
     top: 0;
+    z-index: 1;
+    //-webkit-user-drag: element;
+    touch-action: none;
+
     &.animate{
       animation: bounce2 2s ease infinite;
     }

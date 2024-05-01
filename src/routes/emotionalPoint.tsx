@@ -91,7 +91,6 @@ function EmotionalPoint() {
   }
 
   const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;
-  // console.log(userData[pageId]?.markerPosition);
 
   return (
     <Main
