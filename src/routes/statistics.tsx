@@ -13,6 +13,7 @@ import { Main } from '@/components/UI/Main';
 import { db } from '@/firebase';
 import classes from '@/routes/statistics.module.scss';
 import { MarkerPositionType, UserDataType } from '@/types/types';
+import { getImageUrl } from '@/utils/image-util';
 
 // Configuration options for the chart
 const options = {
@@ -50,7 +51,7 @@ function Statistics() {
   const { id } = useParams();
 
   const pageId = Number(id);
-  const image = INITIAL_STEPS[pageId].image.url;
+  const image = getImageUrl(INITIAL_STEPS[pageId].image.url);
   const forward = `/statistics/${pageId + 1}`;
   const back: string | undefined = `/statistics/${pageId - 1}`;
   const navigate = useNavigate();

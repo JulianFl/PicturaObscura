@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
+import { getImageUrl } from '@/utils/image-util';
 
 export const MARKER_WIDTH = 50;
 export const MARKER_HEIGHT = 50;
@@ -116,13 +117,14 @@ export function DraggableImage() {
       window.removeEventListener('resize', handleResize);
     };
   }, [imgRef, markerPosition, pageId, setMarker]);
+
   // TODO Marker hat nicht die Maße 50 zu 50
 
   return (
     <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       {/* <div style={{ display: 'flex' }}> */}
       <img
-        src={INITIAL_STEPS[pageId].image.url}
+        src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
         ref={imgRef}
         alt="Bild"
         width={INITIAL_STEPS[pageId].image.width}
