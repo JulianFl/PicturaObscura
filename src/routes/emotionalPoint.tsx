@@ -1,19 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import locale from 'dayjs/locale/fr';
-import localizedFomat from 'dayjs/plugin/localizedFormat';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { doc, setDoc } from 'firebase/firestore';
-import React, { Suspense, useEffect } from 'react';
-import { useParams, useNavigate, useRoutes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import { DraggableImage } from '@/components/DraggableImage';
 import { Feelings } from '@/components/Feelings';
+import { IsLoading } from '@/components/IsLoading';
 import { Strength } from '@/components/Strength';
 import { Main } from '@/components/UI/Main';
-import { db } from '@/firebase';
 import { useSendData } from '@/mutation';
 import classes from '@/routes/emotionalPoint.module.scss';
 import { useUserStore } from '@/store/useUserStore';
@@ -110,7 +104,7 @@ function EmotionalPoint() {
       progress={progress}
     >
       {sendData.isPending ? (
-        <p>loading...</p>
+        <IsLoading />
       ) : (
         <>
           <DraggableImage />

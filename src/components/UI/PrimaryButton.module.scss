@@ -11,7 +11,12 @@
   cursor: pointer;
   background-color: #f44336;
   svg{
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  &.finish{
+    background-color: #66bb6a;
+    border-color: #66bb6a;
+    margin-left: .5rem;
   }
 }

@@ -29,6 +29,21 @@
         background-color: #66bb6a;
       }
     }
+    .back{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-white);
+      color: var(--color-black);
+      text-decoration: none;
+      border-radius: 4px;
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-left: .5rem;
+      svg {
+        transform: rotate(180deg);
+      }
+    }
   }
 }
 @media screen and (max-width: 768px) {

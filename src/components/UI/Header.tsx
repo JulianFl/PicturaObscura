@@ -23,6 +23,7 @@ export function Header({ onLastStep, children, forward, back }: HeaderProps) {
       return (
         <PrimaryButton
           onClick={onLastStep}
+          isFinish
           // style={{ backgroundColor: '#66bb6a' }}
           // className={classes.next}
           // to="/personal-references"
@@ -52,8 +53,8 @@ export function Header({ onLastStep, children, forward, back }: HeaderProps) {
           <Cancel fill="white" />
         </PrimaryButton>
         {back && (
-          <Link className={classes.next} to={back}>
-            <Back />
+          <Link className={classes.back} to={back}>
+            <Forward />
           </Link>
         )}
         {forwardOutput()}
