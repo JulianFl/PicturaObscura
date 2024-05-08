@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/DraggableImage.module.scss';
+import { IsLoading } from '@/components/IsLoading';
 import { useUserStore } from '@/store/useUserStore';
 import { getImageUrl } from '@/utils/image-util';
 
@@ -17,12 +18,35 @@ export function DraggableImage() {
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
   );
-
+  const [isLoading, setIsLoading] = useState(true);
   const userData = useUserStore((state) => state.userData);
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [grabbed, setGrabbed] = useState(false);
+  const imageClickHandler = (
+    event: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    const imageElement = imgRef.current;
+    const markerElement = nodeRef.current;
+    console.log('clicked');
+    if (imageElement && markerElement) {
+      const imageRect = imageElement.getBoundingClientRect();
+      const markerRect = markerElement.getBoundingClientRect();
+      const relativeX = event.clientX - markerRect.left;
+      const relativeY = event.clientY - markerRect.top;
+      const oldMarkerPosition = markerPosition || { x: 0, y: 0 };
+      setMarker(pageId, {
+        x: oldMarkerPosition.x + relativeX - MARKER_WIDTH / 2,
+        y: oldMarkerPosition.y + relativeY - MARKER_HEIGHT,
+        relativeX: oldMarkerPosition.x + relativeX,
+        relativeY: oldMarkerPosition.y + relativeY,
+        imageWidth: imageRect.width,
+        imageHeight: imageRect.height,
+        clicked: true,
+      });
+    }
+  };
   const onStop = (event: DraggableEvent, data: DraggableData) => {
     event.stopPropagation();
 
@@ -119,10 +143,11 @@ export function DraggableImage() {
   }, [imgRef, markerPosition, pageId, setMarker]);
 
   // TODO Marker hat nicht die Maße 50 zu 50
-
   return (
     <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       {/* <div style={{ display: 'flex' }}> */}
+      {isLoading && <div className={classes.loading} />}
+
       <img
         src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
         ref={imgRef}
@@ -130,7 +155,10 @@ export function DraggableImage() {
         width={INITIAL_STEPS[pageId].image.width}
         height={INITIAL_STEPS[pageId].image.height}
         className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}
+        onClick={(event) => imageClickHandler(event)}
+        onLoad={() => setIsLoading(false)}
       />
+
       <div>
         <Draggable
           onStop={(event, data) => onStop(event, data)}

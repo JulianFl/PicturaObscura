@@ -15,6 +15,7 @@ export type MarkerPositionType = {
   relativeY: number;
   imageWidth: number;
   imageHeight: number;
+  clicked?: boolean;
 };
 
 export type UserDataType = {

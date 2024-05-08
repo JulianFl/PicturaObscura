@@ -121,19 +121,20 @@ function Statistics() {
     };
   }, []);
   const left = (markerPosition: MarkerPositionType | undefined) => {
+    console.log(markerPosition);
     if (!markerPosition || !imageBounding) {
       return 0;
     }
     const imageWidth = imageBounding?.width;
 
     const factorX = imageWidth / markerPosition.imageWidth;
-
     const newMarkerWidth = MARKER_WIDTH - MARKER_WIDTH * factorX;
 
     const relativeMarkerWidth = newMarkerWidth / 2;
 
     // Calculate the new x position relative to the old image size
     const newX = markerPosition.relativeX * factorX;
+    console.log(newX - relativeMarkerWidth);
 
     return newX - relativeMarkerWidth;
   };
