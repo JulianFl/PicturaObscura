@@ -1,98 +1,56 @@
 import dayjs from 'dayjs';
-import de from 'dayjs/locale/de';
 import localizedFomat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { onCLS, onINP, onLCP } from 'web-vitals/attribution';
 
-const localesArray = [
-  'de',
-  'en',
-  'ar',
-  'es',
-  'fr',
-  'it',
-  'ja',
-  'ko',
-  'nl',
-  'pt',
-  'ru',
-  'zh',
-];
+import { locales } from '@/dayjs/locale/locales';
+import classes from '@/routes/dayjs.module.scss';
+
+const localesMapped = Object.entries(locales).map(([key, value]) => ({
+  key,
+  name: value.name,
+}));
+const first = localesMapped[0];
+
 dayjs.extend(localizedFomat);
 dayjs.extend(relativeTime);
+// @ts-ignore
+dayjs.locale(first.name, locales[first.key]);
 
-// dayjs.locale(locale);
 function Dayjs() {
-  const { locale } = useParams();
-  console.log(locale);
-  // const date123 = Date.now();
-  const tmeFromNowValue = dayjs('1999-01-01').fromNow();
-  console.log(de);
-  // dayjs.locale(locale);
-  // const module = await import(`./dir/${file}.js`);
-  const getLanguage = async () => {
-    // const lang = await getLanguage();
-    /**
-     * We manually use relative path import to make the rollup plugin happy.
-     */
-    const translations = await import(
-      `../../node_modules/dayjs/locale/${locale}.js`
-    );
-    console.log(translations);
-    // translations = !lang.startsWith('en')
-    //   ? await modules[`./${lang}.js`]()
-    //   : await modules[`./en-us.js`]();
-  };
-  //
-  // useEffect(() => {
-  //   const loadLocale = async () => {
-  //     if (locale && localesArray.includes(locale)) {
-  //       try {
-  //         const module = await import(`dayjs/locale/${locale}.js`);
-  //         console.log(module);
-  //         // dayjs.locale(module.default);
-  //       } catch (error) {
-  //         console.error(`Failed to load locale: ${locale}`, error);
-  //       }
-  //     }
-  //   };
-  //
-  //   loadLocale();
-  // }, [locale]);
+  const [locale, setLocale] = useState(first.name);
 
-  // const getLocales = async (language: string) => {
-  //   if (localesArray.includes(localeString)) {
-  //     dayjs.locale(locale);
-  //     const module = await import(`./dir/${file}.js`);
-  //   }
-  // };
+  const getLanguage = (localeElement: { key: string; name: string }) => {
+    // @ts-ignore
+    dayjs.locale(locales[localeElement.name], locales[localeElement.key]);
+    setLocale(localeElement.name);
+  };
+
   return (
-    <div>
+    <section className={classes.dayjs}>
       <h1
         style={{
           margin: '1rem',
         }}
       >
-        Dayjs
+        Day.js
       </h1>
-      <button type="button" onClick={getLanguage}>
-        GetLanguage
-      </button>
-      {localesArray.map((localeElement) => (
-        <Link
-          style={{
-            margin: '1rem',
-          }}
-          to={`/dayjs/${localeElement}`}
-          key={localeElement}
-        >
-          {localeElement}
-        </Link>
-      ))}
-      {dayjs().format('L LT')}
+      <div className={classes.locales}>
+        {localesMapped.map((localeElement) => (
+          <button
+            type="button"
+            onClick={() => getLanguage(localeElement)}
+            key={localeElement.name}
+            disabled={locale === localeElement.name}
+          >
+            {localeElement.name}
+          </button>
+        ))}
+      </div>
+      <div className={classes.date}>{dayjs().format('LLLL')}</div>
       {/* {tmeFromNowValue} */}
-    </div>
+    </section>
   );
 }
 // eslint-disable-next-line import/no-default-export

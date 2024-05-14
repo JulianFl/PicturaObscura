@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     element: <Statistics />,
   },
   {
-    path: 'dayjs/:locale',
+    path: 'dayjs',
     element: <Dayjs />,
   },
 ]);
