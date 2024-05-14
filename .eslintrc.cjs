@@ -9,7 +9,7 @@ module.exports = {
 
   parserOptions: { project: './tsconfig.json' },
 
-  ignorePatterns: ['.eslintrc.cjs'],
+  ignorePatterns: ['.eslintrc.cjs', 'src/dayjs/locales/*.ts'],
   parser: '@typescript-eslint/parser',
   rules: {
     'id-denylist': ['error', 'cb', 'e', 'err', 'ev', 'i', 'j', 'val'],
