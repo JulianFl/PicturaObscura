@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import Back from '@/assets/icons/arrow_back.svg?react';
 import Forward from '@/assets/icons/arrow_forward.svg?react';
 import Cancel from '@/assets/icons/cancel.svg?react';
 import Check from '@/assets/icons/check.svg?react';

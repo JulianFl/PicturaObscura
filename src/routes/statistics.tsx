@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import Chart from 'chart.js/auto';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

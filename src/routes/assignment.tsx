@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { onCLS, onINP, onLCP } from 'web-vitals/attribution';
+import React from 'react';
 
 import { DayJs } from '@/components/Assignment/DayJs';
 import { Vitals } from '@/components/Assignment/Vitals';
 import classes from '@/routes/assignment.module.scss';
-import { useVitalsStore } from '@/store/useVitalsStore';
 
 function Assignment() {
   return (

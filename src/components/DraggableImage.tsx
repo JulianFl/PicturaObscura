@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/DraggableImage.module.scss';
-import { IsLoading } from '@/components/IsLoading';
 import { useUserStore } from '@/store/useUserStore';
 import { getImageUrl } from '@/utils/image-util';
 
@@ -20,7 +19,7 @@ export function DraggableImage() {
   );
   const [isLoading, setIsLoading] = useState(true);
   const userData = useUserStore((state) => state.userData);
-  const nodeRef = useRef<HTMLElement>(null);
+  const nodeRef = useRef<any>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [grabbed, setGrabbed] = useState(false);

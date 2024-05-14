@@ -1,8 +1,6 @@
-import * as dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { INITIAL_STEPS } from '@/InitialSteps';
 import { Main } from '@/components/UI/Main';
 
 function Root() {
