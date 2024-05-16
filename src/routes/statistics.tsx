@@ -134,11 +134,6 @@ function Statistics() {
     .map((element) => element[pageId])
     .filter((el) => el);
 
-  console.log(currentPageData);
-  const filteredMarkerPositions = currentPageData
-    .map((element) => element?.markerPosition)
-    .filter((el) => el);
-
   const checkedFeelings = currentPageData
     .map((element) => element?.checkedFeeling)
     .filter((el) => el);
@@ -161,16 +156,14 @@ function Statistics() {
   const averageStrength =
     totalStrength && totalStrength / strengthValues.length;
 
-  const barColors = checkedFeelings.map((el) => el?.color);
-
   const barChartData = {
     labels: Object.keys(feelingCounts),
     datasets: [
       {
         label: '# of Feelings',
         data: Object.values(feelingCounts),
-        backgroundColor: barColors,
-        borderColor: barColors,
+        backgroundColor: '#fff',
+        borderColor: '#fff',
         borderWidth: 1,
       },
     ],
