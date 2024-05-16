@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { UserDataProps } from '@/types/interfaces';
-import { FeelingType, MarkerPositionType } from '@/types/types';
+import { FeelingProps, FeelingType, MarkerPositionType } from '@/types/types';
 
 type UserState = {
   userData: UserDataProps;
@@ -11,8 +11,8 @@ type UserState = {
     setMarker: (id: number, draggableData: MarkerPositionType) => void;
     resetMarker: (id: number) => void;
     setStrength: (id: number, strength: number) => void;
-    addFeeling: (id: number, value: string) => void;
-    removeFeeling: (id: number, value: string) => void;
+    addFeeling: (id: number, feeling: FeelingProps | undefined) => void;
+    // removeFeeling: (id: number, value: string) => void;
     resetStore: () => void;
   };
 };
@@ -51,24 +51,19 @@ export const useUserStore = create<UserState>()(
               if (!state.userData[id]) {
                 state.userData[id] = {};
               }
-              state.userData[id].checkedFeelings = [
-                ...new Set([
-                  ...(state.userData[id].checkedFeelings || []),
-                  feeling,
-                ]),
-              ];
+              state.userData[id].checkedFeeling = feeling;
             })
           ),
-        removeFeeling: (id, feeling) =>
-          set(
-            produce((state) => {
-              state.userData[id].checkedFeelings = state.userData[
-                id
-              ].checkedFeelings?.filter(
-                (element: FeelingType) => element !== feeling
-              );
-            })
-          ),
+        // removeFeeling: (id, feeling) =>
+        //   set(
+        //     produce((state) => {
+        //       state.userData[id].checkedFeelings = state.userData[
+        //         id
+        //       ].checkedFeelings?.filter(
+        //         (element: FeelingType) => element !== feeling
+        //       );
+        //     })
+        //   ),
         setMarker: (id, data) =>
           set(
             produce((state) => {

@@ -1,12 +1,24 @@
 export type FeelingType =
-  | 'Freude'
-  | 'Trauer'
-  | 'Ekel'
-  | 'Angst'
-  | 'Wut'
-  | 'Ehrfurcht'
-  | 'Schock'
-  | 'No Emotion';
+  | 'Joy'
+  | 'Love'
+  | 'Sadness'
+  | 'Disgust'
+  | 'Fear'
+  | 'Anger'
+  | 'Awe'
+  | 'Shock';
+export interface FeelingProps {
+  key: FeelingType;
+  color:
+    | '#fceb04'
+    | '#e3010b'
+    | '#0051d4'
+    | '#6dd90a'
+    | '#17cbdb'
+    | '#5e0899'
+    | '#fe1faa'
+    | '#f78100';
+}
 
 export type MarkerPositionType = {
   x: number;
@@ -20,6 +32,6 @@ export type MarkerPositionType = {
 
 export type UserDataType = {
   markerPosition?: MarkerPositionType;
-  checkedFeelings?: FeelingType[];
+  checkedFeeling?: FeelingProps;
   strength?: number;
 };

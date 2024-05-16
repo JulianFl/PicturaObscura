@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Forward from '@/assets/icons/arrow_forward.svg?react';
-import Cancel from '@/assets/icons/cancel.svg?react';
 import Check from '@/assets/icons/check.svg?react';
+import Close from '@/assets/icons/close.svg?react';
 import classes from '@/components/UI/Header.module.scss';
 import { PrimaryButton } from '@/components/UI/PrimaryButton';
 import { useUserStore } from '@/store/useUserStore';
@@ -45,11 +45,11 @@ export function Header({ onLastStep, children, forward, back }: HeaderProps) {
       <div className={classes['button-group']}>
         <PrimaryButton
           onClick={() => {
-            navigate('/emotional-point/0');
+            navigate('/');
             resetStore();
           }}
         >
-          <Cancel fill="white" />
+          <Close fill="black" />
         </PrimaryButton>
         {back && (
           <Link className={classes.back} to={back}>

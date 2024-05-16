@@ -16,13 +16,20 @@
         //height: 100%;
       img{
       }
-      .marker{
+      .circle{
         position: absolute;
         z-index: 1;
-        background-image: url("@/assets/icons/pin.svg");
-        background-position: center;
-        background-size: cover;
-
+        opacity: .75;
+        background: transparent;
+        span{
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+        }
       }
     }
     &.landscape{

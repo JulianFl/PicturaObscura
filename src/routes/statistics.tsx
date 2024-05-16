@@ -7,6 +7,7 @@ import { INITIAL_STEPS } from '@/InitialSteps';
 import { BarChart } from '@/components/BarChart';
 import { MARKER_HEIGHT, MARKER_WIDTH } from '@/components/DraggableImage';
 import { IsLoading } from '@/components/IsLoading';
+import { StatisticCircle } from '@/components/StatisticCircle';
 import { Strength } from '@/components/Strength';
 import { Main } from '@/components/UI/Main';
 import { db } from '@/firebase';
@@ -119,36 +120,7 @@ function Statistics() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  const left = (markerPosition: MarkerPositionType | undefined) => {
-    console.log(markerPosition);
-    if (!markerPosition || !imageBounding) {
-      return 0;
-    }
-    const imageWidth = imageBounding?.width;
 
-    const factorX = imageWidth / markerPosition.imageWidth;
-    const newMarkerWidth = MARKER_WIDTH - MARKER_WIDTH * factorX;
-
-    const relativeMarkerWidth = newMarkerWidth / 2;
-
-    // Calculate the new x position relative to the old image size
-    const newX = markerPosition.relativeX * factorX;
-    console.log(newX - relativeMarkerWidth);
-
-    return newX - relativeMarkerWidth;
-  };
-
-  const top = (markerPosition: MarkerPositionType | undefined) => {
-    if (!markerPosition || !imageBounding) {
-      return 0;
-    }
-    const imageHeight = imageBounding?.height;
-    const factorY = imageHeight / markerPosition.imageHeight;
-    const relativeMarkerHeight = MARKER_HEIGHT - MARKER_HEIGHT * factorY;
-    const newY = markerPosition.relativeY * factorY - relativeMarkerHeight;
-
-    return newY;
-  };
   const handleImageLoad = () => {
     if (imageRef.current) {
       const imageRect = imageRef.current.getBoundingClientRect();
@@ -158,29 +130,28 @@ function Statistics() {
   if (isPending || !data) {
     return <IsLoading />;
   }
+  const currentPageData = data
+    .map((element) => element[pageId])
+    .filter((el) => el);
 
-  const currentPageData = data.map((element) => element[pageId]);
-
+  console.log(currentPageData);
   const filteredMarkerPositions = currentPageData
     .map((element) => element?.markerPosition)
     .filter((el) => el);
 
   const checkedFeelings = currentPageData
-    .map((element) => element?.checkedFeelings)
+    .map((element) => element?.checkedFeeling)
     .filter((el) => el);
-  const feelingCounts = checkedFeelings.reduce(
-    (acc, curr) => {
-      if (!curr) return acc;
+  const feelingCounts: { [key: string]: number } = {};
 
-      curr.forEach((feeling) => {
-        acc[feeling] = (acc[feeling] || 0) + 1;
-      });
-
-      return acc;
-    },
-    {} as { [key: string]: number }
-  );
-
+  for (const feeling of checkedFeelings) {
+    if (feeling) {
+      if (!feelingCounts[feeling.key]) {
+        feelingCounts[feeling.key] = 0;
+      }
+      feelingCounts[feeling.key] = feelingCounts[feeling.key] + 1;
+    }
+  }
   const strengthValues = currentPageData
     .map((element) => element?.strength)
     .filter((el) => el);
@@ -190,14 +161,16 @@ function Statistics() {
   const averageStrength =
     totalStrength && totalStrength / strengthValues.length;
 
+  const barColors = checkedFeelings.map((el) => el?.color);
+
   const barChartData = {
     labels: Object.keys(feelingCounts),
     datasets: [
       {
         label: '# of Feelings',
         data: Object.values(feelingCounts),
-        backgroundColor: '#FFFFFF',
-        borderColor: '#FFFFFF',
+        backgroundColor: barColors,
+        borderColor: barColors,
         borderWidth: 1,
       },
     ],
@@ -215,23 +188,13 @@ function Statistics() {
         {/* <h3>Anzahl Marker: {filteredMarkerPositions.length}</h3> */}
         <div className={classes.imageWrapper}>
           <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
-          {filteredMarkerPositions &&
-            filteredMarkerPositions.map((markerPosition, index) => (
-              <svg
+          {currentPageData &&
+            currentPageData.map((userdata, index) => (
+              <StatisticCircle
+                data={userdata}
                 key={index}
-                className={`${classes.marker}`}
-                fill="white"
-                xmlns="http://www.w3.org/2000/svg"
-                height={MARKER_HEIGHT}
-                viewBox="0 -960 960 960"
-                width={MARKER_WIDTH}
-                style={{
-                  left: `${left(markerPosition)}px`,
-                  top: `${top(markerPosition)}px`,
-                }}
-              >
-                <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
-              </svg>
+                imageBounding={imageBounding}
+              />
             ))}
         </div>
       </div>

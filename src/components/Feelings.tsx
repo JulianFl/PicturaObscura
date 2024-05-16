@@ -4,39 +4,40 @@ import { useParams } from 'react-router-dom';
 import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/Feelings.module.scss';
 import { useUserStore } from '@/store/useUserStore';
-import { FeelingType } from '@/types/types';
+import { FeelingProps, FeelingType } from '@/types/types';
 
 export function Feelings() {
   const { id } = useParams();
   const pageId = Number(id);
-  const { addFeeling, removeFeeling } = useUserStore((state) => state.actions);
-  const checkedFeelings = useUserStore(
-    (state) => state.userData[pageId]?.checkedFeelings
+  const { addFeeling } = useUserStore((state) => state.actions);
+  const checkedFeeling = useUserStore(
+    (state) => state.userData[pageId]?.checkedFeeling
   );
 
   const step = INITIAL_STEPS[pageId];
   const feelingChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const feeling = event.target.value as FeelingType;
-    if (!event.target.checked) {
-      removeFeeling(pageId, feeling);
-
-      return;
-    }
-    addFeeling(pageId, feeling);
+    // if (!event.target.checked) {
+    //   removeFeeling(pageId, feeling);
+    //
+    //   return;
+    // }
+    const feelingElement = step.feelings.find((f) => f.key === feeling);
+    addFeeling(pageId, feelingElement);
   };
 
   return (
     <section className={`${classes.feelings}`}>
       {step.feelings.map((feeling) => (
-        <div key={`${step.id}${feeling}`}>
+        <div key={`${step.id}${feeling.key}`}>
           <input
-            type="checkbox"
-            id={`${step.id}${feeling}`}
+            type="radio"
+            id={`${step.id}${feeling.key}`}
             onChange={feelingChangeHandler}
-            checked={checkedFeelings?.includes(feeling) ?? false}
-            value={feeling}
+            checked={checkedFeeling?.key === feeling.key}
+            value={feeling.key}
           />
-          <label htmlFor={`${step.id}${feeling}`}>{feeling}</label>
+          <label htmlFor={`${step.id}${feeling.key}`}>{feeling.key}</label>
         </div>
       ))}
     </section>

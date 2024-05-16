@@ -7,8 +7,8 @@ import classes from '@/components/DraggableImage.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 import { getImageUrl } from '@/utils/image-util';
 
-export const MARKER_WIDTH = 50;
-export const MARKER_HEIGHT = 50;
+export const MARKER_WIDTH = 32;
+export const MARKER_HEIGHT = 40;
 export function DraggableImage() {
   const { setMarker, resetMarker } = useUserStore((state) => state.actions);
   const { id } = useParams();
@@ -146,17 +146,23 @@ export function DraggableImage() {
     <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       {/* <div style={{ display: 'flex' }}> */}
       {isLoading && <div className={classes.loading} />}
-
-      <img
-        src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
-        ref={imgRef}
-        alt="Bild"
-        width={INITIAL_STEPS[pageId].image.width}
-        height={INITIAL_STEPS[pageId].image.height}
-        className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}
-        onClick={(event) => imageClickHandler(event)}
-        onLoad={() => setIsLoading(false)}
-      />
+      <figure className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}>
+        <img
+          src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
+          ref={imgRef}
+          alt="Bild"
+          className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}
+          width={INITIAL_STEPS[pageId].image.width}
+          height={INITIAL_STEPS[pageId].image.height}
+          onClick={(event) => imageClickHandler(event)}
+          onLoad={() => setIsLoading(false)}
+        />
+        <figcaption>
+          {INITIAL_STEPS[pageId].image.credits.split('\n').map((str) => (
+            <p key={str}>{str}</p>
+          ))}
+        </figcaption>
+      </figure>
 
       <div>
         <Draggable
@@ -172,15 +178,20 @@ export function DraggableImage() {
           }}
         >
           <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 20"
             ref={nodeRef}
+            width={32}
+            height={40}
             className={`box ${classes['draggable-marker']} ${!grabbed && markerPosition === undefined ? classes.animate : ''}`}
             fill="white"
-            xmlns="http://www.w3.org/2000/svg"
-            height={MARKER_HEIGHT}
-            viewBox="0 -960 960 960"
-            width={MARKER_WIDTH}
           >
-            <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
+            <g id="Ebene_1-2" data-name="Ebene 1">
+              <path
+                className="cls-1"
+                d="M8,10a2,2,0,0,0,2-2A2,2,0,0,0,8,6,2,2,0,0,0,6,8a2,2,0,0,0,2,2Zm0,7.35a27.9,27.9,0,0,0,4.53-5.09A7.77,7.77,0,0,0,14,8.2a6,6,0,0,0-1.74-4.46A5.79,5.79,0,0,0,8,2,5.79,5.79,0,0,0,3.74,3.74,6,6,0,0,0,2,8.2a7.71,7.71,0,0,0,1.48,4.06A27.42,27.42,0,0,0,8,17.35ZM8,20a33,33,0,0,1-6-6.36A9.86,9.86,0,0,1,0,8.2a7.71,7.71,0,0,1,2.41-6A8,8,0,0,1,8,0a8,8,0,0,1,5.59,2.23A7.71,7.71,0,0,1,16,8.2a9.86,9.86,0,0,1-2,5.44A33,33,0,0,1,8,20Z"
+              />
+            </g>
           </svg>
         </Draggable>
       </div>
