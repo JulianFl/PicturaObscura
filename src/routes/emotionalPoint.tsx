@@ -86,7 +86,7 @@ function EmotionalPoint() {
   if (userData[pageId]?.markerPosition) {
     headerChildren = HEADERTEXT_FIRSTPAGE_FEELINGS;
   }
-  if (userData[pageId]?.checkedFeelings) {
+  if (userData[pageId]?.checkedFeeling) {
     headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
   }
 
