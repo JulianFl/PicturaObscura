@@ -17,6 +17,8 @@ import { getImageUrl } from '@/utils/image-util';
 
 // Configuration options for the chart
 const options = {
+  indexAxis: 'y',
+
   scales: {
     y: {
       ticks: {
@@ -52,8 +54,6 @@ function Statistics() {
 
   const pageId = Number(id);
   const image = getImageUrl(INITIAL_STEPS[pageId].image.url);
-  const forward = `/statistics/${pageId + 1}`;
-  const back: string | undefined = `/statistics/${pageId - 1}`;
   const navigate = useNavigate();
   const { data, isPending, error } = useQuery({
     queryKey: ['data'],
@@ -67,18 +67,6 @@ function Statistics() {
       return documents;
     },
   });
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const querySnapshot = await getDocs(collection(db, 'pictura'));
-  //     const documents = querySnapshot.docs.map(
-  //       (doc) => doc.data() as DBDataProps
-  //     );
-  //     setData(documents);
-  //   };
-  //
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -115,11 +103,26 @@ function Statistics() {
 
     window.addEventListener('resize', handleResize);
 
-    // Clean up event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+
+    // Cleanup function to clear the interval when the component unmounts
   }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (pageId < INITIAL_STEPS.length - 1) {
+        navigate(`/statistics/${pageId + 1}`);
+      } else {
+        navigate(`/statistics/0`);
+      }
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [pageId, navigate]);
 
   const handleImageLoad = () => {
     if (imageRef.current) {
@@ -137,72 +140,63 @@ function Statistics() {
   const checkedFeelings = currentPageData
     .map((element) => element?.checkedFeeling)
     .filter((el) => el);
-  const feelingCounts: { [key: string]: number } = {};
 
-  for (const feeling of checkedFeelings) {
+  const feelingCounts: { [key: string]: { count: number; color?: string } } =
+    {};
+
+  checkedFeelings.forEach((feeling) => {
     if (feeling) {
-      if (!feelingCounts[feeling.key]) {
-        feelingCounts[feeling.key] = 0;
+      const { key, color } = feeling;
+
+      if (!feelingCounts[key]) {
+        feelingCounts[key] = { count: 0, color };
       }
-      feelingCounts[feeling.key] = feelingCounts[feeling.key] + 1;
+      feelingCounts[key].count += 1;
     }
-  }
-  const strengthValues = currentPageData
-    .map((element) => element?.strength)
-    .filter((el) => el);
-  const totalStrength =
-    strengthValues.length > 0 &&
-    strengthValues.reduce((acc, curr) => (acc ?? 0) + (curr || 0), 0);
-  const averageStrength =
-    totalStrength && totalStrength / strengthValues.length;
+  });
 
   const barChartData = {
     labels: Object.keys(feelingCounts),
     datasets: [
       {
         label: '# of Feelings',
-        data: Object.values(feelingCounts),
-        backgroundColor: '#fff',
-        borderColor: '#fff',
+        data: Object.values(feelingCounts).map((el) => el.count),
+        backgroundColor: Object.values(feelingCounts).map((el) => el.color),
+        borderColor: Object.values(feelingCounts).map((el) => el.color),
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <Main
-      headerChildren="Statistik"
-      forward={forward}
-      back={pageId > 0 ? back : '#'}
-    >
-      <div
-        className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
-      >
-        {/* <h3>Anzahl Marker: {filteredMarkerPositions.length}</h3> */}
-        <div className={classes.imageWrapper}>
-          <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
-          {currentPageData &&
-            currentPageData.map((userdata, index) => (
-              <StatisticCircle
-                data={userdata}
-                key={index}
-                imageBounding={imageBounding}
-              />
-            ))}
-        </div>
-      </div>
-      <div className={classes.column}>
-        {Object.values(feelingCounts).length > 0 && (
-          <BarChart data={barChartData} options={options} />
-        )}
-        {averageStrength && (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h2>Average Strength</h2>
-            <Strength disabled average={averageStrength} />
+    <main className={classes.statistics}>
+      <h1>Pictura Obscura - Punctum Results</h1>
+      <section>
+        <div
+          className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
+        >
+          <div className={classes.imageWrapper}>
+            {image && (
+              <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
+            )}
+            {currentPageData &&
+              currentPageData.map((userdata, index) => (
+                <StatisticCircle
+                  data={userdata}
+                  key={index}
+                  imageBounding={imageBounding}
+                />
+              ))}
           </div>
-        )}
-      </div>
-    </Main>
+        </div>
+
+        <div className={classes.column}>
+          {Object.values(feelingCounts).length > 0 && (
+            <BarChart data={barChartData} options={options} />
+          )}
+        </div>
+      </section>
+    </main>
   );
 }
 

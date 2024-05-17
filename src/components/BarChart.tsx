@@ -7,7 +7,6 @@ export function BarChart({ data, options }: { data: any; options: any }) {
 
   useEffect(() => {
     if (chartInstance) {
-      // Destroy the previous chart instance
       chartInstance.destroy();
     }
     // Create a new chart instance

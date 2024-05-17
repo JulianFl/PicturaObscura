@@ -48,7 +48,7 @@ export function StatisticCircle({ data, imageBounding }: StatisticCircleProps) {
         height: MARKER_HEIGHT,
       }}
     >
-      <span style={{ backgroundColor: data.checkedFeeling?.color }} />
+      <span style={{ backgroundColor: data.checkedFeeling?.color ?? '#fff' }} />
     </div>
   );
 }
