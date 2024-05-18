@@ -48,7 +48,6 @@ interface DBDataProps {
 }
 function Statistics() {
   const imageRef = useRef<HTMLImageElement>(null);
-  // const [data, setData] = useState<DBDataProps[]>();
   const [imageBounding, setImageBounding] = useState<DOMRect>();
   const { id } = useParams();
 
@@ -63,7 +62,6 @@ function Statistics() {
         (doc) => doc.data() as DBDataProps
       );
 
-      // setData(documents);
       return documents;
     },
   });
@@ -110,19 +108,19 @@ function Statistics() {
     // Cleanup function to clear the interval when the component unmounts
   }, []);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (pageId < INITIAL_STEPS.length - 1) {
-        navigate(`/statistics/${pageId + 1}`);
-      } else {
-        navigate(`/statistics/0`);
-      }
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [pageId, navigate]);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (pageId < INITIAL_STEPS.length - 1) {
+  //       navigate(`/statistics/${pageId + 1}`);
+  //     } else {
+  //       navigate(`/statistics/0`);
+  //     }
+  //   }, 5000);
+  //
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [pageId, navigate]);
 
   const handleImageLoad = () => {
     if (imageRef.current) {
@@ -130,6 +128,7 @@ function Statistics() {
       setImageBounding(imageRect);
     }
   };
+
   if (isPending || !data) {
     return <IsLoading />;
   }

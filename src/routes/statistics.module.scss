@@ -1,11 +1,10 @@
   .statistics {
     padding: 1rem;
-    height: calc(100vh - 6rem);
     overflow: hidden;
     section{
+    height: calc(100vh - 6rem);
       display: flex;
       //4rem = padding header
-      height: 100%;
       //1px = border header
       //progress = 0.5rem
       gap: 2rem;

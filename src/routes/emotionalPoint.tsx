@@ -31,7 +31,7 @@ function EmotionalPoint() {
     const userId = uuidv4();
     await sendData.mutateAsync({ id: userId, userData });
     resetStore();
-    navigate('/statistics/0');
+    navigate('/');
   };
 
   // const sendData = useMutation({
