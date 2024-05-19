@@ -5,14 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
 import { BarChart } from '@/components/BarChart';
-import { MARKER_HEIGHT, MARKER_WIDTH } from '@/components/DraggableImage';
 import { IsLoading } from '@/components/IsLoading';
 import { StatisticCircle } from '@/components/StatisticCircle';
-import { Strength } from '@/components/Strength';
-import { Main } from '@/components/UI/Main';
 import { db } from '@/firebase';
 import classes from '@/routes/statistics.module.scss';
-import { MarkerPositionType, UserDataType } from '@/types/types';
+import { UserDataType } from '@/types/types';
 import { getImageUrl } from '@/utils/image-util';
 
 // Configuration options for the chart
@@ -89,6 +86,7 @@ function Statistics() {
     // Clean up event listener on component unmount
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      setImageBounding(undefined);
     };
   }, [pageId, navigate]);
   useEffect(() => {
@@ -170,6 +168,7 @@ function Statistics() {
   return (
     <main className={classes.statistics}>
       <h1>Pictura Obscura - Punctum Results</h1>
+      {!imageBounding && <IsLoading />}
       <section>
         <div
           className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
