@@ -106,19 +106,19 @@ function Statistics() {
     // Cleanup function to clear the interval when the component unmounts
   }, []);
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (pageId < INITIAL_STEPS.length - 1) {
-  //       navigate(`/statistics/${pageId + 1}`);
-  //     } else {
-  //       navigate(`/statistics/0`);
-  //     }
-  //   }, 5000);
-  //
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [pageId, navigate]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (pageId < INITIAL_STEPS.length - 1) {
+        navigate(`/statistics/${pageId + 1}`);
+      } else {
+        navigate(`/statistics/0`);
+      }
+    }, 7000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [pageId, navigate]);
   const handleImageLoad = () => {
     if (imageRef.current) {
       const imageRect = imageRef.current.getBoundingClientRect();

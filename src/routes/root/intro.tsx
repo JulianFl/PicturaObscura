@@ -33,7 +33,7 @@ function Intro() {
     <Main
       forward="/emotional-point/0"
       back="/"
-      headerChildren="Teil 1/3: Den emotionalen Punkt des Bildes erkennen"
+      headerChildren="Den emotionalen Punkt des Bildes erkennen"
       className="intro"
     >
       <p>
