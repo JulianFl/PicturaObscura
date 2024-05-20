@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
@@ -8,6 +9,7 @@ import { FeelingProps, FeelingType } from '@/types/types';
 
 export function Feelings() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const pageId = Number(id);
   const { addFeeling } = useUserStore((state) => state.actions);
   const checkedFeeling = useUserStore(
@@ -28,7 +30,7 @@ export function Feelings() {
 
   return (
     <section className={`${classes.feelings}`}>
-      {step.feelings.map((feeling) => (
+      {step.feelings.map((feeling, index) => (
         <div key={`${step.id}${feeling.key}`}>
           <input
             type="radio"
@@ -37,7 +39,9 @@ export function Feelings() {
             checked={checkedFeeling?.key === feeling.key}
             value={feeling.key}
           />
-          <label htmlFor={`${step.id}${feeling.key}`}>{feeling.key}</label>
+          <label htmlFor={`${step.id}${feeling.key}`}>
+            {t(`feelings.feeling${index + 1}`)}
+          </label>
         </div>
       ))}
     </section>

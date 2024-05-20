@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,16 +16,15 @@ import { useUserStore } from '@/store/useUserStore';
 // const HEADER_DEFAULT_TEXT =
 //   'Place the pin where you feel the most emotion in the picture, then choose which emotion it evoked and finally how much emotion this image gives you overall >';
 
-const HEADERTEXT_FIRSTPAGE_PIN =
-  'Place the pin where you feel the most emotion in the image';
-const HEADERTEXT_FIRSTPAGE_FEELINGS =
-  'Choose the emotion this image triggered in you';
-const HEADERTEXT_FIRSTPAGE_STRENGTH = 'How strong is this feeling?';
-
 function EmotionalPoint() {
   const { userData } = useUserStore();
   const { resetStore } = useUserStore((state) => state.actions);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const HEADERTEXT_FIRSTPAGE_PIN = t('explanation.HEADERTEXT_FIRSTPAGE_PIN');
+  const HEADERTEXT_FIRSTPAGE_FEELINGS = t(
+    'explanation.HEADERTEXT_FIRSTPAGE_FEELINGS'
+  );
 
   const sendData = useSendData();
   const lastStepHandler = async () => {
@@ -85,9 +85,6 @@ function EmotionalPoint() {
   let headerChildren = HEADERTEXT_FIRSTPAGE_PIN;
   if (userData[pageId]?.markerPosition) {
     headerChildren = HEADERTEXT_FIRSTPAGE_FEELINGS;
-  }
-  if (userData[pageId]?.checkedFeeling) {
-    headerChildren = HEADERTEXT_FIRSTPAGE_STRENGTH;
   }
 
   const progress = (pageId / (INITIAL_STEPS.length - 1)) * 100;

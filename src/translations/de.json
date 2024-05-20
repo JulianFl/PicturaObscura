@@ -1,0 +1,26 @@
+{
+  "root": {
+    "h2": "Der Visual Literacy Workshop",
+    "h1": "Pictura Obscura"
+  },
+  "intro": {
+    "header": "Den emotionalen Punkt des Bildes erkennen",
+    "paragraph1": "Ursprünglich im Lateinischen als „das Gestochene\" angelegt, bezeichnet der Begriff des punctums eine „kleine Stelle\", einen „sehr kleinen Fleck, Tupfen, oder Einstich\" im Bild. So gründet das punctum nicht wie das studium auf dem allgemeinen bzw. „höflichen Interesse\" an einem Foto, sondern durchbohrt jenes als „Pfeil\" und hinterlässt an der Schnittstelle eine „Wunde\"",
+    "paragraph2": "In der Fotografie angelegte Informationen werden als Teil des studiums sichtbar und bahnen sich im Zuge der kulturellen Wahrnehmung den Weg ins Bewusstsein. Dagegen bildet das punctum einen unbewussten Stich, es bricht affektiv in die Welt des Betrachters ein und rückt jegliche informationellen Bezüge in den Hintergrund. Was an der Stelle des Einstichs bleibt, ist eine Betroffenheit, eine Emotion oder eine Sehnsucht.",
+    "paragraph3": "-Die helle Kammer, 1980 Von Roland Barthes"
+  },
+  "feelings": {
+    "feeling1": "Freude",
+    "feeling2": "Liebe",
+    "feeling3": "Traurigkeit",
+    "feeling4": "Ekel",
+    "feeling5": "Furcht",
+    "feeling6": "Wut",
+    "feeling7": "Ehrfurcht",
+    "feeling8": "Schock"
+  },
+  "explanation": {
+    "HEADERTEXT_FIRSTPAGE_PIN": "Platzieren Sie den Pin dort, wo Sie das meiste Gefühl im Bild empfinden.",
+    "HEADERTEXT_FIRSTPAGE_FEELINGS": "Wählen Sie die Emotion, die dieses Bild in Ihnen auslöst. Wie stark ist dieses Gefühl?"
+  }
+}

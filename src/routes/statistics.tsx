@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
@@ -47,7 +48,7 @@ function Statistics() {
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageBounding, setImageBounding] = useState<DOMRect>();
   const { id } = useParams();
-
+  const { t } = useTranslation();
   const pageId = Number(id);
   const image = getImageUrl(INITIAL_STEPS[pageId].image.url);
   const navigate = useNavigate();
@@ -155,7 +156,9 @@ function Statistics() {
   });
 
   const barChartData = {
-    labels: Object.keys(feelingCounts),
+    labels: Object.keys(feelingCounts).map((el, index) =>
+      t(`feelings.feeling${index + 1}`)
+    ),
     datasets: [
       {
         label: '# of Feelings',

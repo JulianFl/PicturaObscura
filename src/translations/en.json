@@ -1,0 +1,26 @@
+{
+  "root": {
+    "h2": "The Visual Literacy Workshop",
+    "h1": "Pictura Obscura"
+  },
+  "intro": {
+    "header": "Recognize the emotional point of the picture",
+    "paragraph1": "Originally laid out in Latin as 'the pricked', the term punctum denotes a 'small spot', a 'very small spot, dot, or prick' in the picture. Thus, the punctum does not, like the studium, base itself on the general or 'polite interest' in a photo, but pierces it as an 'arrow' and leaves a 'wound' at the interface.",
+    "paragraph2": "Information applied in photography becomes visible as part of the studium and paves its way into consciousness in the course of cultural perception. In contrast, the punctum forms an unconscious sting, it breaks affectively into the viewer's world and pushes any informational references into the background. What remains at the point of the prick is an affectation, an emotion or a longing.",
+    "paragraph3": "-The bright chamber, 1980 By Roland Barthes"
+  },
+  "feelings": {
+    "feeling1": "Joy",
+    "feeling2": "Love",
+    "feeling3": "Sadness",
+    "feeling4": "Disgust",
+    "feeling5": "Fear",
+    "feeling6": "Anger",
+    "feeling7": "Awe",
+    "feeling8": "Shock"
+  },
+  "explanation": {
+      "HEADERTEXT_FIRSTPAGE_PIN": "Place the pin where you feel the most emotion in the image.",
+      "HEADERTEXT_FIRSTPAGE_FEELINGS": "Choose the emotion this image triggered in you. How strong is this feeling?"
+   }
+}
