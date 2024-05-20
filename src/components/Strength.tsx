@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { INITIAL_STEPS } from '@/InitialSteps';
 import classes from '@/components/Strength.module.scss';
 import { useUserStore } from '@/store/useUserStore';
 
@@ -14,7 +15,8 @@ export function Strength({ average, disabled }: StrengthProps) {
   const { setStrength } = useUserStore((state) => state.actions);
   const strength = useUserStore((state) => state.userData[pageId]?.strength);
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStrength(pageId, Number(event.target.value));
+    // console.log(INITIAL_STEPS[pageId].id);
+    setStrength(INITIAL_STEPS[pageId].id, Number(event.target.value));
   };
   // console.log(average);
 

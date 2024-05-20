@@ -119,7 +119,6 @@ function Statistics() {
   //     clearInterval(intervalId);
   //   };
   // }, [pageId, navigate]);
-
   const handleImageLoad = () => {
     if (imageRef.current) {
       const imageRect = imageRef.current.getBoundingClientRect();
@@ -130,8 +129,11 @@ function Statistics() {
   if (isPending || !data) {
     return <IsLoading />;
   }
+
+  const currentID = INITIAL_STEPS[pageId].id;
+
   const currentPageData = data
-    .map((element) => element[pageId])
+    .map((element) => element[currentID])
     .filter((el) => el);
 
   const checkedFeelings = currentPageData
@@ -168,12 +170,12 @@ function Statistics() {
   return (
     <main className={classes.statistics}>
       <h1>Pictura Obscura - Punctum Results</h1>
-      {!imageBounding && <IsLoading />}
       <section>
         <div
           className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
         >
           <div className={classes.imageWrapper}>
+            {!imageBounding && <div className={classes['loading-image']} />}
             {image && (
               <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
             )}

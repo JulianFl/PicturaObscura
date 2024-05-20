@@ -6,9 +6,8 @@ import { UserDataProps } from '@/types/interfaces';
 
 const sendUserData = async (data: { id: string; userData: UserDataProps }) => {
   const { id, userData } = data;
-  console.log();
   if (Object.keys(userData).length > 0) {
-    await setDoc(doc(db, 'pictura', `new${id}`), userData);
+    await setDoc(doc(db, 'pictura', `${id}`), userData);
   }
 };
 export function useSendData() {

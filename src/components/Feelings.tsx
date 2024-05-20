@@ -23,7 +23,7 @@ export function Feelings() {
     //   return;
     // }
     const feelingElement = step.feelings.find((f) => f.key === feeling);
-    addFeeling(pageId, feelingElement);
+    addFeeling(INITIAL_STEPS[pageId].id, feelingElement);
   };
 
   return (

@@ -123,7 +123,7 @@ export function DraggableImage() {
         const relativeY =
           markerPosition.relativeY * factorY - relativeMarkerHeight;
 
-        setMarker(pageId, {
+        setMarker(INITIAL_STEPS[pageId].id, {
           x,
           y,
           relativeX,
