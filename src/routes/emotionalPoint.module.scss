@@ -2,6 +2,8 @@
   column-gap: 2rem;
   opacity: 0;
   display: none;
+  //width: 25%;
+  //justify-content: flex-end;
 
   &:not(.hide) {
     transition: opacity 0.5s;

@@ -73,11 +73,11 @@
 
       &.landscape {
         .imageWrapper {
-          height: auto;
+          height: 100%;
 
           img {
-            height: auto;
-            width: 100%;
+            height: 100%;
+            width: auto;
           }
         }
       }

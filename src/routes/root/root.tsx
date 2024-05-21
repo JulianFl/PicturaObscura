@@ -33,12 +33,14 @@ function Root() {
   }, [navigate]);
 
   return (
-    <Main forward="/intro" className="root">
-      <section>
+    <Main
+      forward="/intro"
+      className="root"
+      headerChildren={
         <div
           style={{
             display: 'flex',
-            gap: '1rem',
+            gap: '.5rem',
             margin: '0 auto',
           }}
         >
@@ -55,6 +57,9 @@ function Root() {
             de
           </PrimaryButton>
         </div>
+      }
+    >
+      <section>
         <h2>{t('root.h2')}</h2>
         <h1>{t('root.h1')}</h1>
       </section>
