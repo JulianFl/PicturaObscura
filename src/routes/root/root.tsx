@@ -62,6 +62,10 @@ function Root() {
       <section>
         <h2>{t('root.h2')}</h2>
         <h1>{t('root.h1')}</h1>
+        <h4>
+          <span>Sophie Hennerbichler</span>
+          <span>Julian Fleig</span>
+        </h4>
       </section>
       <figure>{/* <img src={cityImage} width={800} /> */}</figure>
     </Main>
