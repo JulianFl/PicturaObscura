@@ -156,9 +156,7 @@ function Statistics() {
   });
 
   const barChartData = {
-    labels: Object.keys(feelingCounts).map((el, index) =>
-      t(`feelings.feeling${index + 1}`)
-    ),
+    labels: Object.keys(feelingCounts),
     datasets: [
       {
         label: '# of Feelings',
