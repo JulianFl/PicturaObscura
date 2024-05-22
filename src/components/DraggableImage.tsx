@@ -23,29 +23,7 @@ export function DraggableImage() {
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [grabbed, setGrabbed] = useState(false);
-  const imageClickHandler = (
-    event: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    const imageElement = imgRef.current;
-    const markerElement = nodeRef.current;
-    console.log('clicked');
-    if (imageElement && markerElement) {
-      const imageRect = imageElement.getBoundingClientRect();
-      const markerRect = markerElement.getBoundingClientRect();
-      const relativeX = event.clientX - markerRect.left;
-      const relativeY = event.clientY - markerRect.top;
-      const oldMarkerPosition = markerPosition || { x: 0, y: 0 };
-      setMarker(pageId, {
-        x: oldMarkerPosition.x + relativeX - MARKER_WIDTH / 2,
-        y: oldMarkerPosition.y + relativeY - MARKER_HEIGHT,
-        relativeX: oldMarkerPosition.x + relativeX,
-        relativeY: oldMarkerPosition.y + relativeY,
-        imageWidth: imageRect.width,
-        imageHeight: imageRect.height,
-        clicked: true,
-      });
-    }
-  };
+
   const onStop = (event: DraggableEvent, data: DraggableData) => {
     event.stopPropagation();
 
@@ -94,7 +72,7 @@ export function DraggableImage() {
         imageRect.height
       );
       setGrabbed(false);
-      setMarker(pageId, {
+      setMarker(INITIAL_STEPS[pageId].id, {
         x,
         y,
         relativeX,
