@@ -30,7 +30,7 @@ function EmotionalPoint() {
   const lastStepHandler = async () => {
     const userId = uuidv4();
     await sendData.mutateAsync({ id: userId, userData });
-    resetStore();
+    // resetStore();
     navigate('/');
   };
 
