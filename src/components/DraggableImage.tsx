@@ -62,15 +62,15 @@ export function DraggableImage() {
       //   x: startRef.current?.getBoundingClientRect().left ?? 0,
       //   y: startRef.current?.getBoundingClientRect().top ?? 0,
       // });
-      console.log(
-        'onStop',
-        x,
-        y,
-        relativeX,
-        relativeY,
-        imageRect.width,
-        imageRect.height
-      );
+      // console.log(
+      //   'onStop',
+      //   x,
+      //   y,
+      //   relativeX,
+      //   relativeY,
+      //   imageRect.width,
+      //   imageRect.height
+      // );
       setGrabbed(false);
       setMarker(INITIAL_STEPS[pageId].id, {
         x,

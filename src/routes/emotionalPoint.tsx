@@ -18,6 +18,7 @@ import { useUserStore } from '@/store/useUserStore';
 
 function EmotionalPoint() {
   const { userData } = useUserStore();
+  console.log(userData);
   const { resetStore } = useUserStore((state) => state.actions);
   const navigate = useNavigate();
   const { t } = useTranslation();

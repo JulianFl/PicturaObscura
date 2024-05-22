@@ -48,7 +48,6 @@ function Statistics() {
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageBounding, setImageBounding] = useState<DOMRect>();
   const { id } = useParams();
-  const { t } = useTranslation();
   const pageId = Number(id);
   const image = getImageUrl(INITIAL_STEPS[pageId].image.url);
   const navigate = useNavigate();
