@@ -51,6 +51,9 @@
         position: relative;
       }
 
+      &.image4, &.image11 {
+        height: 70%;
+      }
       .imageWrapper {
         display: flex;
         position: relative;
@@ -61,7 +64,7 @@
           width: 100%;
           height: 100%;
           position: absolute;
-          background: rgba(0,0,0,0.35);
+          //background: rgba(0,0,0,0.35);
         }
         .circle {
           position: absolute;
@@ -89,6 +92,7 @@
             height: 100%;
             width: auto;
           }
+
         }
       }
 
@@ -102,6 +106,7 @@
           }
         }
       }
+
     }
   }
     @media screen and (max-width: 768px) {

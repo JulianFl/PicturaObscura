@@ -1,13 +1,14 @@
 .feelings {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  //justify-content: space-between;
 
   input[type="radio"] {
     display: none;
 
     & + label {
       display: inline-flex;
+      margin-bottom: 1.25rem;
       color: var(--color-white);
       border: 1px solid var(--color-white);
       border-radius: 1.5rem;

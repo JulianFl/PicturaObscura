@@ -83,17 +83,20 @@ export function DraggableImage() {
   useEffect(() => {
     setIsLoading(true);
   }, [pageId]);
+  const extraClasses = `image${INITIAL_STEPS[pageId].id}`;
 
   return (
     <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       {/* <div style={{ display: 'flex' }}> */}
       {isLoading && <div className={classes.loading} />}
-      <figure className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}>
+      <figure
+        className={`${classes[INITIAL_STEPS[pageId].image.aspectRatio]} ${classes[extraClasses]}`}
+      >
         <img
           src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
           ref={imgRef}
           alt="Bild"
-          className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}
+          className={`${classes[INITIAL_STEPS[pageId].image.aspectRatio]} image${INITIAL_STEPS[pageId].id}`}
           width={INITIAL_STEPS[pageId].image.width}
           height={INITIAL_STEPS[pageId].image.height}
           onLoad={() => setIsLoading(false)}

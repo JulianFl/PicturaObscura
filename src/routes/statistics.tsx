@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
@@ -22,16 +21,26 @@ const options = {
       ticks: {
         color: 'white', // Change this to the color you want
         beginAtZero: true,
+        font: {
+          family: 'IBMPlex', // Replace with your font family
+          size: 18, // Adjust the size as needed
+        },
       },
     },
     x: {
       ticks: {
         color: 'white', // Change this to the color you want
+        stepSize: 1, // Show only full numbers on x-axis
+        font: {
+          family: 'IBMPlex', // Replace with your font family
+          size: 18, // Adjust the size as needed
+        },
       },
     },
   },
   plugins: {
     legend: {
+      display: false, // Disable the legend
       labels: {
         color: 'white', // Change this to the color you want
         font: {
@@ -161,7 +170,7 @@ function Statistics() {
     labels: Object.keys(feelingCounts),
     datasets: [
       {
-        label: '# of Feelings',
+        label: '',
         data: Object.values(feelingCounts).map((el) => el.count),
         backgroundColor: Object.values(feelingCounts).map((el) => el.color),
         borderColor: Object.values(feelingCounts).map((el) => el.color),
@@ -169,13 +178,15 @@ function Statistics() {
       },
     ],
   };
+  const extraClasses = `image${currentID}`;
+  console.log(extraClasses);
 
   return (
     <main className={classes.statistics}>
-      <h1>Pictura Obscura - Punctum Results</h1>
+      <h1>Pictura Obscura</h1>
       <section>
         <div
-          className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
+          className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]} ${classes[extraClasses]}`}
         >
           <div className={classes.imageWrapper}>
             {isLoading && <div className={classes['loading-image']} />}
