@@ -47,6 +47,7 @@ interface DBDataProps {
 function Statistics() {
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageBounding, setImageBounding] = useState<DOMRect>();
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const pageId = Number(id);
   const image = getImageUrl(INITIAL_STEPS[pageId].image.url);
@@ -105,7 +106,9 @@ function Statistics() {
 
     // Cleanup function to clear the interval when the component unmounts
   }, []);
-
+  useEffect(() => {
+    setIsLoading(true);
+  }, [pageId]);
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (pageId < INITIAL_STEPS.length - 1) {
@@ -124,6 +127,7 @@ function Statistics() {
       const imageRect = imageRef.current.getBoundingClientRect();
       setImageBounding(imageRect);
     }
+    setIsLoading(false);
   };
 
   if (isPending || !data) {
@@ -174,7 +178,7 @@ function Statistics() {
           className={`${classes.column} ${classes.image} ${classes[INITIAL_STEPS[pageId].image.aspectRatio]}`}
         >
           <div className={classes.imageWrapper}>
-            {!imageBounding && <div className={classes['loading-image']} />}
+            {isLoading && <div className={classes['loading-image']} />}
             {image && (
               <img src={image} ref={imageRef} onLoad={handleImageLoad} alt="" />
             )}

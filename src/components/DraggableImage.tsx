@@ -96,7 +96,6 @@ export function DraggableImage() {
           className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}
           width={INITIAL_STEPS[pageId].image.width}
           height={INITIAL_STEPS[pageId].image.height}
-          // onClick={(event) => imageClickHandler(event)}
           onLoad={() => setIsLoading(false)}
         />
         <figcaption>
