@@ -23,7 +23,7 @@ const options = {
         beginAtZero: true,
         font: {
           family: 'IBMPlex', // Replace with your font family
-          size: 18, // Adjust the size as needed
+          size: 24, // Adjust the size as needed
         },
       },
     },
@@ -33,7 +33,7 @@ const options = {
         stepSize: 1, // Show only full numbers on x-axis
         font: {
           family: 'IBMPlex', // Replace with your font family
-          size: 18, // Adjust the size as needed
+          size: 24, // Adjust the size as needed
         },
       },
     },
@@ -44,7 +44,7 @@ const options = {
       labels: {
         color: 'white', // Change this to the color you want
         font: {
-          size: 14,
+          size: 24,
         },
       },
     },
@@ -179,7 +179,7 @@ function Statistics() {
     ],
   };
   const extraClasses = `image${currentID}`;
-  console.log(extraClasses);
+  console.log(currentPageData);
 
   return (
     <main className={classes.statistics}>
