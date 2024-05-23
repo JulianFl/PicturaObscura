@@ -25,7 +25,6 @@ function EmotionalPoint() {
   const HEADERTEXT_FIRSTPAGE_FEELINGS = t(
     'explanation.HEADERTEXT_FIRSTPAGE_FEELINGS'
   );
-  console.log(userData);
   const sendData = useSendData();
   const lastStepHandler = async () => {
     const userId = uuidv4();

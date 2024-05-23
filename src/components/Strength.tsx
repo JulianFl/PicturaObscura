@@ -17,7 +17,6 @@ export function Strength({ disabled }: StrengthProps) {
   const { setStrength } = useUserStore((state) => state.actions);
   const strength = useUserStore((state) => state.userData[pageId]?.strength);
   const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('called');
     setStrength(INITIAL_STEPS[pageId].id, Number(event.target.value));
   };
 

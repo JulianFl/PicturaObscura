@@ -18,6 +18,7 @@ export function DraggableImage() {
     (state) => state.userData[pageId]?.markerPosition
   );
   const [isLoading, setIsLoading] = useState(true);
+  console.log(isLoading);
   const userData = useUserStore((state) => state.userData);
   const nodeRef = useRef<any>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -116,6 +117,7 @@ export function DraggableImage() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      setIsLoading(true);
     };
   }, [imgRef, markerPosition, pageId, setMarker]);
 
