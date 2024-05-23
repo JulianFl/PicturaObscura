@@ -17,9 +17,7 @@ export function DraggableImage() {
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
   );
-  // const [isLoading, setIsLoading] = useState(true);
-  // console.log(isLoading);
-  const userData = useUserStore((state) => state.userData);
+  const [isLoading, setIsLoading] = useState(true);
   const nodeRef = useRef<any>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -32,46 +30,8 @@ export function DraggableImage() {
     const imageElement = imgRef.current;
     if (imageElement) {
       const imageRect = imageElement.getBoundingClientRect();
-      // const relativeX =
-      //   node.getBoundingClientRect().x - imageRect.left + MARKER_WIDTH / 2;
-      // const relativeY =
-      //   node.getBoundingClientRect().y - imageRect.top + MARKER_HEIGHT;
-      //
       const relativeX = node.getBoundingClientRect().x - imageRect.left;
       const relativeY = node.getBoundingClientRect().y - imageRect.top;
-      if (relativeY + MARKER_HEIGHT > imageRect.height) {
-        console.log('out of bounds, below');
-
-        return;
-      }
-      if (relativeY + MARKER_HEIGHT < 0) {
-        console.log('out of bounds, above');
-
-        return;
-      }
-      if (relativeX + MARKER_HEIGHT / 2 > imageRect.width) {
-        console.log('out of bounds, right');
-
-        return;
-      }
-      if (relativeX + MARKER_HEIGHT / 2 < 0) {
-        console.log('out of bounds, left');
-
-        return;
-      }
-      // setStartPosition({
-      //   x: startRef.current?.getBoundingClientRect().left ?? 0,
-      //   y: startRef.current?.getBoundingClientRect().top ?? 0,
-      // });
-      // console.log(
-      //   'onStop',
-      //   x,
-      //   y,
-      //   relativeX,
-      //   relativeY,
-      //   imageRect.width,
-      //   imageRect.height
-      // );
       setGrabbed(false);
       setMarker(INITIAL_STEPS[pageId].id, {
         x,
@@ -117,15 +77,17 @@ export function DraggableImage() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      // setIsLoading(true);
     };
   }, [imgRef, markerPosition, pageId, setMarker]);
 
-  // TODO Marker hat nicht die Maße 50 zu 50
+  useEffect(() => {
+    setIsLoading(true);
+  }, [pageId]);
+
   return (
     <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       {/* <div style={{ display: 'flex' }}> */}
-      {/* {isLoading && <div className={classes.loading} />} */}
+      {isLoading && <div className={classes.loading} />}
       <figure className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}>
         <img
           src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
@@ -135,7 +97,7 @@ export function DraggableImage() {
           width={INITIAL_STEPS[pageId].image.width}
           height={INITIAL_STEPS[pageId].image.height}
           // onClick={(event) => imageClickHandler(event)}
-          // onLoad={() => setIsLoading(false)}
+          onLoad={() => setIsLoading(false)}
         />
         <figcaption>
           {INITIAL_STEPS[pageId].image.credits.split('\n').map((str) => (
