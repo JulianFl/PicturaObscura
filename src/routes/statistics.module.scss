@@ -43,7 +43,10 @@
       align-items: flex-start;
       flex-direction: column;
       &:first-child {
-       width: 70%;
+       width: 85%;
+      }
+      &:last-child {
+        width: 15%;
       }
 
       &.image {
