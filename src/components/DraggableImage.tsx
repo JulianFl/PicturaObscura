@@ -17,8 +17,8 @@ export function DraggableImage() {
   const markerPosition = useUserStore(
     (state) => state.userData[pageId]?.markerPosition
   );
-  const [isLoading, setIsLoading] = useState(true);
-  console.log(isLoading);
+  // const [isLoading, setIsLoading] = useState(true);
+  // console.log(isLoading);
   const userData = useUserStore((state) => state.userData);
   const nodeRef = useRef<any>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -117,7 +117,7 @@ export function DraggableImage() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      setIsLoading(true);
+      // setIsLoading(true);
     };
   }, [imgRef, markerPosition, pageId, setMarker]);
 
@@ -125,7 +125,7 @@ export function DraggableImage() {
   return (
     <div className={`box column ${classes['draggable-image']} `} ref={rootRef}>
       {/* <div style={{ display: 'flex' }}> */}
-      {isLoading && <div className={classes.loading} />}
+      {/* {isLoading && <div className={classes.loading} />} */}
       <figure className={classes[INITIAL_STEPS[pageId].image.aspectRatio]}>
         <img
           src={getImageUrl(INITIAL_STEPS[pageId].image.url)}
@@ -135,7 +135,7 @@ export function DraggableImage() {
           width={INITIAL_STEPS[pageId].image.width}
           height={INITIAL_STEPS[pageId].image.height}
           // onClick={(event) => imageClickHandler(event)}
-          onLoad={() => setIsLoading(false)}
+          // onLoad={() => setIsLoading(false)}
         />
         <figcaption>
           {INITIAL_STEPS[pageId].image.credits.split('\n').map((str) => (
