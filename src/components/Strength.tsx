@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, LegacyRef, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { INITIAL_STEPS } from '@/InitialSteps';
@@ -8,12 +8,16 @@ import { useUserStore } from '@/store/useUserStore';
 interface StrengthProps {
   disabled?: boolean;
 }
+
 export function Strength({ disabled }: StrengthProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { id } = useParams();
   const pageId = Number(id);
   const { setStrength } = useUserStore((state) => state.actions);
   const strength = useUserStore((state) => state.userData[pageId]?.strength);
-  const changeRangeHandler = (event: any) => {
+  const changeRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('called');
     setStrength(INITIAL_STEPS[pageId].id, Number(event.target.value));
   };
 
@@ -25,7 +29,11 @@ export function Strength({ disabled }: StrengthProps) {
         type="range"
         value={strength ?? 0}
         step={0.1}
-        onChange={changeRangeHandler}
+        onMouseUp={() => {
+          inputRef.current?.blur();
+        }}
+        onChange={(event) => changeRangeHandler(event)}
+        ref={inputRef}
         min={1}
         max={10}
       />

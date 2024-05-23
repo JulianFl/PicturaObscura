@@ -129,7 +129,6 @@ function Statistics() {
   if (isPending || !data) {
     return <IsLoading />;
   }
-
   const currentID = INITIAL_STEPS[pageId].id;
 
   const currentPageData = data

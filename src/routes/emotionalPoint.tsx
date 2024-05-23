@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,7 +18,6 @@ import { useUserStore } from '@/store/useUserStore';
 
 function EmotionalPoint() {
   const { userData } = useUserStore();
-  console.log(userData);
   const { resetStore } = useUserStore((state) => state.actions);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -26,20 +25,14 @@ function EmotionalPoint() {
   const HEADERTEXT_FIRSTPAGE_FEELINGS = t(
     'explanation.HEADERTEXT_FIRSTPAGE_FEELINGS'
   );
-
+  console.log(userData);
   const sendData = useSendData();
   const lastStepHandler = async () => {
     const userId = uuidv4();
     await sendData.mutateAsync({ id: userId, userData });
-    // resetStore();
+    resetStore();
     navigate('/');
   };
-
-  // const sendData = useMutation({
-  //   mutationKey: ['sendData'],
-  //   mutationFn: lastStepHandler,
-  // });
-  // const [localeString, setLocaleString] = React.useState('fr');
 
   const { id } = useParams();
   const pageId = Number(id);
@@ -62,6 +55,7 @@ function EmotionalPoint() {
           if (pageId === 0) {
             navigate(`/intro`);
           }
+
           break;
         default:
           break;
@@ -70,7 +64,6 @@ function EmotionalPoint() {
 
     window.addEventListener('keydown', handleKeyDown);
 
-    // Clean up event listener on component unmount
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
