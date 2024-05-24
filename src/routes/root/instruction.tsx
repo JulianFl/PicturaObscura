@@ -1,24 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import FirstImage from '@/assets/Test1.jpg';
 import { Main } from '@/components/UI/Main';
 
-const FORWARD_ROUTE = '/emotional-point/0';
-const BACK_ROUTE = '/intro';
 function Instruction() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { id } = useParams();
 
+  const pageId = Number(id);
+  const forward =
+    pageId < 4 ? `/instruction/${pageId + 1}` : `/emotional-point/0`;
+  const back = pageId === 0 ? `/intro` : `/instruction/${pageId - 1}`;
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'ArrowRight':
-          navigate(FORWARD_ROUTE);
+          if (pageId < 4) {
+            navigate(forward);
 
+            return;
+          }
+
+          navigate(forward);
           break;
         case 'ArrowLeft':
-          navigate(BACK_ROUTE);
+          if (pageId === 0) {
+            navigate(back);
+
+            return;
+          }
+          navigate(back);
 
           break;
         default:
@@ -32,18 +46,27 @@ function Instruction() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [navigate]);
+  }, [navigate, pageId]);
 
   return (
     <Main
-      forward={FORWARD_ROUTE}
-      back={BACK_ROUTE}
+      forward={forward}
+      back={back}
       headerChildren={t('instruction.header')}
-      className="intro"
+      className="instruction"
     >
-      <p>{t('instruction.paragraph1')}</p>
-      <p>{t('instruction.paragraph2')}</p>
-      <p>{t('instruction.paragraph3')}</p>
+      {pageId === 0 && (
+        <img
+          src={FirstImage}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {pageId === 1 && <div>Bild 2</div>}
+      {pageId === 2 && <div>Bild 3</div>}
+      {pageId === 3 && <div>Bild 4</div>}
     </Main>
   );
 }

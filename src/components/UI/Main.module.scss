@@ -17,6 +17,11 @@
     background-color: #f44336;
 
 }
+.instruction{
+  padding: 0;
+  height: auto;
+  overflow: hidden;
+}
 .root, .intro{
   flex-direction: column;
   gap: 0;

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Main } from '@/components/UI/Main';
 
-const FORWARD_ROUTE = '/instruction';
+const FORWARD_ROUTE = '/instruction/0';
 const BACK_ROUTE = '/';
 function Intro() {
   const navigate = useNavigate();
