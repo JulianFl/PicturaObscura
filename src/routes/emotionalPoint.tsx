@@ -52,7 +52,7 @@ function EmotionalPoint() {
             navigate(`/emotional-point/${pageId - 1}`);
           }
           if (pageId === 0) {
-            navigate(`/instruction/4`);
+            navigate(`/instruction/3`);
           }
 
           break;

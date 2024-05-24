@@ -3,27 +3,31 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import HaveFun from '@/assets/HaveFun.jpg';
 import FirstImage from '@/assets/Test1.jpg';
+import FirstImageDe from '@/assets/Test1_deutsch.jpg';
 import SecondImage from '@/assets/Test2.jpg';
+import SecondImageDe from '@/assets/Test2_deutsch.jpg';
 import ThirdImage from '@/assets/Test3.jpg';
+import ThirdImageDe from '@/assets/Test3_deutsch.jpg';
+import VielSpass from '@/assets/VielSpaß.jpg';
 import { Main } from '@/components/UI/Main';
 
 function Instruction() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const currentLanguage = i18n.language;
-  console.log(currentLanguage);
   const { id } = useParams();
 
   const pageId = Number(id);
   const forward =
-    pageId < 4 ? `/instruction/${pageId + 1}` : `/emotional-point/0`;
+    pageId < 3 ? `/instruction/${pageId + 1}` : `/emotional-point/0`;
   const back = pageId === 0 ? `/intro` : `/instruction/${pageId - 1}`;
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'ArrowRight':
-          if (pageId < 4) {
+          if (pageId < 3) {
             navigate(forward);
 
             return;
@@ -60,7 +64,7 @@ function Instruction() {
       headerChildren={t('instruction.header')}
       className="instruction"
     >
-      {pageId === 0 && (
+      {pageId === 0 && currentLanguage === 'en' && (
         <img
           src={FirstImage}
           style={{
@@ -69,7 +73,7 @@ function Instruction() {
           }}
         />
       )}
-      {pageId === 1 && (
+      {pageId === 1 && currentLanguage === 'en' && (
         <img
           src={SecondImage}
           style={{
@@ -78,9 +82,55 @@ function Instruction() {
           }}
         />
       )}
-      {pageId === 2 && (
+      {pageId === 2 && currentLanguage === 'en' && (
         <img
           src={ThirdImage}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {pageId === 3 && currentLanguage === 'en' && (
+        <img
+          src={HaveFun}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+
+      {pageId === 0 && currentLanguage === 'de' && (
+        <img
+          src={FirstImageDe}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {pageId === 1 && currentLanguage === 'de' && (
+        <img
+          src={SecondImageDe}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {pageId === 2 && currentLanguage === 'de' && (
+        <img
+          src={ThirdImageDe}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {pageId === 3 && currentLanguage === 'de' && (
+        <img
+          src={VielSpass}
           style={{
             width: '100%',
             height: 'auto',
