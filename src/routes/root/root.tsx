@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Main } from '@/components/UI/Main';
 import { PrimaryButton } from '@/components/UI/PrimaryButton';
 
+const FORWARD_ROUTE = '/intro';
 function Root() {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -16,7 +17,7 @@ function Root() {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'ArrowRight':
-          navigate(`/intro`);
+          navigate(FORWARD_ROUTE);
 
           break;
         default:
@@ -34,7 +35,7 @@ function Root() {
 
   return (
     <Main
-      forward="/intro"
+      forward={FORWARD_ROUTE}
       className="root"
       headerChildren={
         <div

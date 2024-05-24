@@ -9,6 +9,12 @@
     "paragraph2": "Information contained in the photograph becomes visible as part of the „studium“ and makes its way into consciousness in the course of cultural perception. In contrast, the punctum forms an unconscious puncture, it breaks affectively into the viewer's world and pushes any informational references into the background. What remains at the place of incision is a bewilderment, an emotion or a longing.",
     "paragraph3": "-Camera Lucida: Reflections on Photography, 1980 By Roland Barthes"
   },
+  "instruction": {
+    "header": "Instructions",
+    "paragraph1": "In the following, you will be shown a series of images. For each image, you will be asked to place a pin where you feel the most emotion in the image. You will also be asked to choose the emotion this image triggered in you. How strong is this feeling?",
+    "paragraph2": "Please note that the images may contain content that is disturbing or offensive. If you feel uncomfortable at any time, you can skip the step.",
+    "paragraph3": "Please click on the button below to start the study."
+  },
   "feelings": {
     "feeling1": "Joy",
     "feeling2": "Love",

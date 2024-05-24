@@ -52,7 +52,7 @@ function EmotionalPoint() {
             navigate(`/emotional-point/${pageId - 1}`);
           }
           if (pageId === 0) {
-            navigate(`/intro`);
+            navigate(`/instruction`);
           }
 
           break;
@@ -85,7 +85,7 @@ function EmotionalPoint() {
   return (
     <Main
       forward={forward}
-      back={pageId > 0 ? back : '/intro'}
+      back={pageId > 0 ? back : '/instruction'}
       headerChildren={headerChildren}
       onLastStep={
         pageId >= INITIAL_STEPS.length - 1 ? lastStepHandler : undefined

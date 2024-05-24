@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { Main } from '@/components/UI/Main';
 
-const FORWARD_ROUTE = '/instruction';
-const BACK_ROUTE = '/';
-function Intro() {
+const FORWARD_ROUTE = '/emotional-point/0';
+const BACK_ROUTE = '/intro';
+function Instruction() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -38,15 +38,15 @@ function Intro() {
     <Main
       forward={FORWARD_ROUTE}
       back={BACK_ROUTE}
-      headerChildren={t('intro.header')}
+      headerChildren={t('instruction.header')}
       className="intro"
     >
-      <p>{t('intro.paragraph1')}</p>
-      <p>{t('intro.paragraph2')}</p>
-      <p>{t('intro.paragraph3')}</p>
+      <p>{t('instruction.paragraph1')}</p>
+      <p>{t('instruction.paragraph2')}</p>
+      <p>{t('instruction.paragraph3')}</p>
     </Main>
   );
 }
 
 // eslint-disable-next-line import/no-default-export
-export default Intro;
+export default Instruction;

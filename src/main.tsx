@@ -9,6 +9,7 @@ import '@/assets/styles.scss';
 
 import Assignment from '@/routes/assignment';
 import EmotionalPoint from '@/routes/emotionalPoint';
+import Instruction from '@/routes/root/instruction';
 import Intro from '@/routes/root/intro';
 import Root from '@/routes/root/root';
 import Statistics from '@/routes/statistics';
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: '/intro',
     element: <Intro />,
+  },
+  {
+    path: '/instruction',
+    element: <Instruction />,
   },
   {
     path: 'emotional-point/:id',
