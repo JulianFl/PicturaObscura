@@ -37,7 +37,7 @@ export function Main({
         </div>
       )}
       <main
-        className={`${classes.main} ${className ? classes[className] : ''}`}
+        className={`${classes.main} ${className ? classes[className] : ''} ${className === 'instruction' ? classes['main-instruction'] : ''}`}
       >
         {children}
       </main>

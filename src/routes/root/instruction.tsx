@@ -1,13 +1,18 @@
+import i18n from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import FirstImage from '@/assets/Test1.jpg';
+import SecondImage from '@/assets/Test2.jpg';
+import ThirdImage from '@/assets/Test3.jpg';
 import { Main } from '@/components/UI/Main';
 
 function Instruction() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const currentLanguage = i18n.language;
+  console.log(currentLanguage);
   const { id } = useParams();
 
   const pageId = Number(id);
@@ -64,9 +69,24 @@ function Instruction() {
           }}
         />
       )}
-      {pageId === 1 && <div>Bild 2</div>}
-      {pageId === 2 && <div>Bild 3</div>}
-      {pageId === 3 && <div>Bild 4</div>}
+      {pageId === 1 && (
+        <img
+          src={SecondImage}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {pageId === 2 && (
+        <img
+          src={ThirdImage}
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
     </Main>
   );
 }
