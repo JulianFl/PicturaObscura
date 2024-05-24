@@ -85,7 +85,7 @@ function EmotionalPoint() {
   return (
     <Main
       forward={forward}
-      back={pageId > 0 ? back : '/instruction'}
+      back={pageId > 0 ? back : '/instruction/3'}
       headerChildren={headerChildren}
       onLastStep={
         pageId >= INITIAL_STEPS.length - 1 ? lastStepHandler : undefined
