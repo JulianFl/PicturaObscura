@@ -179,7 +179,7 @@ function Statistics() {
     ],
   };
   const extraClasses = `image${currentID}`;
-  console.log(currentPageData);
+  // console.log(currentPageData);
 
   return (
     <main className={classes.statistics}>

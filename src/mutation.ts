@@ -13,5 +13,8 @@ const sendUserData = async (data: { id: string; userData: UserDataProps }) => {
 export function useSendData() {
   return useMutation({
     mutationFn: sendUserData,
+    onSuccess: () => {
+      // console.log('Data sent successfully');
+    },
   });
 }

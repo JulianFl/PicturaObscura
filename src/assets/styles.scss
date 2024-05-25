@@ -44,3 +44,10 @@ progress{
     background-color: var(--color-white);
   }
 }
+
+@media screen and (max-width: 1921px) {
+
+  :root{
+    font-size: 18px;
+  }
+}

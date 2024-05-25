@@ -26,5 +26,12 @@ export function BarChart({ data, options }: { data: any; options: any }) {
     };
   }, [data, options]);
 
-  return <canvas ref={chartRef} />;
+  return (
+    <canvas
+      ref={chartRef}
+      height={700}
+      width={500}
+      style={{ height: '100%' }}
+    />
+  );
 }
