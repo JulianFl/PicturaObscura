@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { onCLS, onINP, onLCP } from 'web-vitals/attribution';
 
+import vitalsImage from '@/assets/Vitals.png';
 import classes from '@/routes/assignment.module.scss';
 import { useVitalsStore } from '@/store/useVitalsStore';
 
@@ -16,7 +17,8 @@ export function Vitals() {
 
   return (
     <article className={classes.vitals}>
-      <h2>Core Web Vitals</h2>
+      <h2>2. Core Web Vitals</h2>
+      <h3>CWV - npm package</h3>
       <section>
         <div>
           <h3>LCP</h3>
@@ -30,6 +32,10 @@ export function Vitals() {
           <h3>CLS</h3>
           {cls && cls.value ? cls.value.toFixed(2) : 0.15}
         </div>
+      </section>
+      <section>
+        <h3>CWV - Chrome Extension Screenshot</h3>
+        <img src={vitalsImage} alt="" />
       </section>
     </article>
   );

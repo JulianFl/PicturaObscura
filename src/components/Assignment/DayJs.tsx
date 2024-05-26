@@ -11,7 +11,6 @@ const localeKeys = ['de', 'en', 'hy-am', 'ar-dz'];
 
 dayjs.extend(localizedFomat);
 dayjs.extend(relativeTime);
-// @ts-ignore
 dayjs.locale(de.name, de);
 export function DayJs() {
   const [locale, setLocale] = useState(de.name);
@@ -24,8 +23,8 @@ export function DayJs() {
 
   return (
     <article>
-      <h2>Day.js</h2>
-      <img src={DayJsImage} />
+      <h2>1. Day.js - Dynamic Imports</h2>
+      <img src={DayJsImage} alt="" />
       <div className={classes.locales}>
         {localeKeys.map((localeKey) => (
           <button

@@ -20,7 +20,7 @@ function i(e, n, t) {
   return Array.isArray(i) && (i = i[n ? 0 : 1]), i.replace('%d', e);
 }
 
-export default {
+const deObject: Partial<ILocale> = {
   name: 'de',
   weekdays: 'Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag'.split(
     '_'
@@ -62,3 +62,5 @@ export default {
     yy: i,
   },
 };
+
+export default deObject;
